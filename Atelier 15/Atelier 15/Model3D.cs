@@ -82,4 +82,4 @@ namespace AtelierXNA
             return Monde;
         }
     }
-}
+}//slave 2/

@@ -23,6 +23,8 @@ namespace AtelierXNA
         float VitesseDéplacement { get; set; }
         float Angle { get; set; }
         InputManager GestionInput { get; set; }
+        Caméra CaméraJeu { get; set; }
+        MouseState GestionSouris { get; set; }
 
         public Joueur(Game game, string nomModele, float échelle, Vector3 position, Vector3 rotationInitiale, float intervalleMAJ)
             : base(game, nomModele, échelle, position, rotationInitiale)
@@ -30,22 +32,16 @@ namespace AtelierXNA
             IntervalleMAJ = intervalleMAJ;
         }
 
-        /// <summary>
-        /// Allows the game component to perform any initialization it needs to before starting
-        /// to run.  This is where it can query for any required services and load content.
-        /// </summary>
         public override void Initialize()
         {
             État = "enMouvement";
             VitesseDéplacement = 0.2f;
             GestionInput = Game.Services.GetService(typeof(InputManager)) as InputManager;
+            CaméraJeu = Game.Services.GetService(typeof(Caméra)) as Caméra;
+            GestionSouris = Mouse.GetState(); //utilisé pour trouver la position de la souris
             base.Initialize();
         }
 
-        /// <summary>
-        /// Allows the game component to update itself.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime)
         {
             switch (État)
@@ -76,11 +72,26 @@ namespace AtelierXNA
             }
         }
 
+        private Vector3 TrouverPositionSouris(MouseState ms)
+        {
+            Vector3 nearScreenPoint = new Vector3(ms.X, ms.Y, 0);
+            Vector3 farScreenPoint = new Vector3(ms.X, ms.Y, 1);
+            Vector3 nearWorldPoint = GraphicsDevice.Viewport.Unproject(nearScreenPoint, CaméraJeu.Projection, CaméraJeu.Vue, Matrix.Identity);
+            Vector3 farWorldPoint = GraphicsDevice.Viewport.Unproject(farScreenPoint, CaméraJeu.Projection, CaméraJeu.Vue, Matrix.Identity);
+
+            Vector3 direction = farWorldPoint - nearWorldPoint;
+
+            float zFactor = -nearWorldPoint.Y / direction.Y;
+            Vector3 zeroWorldPoint = nearWorldPoint + direction * zFactor;
+
+            return zeroWorldPoint;
+        }
+
         private void GérerRotationJoueur()
         {
-            Point positionSouris = GestionInput.GetPositionSouris();
-            Vector3 direction = new Vector3(positionSouris.X - Position.X, 0, positionSouris.Y - Position.Z);
-            float distanceDirection = (float)Math.Sqrt(Math.Pow(direction.X, 2) + Math.Pow(direction.Y, 2));
+            Vector3 positionSouris = TrouverPositionSouris(GestionSouris);
+            Vector3 direction = new Vector3(positionSouris.X - Position.X, positionSouris.Y - Position.Y, positionSouris.Z - Position.Z);
+            float distanceDirection = (float)Math.Sqrt(Math.Pow(direction.X, 2) + Math.Pow(direction.Y, 2) + Math.Pow(direction.Z,2));
             float vecteurBase = 2f;
             Angle = (float)Math.Acos(vecteurBase / distanceDirection);
             Rotation = new Vector3(0, Angle, 0);
