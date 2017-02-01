@@ -42,6 +42,8 @@ namespace AtelierXNA
             base.Initialize();
         }
 
+        // Va servir de state machine pour le joueur
+        // Il va etre soit en mouvement, en construction ou mort
         public override void Update(GameTime gameTime)
         {
             switch (État)
@@ -89,7 +91,7 @@ namespace AtelierXNA
 
         private void GérerRotationJoueur()
         {
-            Point positionSouris = GestionInput.GetPositionSouris();//TrouverPositionSouris(GestionSouris);
+            Vector3 positionSouris = TrouverPositionSouris(GestionSouris);
             Vector3 direction = new Vector3(positionSouris.X - Position.X, 0, positionSouris.Y - Position.Z);
             float distanceDirection = (float)Math.Sqrt(Math.Pow(direction.X, 2) + Math.Pow(direction.Y, 2) + Math.Pow(direction.Z,2));
             float vecteurBase = 2f;
