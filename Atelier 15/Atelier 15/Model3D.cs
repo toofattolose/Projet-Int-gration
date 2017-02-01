@@ -12,6 +12,8 @@ using Microsoft.Xna.Framework.Media;
 
 namespace AtelierXNA
 {
+    ///SUPA HOT FIRE
+    
     /// <summary>
     /// C'est le model de base pour tous les modèles 3D
     /// </summary>
