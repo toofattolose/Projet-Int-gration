@@ -13,7 +13,7 @@ using Microsoft.Xna.Framework.Media;
 namespace AtelierXNA
 {
     /// <summary>
-    /// This is a game component that implements IUpdateable.
+    /// C'est le model de base pour tous les modèles 3D
     /// </summary>
     public class Model3D : Microsoft.Xna.Framework.DrawableGameComponent
     {
