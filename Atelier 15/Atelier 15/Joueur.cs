@@ -91,7 +91,8 @@ namespace AtelierXNA
 
         private void GérerRotationJoueur()
         {
-            Vector3 positionSouris = TrouverPositionSouris(GestionSouris);
+            //Vector3 positionSouris = TrouverPositionSouris(GestionSouris);
+            Point positionSouris = GestionInput.GetPositionSouris();
             Vector3 direction = new Vector3(positionSouris.X - Position.X, 0, positionSouris.Y - Position.Z);
             float distanceDirection = (float)Math.Sqrt(Math.Pow(direction.X, 2) + Math.Pow(direction.Y, 2) + Math.Pow(direction.Z,2));
             float vecteurBase = 2f;
