@@ -52,7 +52,7 @@ namespace AtelierXNA
             CalculerMonde();
         }
 
-        protected void CalculerMonde()
+        protected virtual void CalculerMonde()
         {
             Monde = Matrix.Identity;
             Monde *= Matrix.CreateScale(Échelle);

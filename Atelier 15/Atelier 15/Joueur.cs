@@ -75,12 +75,13 @@ namespace AtelierXNA
             }
         }
 
-        private Vector3 TrouverPositionSouris(MouseState ms)
+        private Vector3 TrouverPositionSouris(Point ms)
         {
-            Vector3 nearScreenPoint = new Vector3(ms.X, ms.Y, 0);
-            Vector3 farScreenPoint = new Vector3(ms.X, ms.Y, 1);
-            Vector3 nearWorldPoint = GraphicsDevice.Viewport.Unproject(nearScreenPoint, CaméraJeu.Projection, CaméraJeu.Vue, Matrix.Identity);
-            Vector3 farWorldPoint = GraphicsDevice.Viewport.Unproject(farScreenPoint, CaméraJeu.Projection, CaméraJeu.Vue, Matrix.Identity);
+            Vector2 positionSouris = new Vector2(ms.X, ms.Y);
+            Vector3 nearScreenPoint = new Vector3(positionSouris, 0);
+            Vector3 farScreenPoint = new Vector3(positionSouris, 1.01f);
+            Vector3 nearWorldPoint = Game.GraphicsDevice.Viewport.Unproject(nearScreenPoint, CaméraJeu.Projection, CaméraJeu.Vue, Matrix.Identity);
+            Vector3 farWorldPoint = Game.GraphicsDevice.Viewport.Unproject(farScreenPoint, CaméraJeu.Projection, CaméraJeu.Vue, Matrix.Identity);
 
             Vector3 direction = farWorldPoint - nearWorldPoint;
 
@@ -92,12 +93,33 @@ namespace AtelierXNA
 
         private void GérerRotationJoueur()
         {
-            Point positionSouris = GestionInput.GetPositionSouris();//Vector3 positionSouris = TrouverPositionSouris(GestionSouris);
-            Vector3 direction = new Vector3(positionSouris.X - Position.X, 0, positionSouris.Y - Position.Z);
-            float distanceDirection = (float)Math.Sqrt(Math.Pow(direction.X, 2) + Math.Pow(direction.Y, 2) + Math.Pow(direction.Z,2));
-            float vecteurBase = 2f;
-            Angle = (float)Math.Acos(vecteurBase / distanceDirection);
-            Rotation = new Vector3(0, Angle, 0);
+            Point positionSourisInitiale = GestionInput.GetPositionSouris();
+            //if (Game.Window.ClientBounds.Contains(positionSourisInitiale))
+            {
+                Vector3 positionSouris = TrouverPositionSouris(positionSourisInitiale);
+                Vector3 direction = new Vector3(positionSouris.X - Position.X, 0, positionSouris.Z - Position.Z);
+                Vector3 directionBase = Vector3.UnitX;
+                direction.Normalize();
+                directionBase.Normalize();
+                double cosAngle = Vector3.Dot(direction, directionBase);
+                if (positionSouris.Z > Position.Z)
+                {
+                    Angle = -(float)Math.Acos(cosAngle);
+                }
+                else
+                {
+                    Angle = (float)Math.Acos(cosAngle);
+                }
+                Game.Window.Title = MathHelper.ToDegrees(Angle).ToString();
+            }
+        }
+
+        protected override void CalculerMonde()
+        {
+            Monde = Matrix.Identity;
+            Monde *= Matrix.CreateScale(Échelle);
+            Monde *= Matrix.CreateFromAxisAngle(Vector3.Up, Angle);
+            Monde *= Matrix.CreateTranslation(Position);
         }
 
         private void GérerClavierMouvement()
