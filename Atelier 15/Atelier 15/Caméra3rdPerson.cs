@@ -20,8 +20,6 @@ namespace AtelierXNA
         float TempsÉcouléDepuisMAJ { get; set; }
         InputManager GestionInput { get; set; }
 
-        public Vector3 PositionCameraInitiale { get; set; }
-
         bool estEnZoom;
         bool EstEnZoom
         {
@@ -55,7 +53,6 @@ namespace AtelierXNA
         public override void Initialize()
         {
             VitesseTranslation = VITESSE_INITIALE_TRANSLATION;
-            PositionCameraInitiale = new Vector3(0, 10, 2);
             TempsÉcouléDepuisMAJ = 0;
             base.Initialize();
             GestionInput = Game.Services.GetService(typeof(InputManager)) as InputManager;       

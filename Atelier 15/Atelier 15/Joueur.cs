@@ -37,7 +37,7 @@ namespace AtelierXNA
             État = "enMouvement";
             VitesseDéplacement = 0.2f;
             GestionInput = Game.Services.GetService(typeof(InputManager)) as InputManager;
-            CaméraJeu = Game.Services.GetService(typeof(Caméra)) as Caméra;
+            CaméraJeu = Game.Services.GetService(typeof(Caméra)) as Caméra3rdPerson;
             GestionSouris = Mouse.GetState(); //utilisé pour trouver la position de la souris
             base.Initialize();
         }
@@ -69,15 +69,10 @@ namespace AtelierXNA
             if (TempsÉcouléDepuisMAJ >= IntervalleMAJ)
             {
                 GérerRotationJoueur();
-                DéplacerCaméra();
+                CaméraJeu.Déplacer(Position);
                 CalculerMonde();
                 TempsÉcouléDepuisMAJ = 0;
             }
-        }
-
-        private void DéplacerCaméra()
-        {
-            CaméraJeu.Position = Position + CaméraJeu.
         }
 
         private Vector3 TrouverPositionSouris(MouseState ms)
@@ -97,7 +92,7 @@ namespace AtelierXNA
 
         private void GérerRotationJoueur()
         {
-            Vector3 positionSouris = TrouverPositionSouris(GestionSouris);
+            Point positionSouris = GestionInput.GetPositionSouris();//Vector3 positionSouris = TrouverPositionSouris(GestionSouris);
             Vector3 direction = new Vector3(positionSouris.X - Position.X, 0, positionSouris.Y - Position.Z);
             float distanceDirection = (float)Math.Sqrt(Math.Pow(direction.X, 2) + Math.Pow(direction.Y, 2) + Math.Pow(direction.Z,2));
             float vecteurBase = 2f;
