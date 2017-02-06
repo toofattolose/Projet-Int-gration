@@ -69,9 +69,15 @@ namespace AtelierXNA
             if (TempsÉcouléDepuisMAJ >= IntervalleMAJ)
             {
                 GérerRotationJoueur();
+                DéplacerCaméra();
                 CalculerMonde();
                 TempsÉcouléDepuisMAJ = 0;
             }
+        }
+
+        private void DéplacerCaméra()
+        {
+            CaméraJeu.Position = Position + CaméraJeu.
         }
 
         private Vector3 TrouverPositionSouris(MouseState ms)

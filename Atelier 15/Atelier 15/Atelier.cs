@@ -40,8 +40,6 @@ namespace AtelierXNA
 
             GestionInput = new InputManager(this);
             Components.Add(GestionInput);
-            CaméraJeu = new Caméra3rdPerson(this, positionCaméra, cibleCaméra, Vector3.Up, INTERVALLE_MAJ_STANDARD);
-            Components.Add(CaméraJeu);
 
             
             
@@ -53,7 +51,6 @@ namespace AtelierXNA
             Services.AddService(typeof(RessourcesManager<Texture2D>), new RessourcesManager<Texture2D>(this, "Textures"));
             Services.AddService(typeof(RessourcesManager<Model>), new RessourcesManager<Model>(this, "Models"));
             Services.AddService(typeof(InputManager), GestionInput);
-            Services.AddService(typeof(Caméra), CaméraJeu);
             GestionSprites = new SpriteBatch(GraphicsDevice);
             Services.AddService(typeof(SpriteBatch), GestionSprites);
 
@@ -61,7 +58,10 @@ namespace AtelierXNA
             Components.Add(new Afficheur3D(this));
             Components.Add(new Terrain(this, 1f, Vector3.Zero, Vector3.Zero, new Vector3(256, 25, 256), new Vector2(64, 64), INTERVALLE_MAJ_STANDARD));
             GenerateurProcedural generateurProc = new GenerateurProcedural(this, Vector3.Zero, new Vector3(256, 25, 256), new Vector2(64, 64));
+            CaméraJeu = new Caméra3rdPerson(this, positionCaméra, cibleCaméra, Vector3.Up, INTERVALLE_MAJ_STANDARD);
+            Services.AddService(typeof(Caméra), CaméraJeu);
             Components.Add(generateurProc);
+            Components.Add(CaméraJeu);
             base.Initialize();
         }
 
