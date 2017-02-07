@@ -50,7 +50,7 @@ namespace AtelierXNA
 
         private void CréerLesComposants()
         {
-            Game.Components.Add(new Joueur(Game, "tree1", 0.01f, OrigineJoueur, Vector3.Zero, 1f / 60f));
+            Game.Components.Add(new Joueur(Game, "player", 0.01f, OrigineJoueur, Vector3.Zero, 1f / 60f));
             for (int i = 0; i < Charpente.X - 1; i++)
             {
                 for (int j = 0; j < Charpente.Y - 1; j++)
@@ -60,15 +60,23 @@ namespace AtelierXNA
                     float distanceJoueur = (float)Math.Sqrt(Math.Pow(vecteurPosJoueur.X, 2) + Math.Pow(vecteurPosJoueur.Z, 2));
                     if (distanceJoueur > 20)
                     {
-                        float valeur = TrouverValeurAléatoire(0, 100);
-                        if (valeur >= 90)
+                        int valeur = TrouverValeurAléatoire(0, 100);
+                        if (valeur >= 98)
                         {
-                            Game.Components.Add(new Arbre(Game, "tree1", 0.02f, pos, new Vector3(0, 0, 0)));
+                            int typeArbre = TrouverValeurAléatoire(0, 1);
+                            if (typeArbre == 0)
+                            {
+                                Game.Components.Add(new Arbre(Game, "tree1", 0.015f, pos, new Vector3(0, 0, 0)));
+                            }
+                            else
+                            {
+                                Game.Components.Add(new Arbre(Game, "tree2", 0.015f, pos, new Vector3(0, 0, 0)));
+                            }
                             Grid.TableauGrid[i, j] = false;
                         }
                         else
                         {
-                            if (valeur >= 80)
+                            if (valeur >= 96)
                             {
                                 Game.Components.Add(new RessourceOr(Game, "gold1", 0.02f, pos, new Vector3(0, 0, 0)));
                                 Grid.TableauGrid[i, j] = false;
@@ -80,13 +88,20 @@ namespace AtelierXNA
                                     Game.Components.Add(new Roche(Game, "rock1", 0.02f, pos, new Vector3(0, 0, 0)));
                                     Grid.TableauGrid[i, j] = false;
                                 }
+                                else
+                                {
+                                    if (valeur >= 35)
+                                    {
+                                        Game.Components.Add(new Plante(Game, "plant1", 0.02f, pos, new Vector3(0, 0, 0)));
+                                    }
+                                }  
                             }
                         }
                     }  
                 }
             }
         }
-        private float TrouverValeurAléatoire(int valeurMin, int valeurMax)
+        private int TrouverValeurAléatoire(int valeurMin, int valeurMax)
         {
             return générateur.Next(valeurMin, valeurMax + 1);
         }

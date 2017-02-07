@@ -123,6 +123,7 @@
     <Compile Include="IClicDroit.cs" />
     <Compile Include="Joueur.cs" />
     <Compile Include="Model3D.cs" />
+    <Compile Include="Plante.cs" />
     <Compile Include="PrimitiveDeBase.cs" />
     <Compile Include="PrimitiveDeBaseAnimée.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
