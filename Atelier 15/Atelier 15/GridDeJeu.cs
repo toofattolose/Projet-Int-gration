@@ -14,7 +14,7 @@ namespace AtelierXNA
 {
     /// <summary>
     /// This is a game component that implements IUpdateable.
-    /// </summary>
+    /// </summary>s
     public class GridDeJeu : Microsoft.Xna.Framework.GameComponent
     {
         Vector3 Étendue { get; set; }
@@ -28,11 +28,6 @@ namespace AtelierXNA
         {
             Étendue = étendue;
             Charpente = charpente;
-        }
-
-        //Initialise les dimensions du grid et met chaque cases a libre
-        public override void Initialize()
-        {
             Delta = new Vector2(Étendue.X / Charpente.X, Étendue.Z / Charpente.Y);
             TableauGrid = new bool[(int)Charpente.X, (int)Charpente.Y];
             for (int i = 0; i < Charpente.X; i++)
@@ -44,4 +39,4 @@ namespace AtelierXNA
             }
         }
     }
-}
+ }

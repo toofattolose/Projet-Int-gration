@@ -36,8 +36,6 @@ namespace AtelierXNA
             Vector3 positionCaméra = new Vector3(0, 100, 250);
             Vector3 cibleCaméra = new Vector3(0, 0, -10);
 
-            
-
             GestionInput = new InputManager(this);
             Components.Add(GestionInput);
 
@@ -64,6 +62,8 @@ namespace AtelierXNA
             Services.AddService(typeof(Caméra), CaméraJeu);
             Components.Add(generateurProc);
             Components.Add(CaméraJeu);
+            GridPathFinding pathFinding = new GridPathFinding(this);
+            Components.Add(pathFinding);
             base.Initialize();
         }
 
