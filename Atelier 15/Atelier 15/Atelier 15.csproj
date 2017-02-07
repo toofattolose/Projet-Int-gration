@@ -116,6 +116,8 @@
     <Compile Include="Caméra.cs" />
     <Compile Include="Caméra3rdPerson.cs" />
     <Compile Include="GenerateurProcedural.cs" />
+    <Compile Include="GridDeJeu.cs" />
+    <Compile Include="IClicDroit.cs" />
     <Compile Include="Joueur.cs" />
     <Compile Include="Model3D.cs" />
     <Compile Include="PrimitiveDeBase.cs" />

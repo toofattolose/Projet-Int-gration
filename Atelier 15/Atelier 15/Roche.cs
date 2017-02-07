@@ -15,12 +15,17 @@ namespace AtelierXNA
     /// <summary>
     /// This is a game component that implements IUpdateable.
     /// </summary>
-    public class Roche : Model3D
+    public class Roche : Model3D, IClicDroit
     {
         public Roche(Game game, string nomModele, float échelle, Vector3 position, Vector3 rotationInitiale)
             : base(game, nomModele, échelle, position, rotationInitiale)
         {
 
+        }
+
+        public void EstCliquéDroit()
+        {
+            Dispose();
         }
     }
 }

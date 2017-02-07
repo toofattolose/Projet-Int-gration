@@ -27,6 +27,7 @@ namespace AtelierXNA
         Random générateur = new Random();
         DepthStencilState ÉtatDeProfondeur { get; set; }
         GraphicsDeviceManager PeripheriqueGraphique { get; set; }
+        GridDeJeu Grid { get; set; }
 
         public GenerateurProcedural(Game game, Vector3 positionInitiale, Vector3 étendue, Vector2 charpente)
             : base(game)
@@ -39,6 +40,7 @@ namespace AtelierXNA
         public override void Initialize()
         {
             Origine = new Vector3(-Étendue.X / 2, 0, 0);
+            Grid = Game.Services.GetService(typeof(GridDeJeu)) as GridDeJeu;
             OrigineJoueur = new Vector3(0, 0, Étendue.Z / 2f);
             Delta = new Vector2(Étendue.X / Charpente.X, Étendue.Z / Charpente.Y);
             PositionDansCase = Delta / 2;
@@ -47,7 +49,7 @@ namespace AtelierXNA
 
         private void CréerLesComposants()
         {
-            Game.Components.Add(new Joueur(Game, "tree1", 0.02f, OrigineJoueur, Vector3.Zero, 1f / 60f));
+            Game.Components.Add(new Joueur(Game, "tree1", 0.01f, OrigineJoueur, Vector3.Zero, 1f / 60f));
             for (int i = 0; i < Charpente.X - 1; i++)
             {
                 for (int j = 0; j < Charpente.Y - 1; j++)
@@ -61,18 +63,21 @@ namespace AtelierXNA
                         if (valeur >= 90)
                         {
                             Game.Components.Add(new Arbre(Game, "tree1", 0.02f, pos, new Vector3(0, 0, 0)));
+                            Grid.TableauGrid[i, j] = false;
                         }
                         else
                         {
                             if (valeur >= 80)
                             {
                                 Game.Components.Add(new RessourceOr(Game, "gold1", 0.02f, pos, new Vector3(0, 0, 0)));
+                                Grid.TableauGrid[i, j] = false;
                             }
                             else
                             {
                                 if (valeur >= 40)
                                 {
                                     Game.Components.Add(new Roche(Game, "rock1", 0.02f, pos, new Vector3(0, 0, 0)));
+                                    Grid.TableauGrid[i, j] = false;
                                 }
                             }
                         }

@@ -31,7 +31,7 @@ namespace AtelierXNA
 
         public override void Initialize()
         {
-            PositionCaméraInitiale = new Vector3(0, 62, 30);
+            PositionCaméraInitiale = new Vector3(0, 49, 20);
         }
 
         protected virtual void CréerPointDeVue()

@@ -41,11 +41,13 @@ namespace AtelierXNA
             GestionInput = new InputManager(this);
             Components.Add(GestionInput);
 
-            
+            //Grid de jeu
+            GridDeJeu gridDeJeu = new GridDeJeu(this, new Vector3(256, 25, 256), new Vector2(64, 64));
+            Components.Add(gridDeJeu);
+            Services.AddService(typeof(GridDeJeu), gridDeJeu);
             
 
             Components.Add(new AfficheurFPS(this, "Arial20", Color.Red, INTERVALLE_CALCUL_FPS));
-
             Services.AddService(typeof(Random), new Random());
             Services.AddService(typeof(RessourcesManager<SpriteFont>), new RessourcesManager<SpriteFont>(this, "Fonts"));
             Services.AddService(typeof(RessourcesManager<Texture2D>), new RessourcesManager<Texture2D>(this, "Textures"));
