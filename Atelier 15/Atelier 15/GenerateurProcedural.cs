@@ -40,6 +40,7 @@ namespace AtelierXNA
         public override void Initialize()
         {
             Origine = new Vector3(-Étendue.X / 2, 0, 0);
+            
             Grid = Game.Services.GetService(typeof(GridDeJeu)) as GridDeJeu;
             OrigineJoueur = new Vector3(0, 0, Étendue.Z / 2f);
             Delta = new Vector2(Étendue.X / Charpente.X, Étendue.Z / Charpente.Y);
@@ -105,5 +106,6 @@ namespace AtelierXNA
         {
             return générateur.Next(valeurMin, valeurMax + 1);
         }
+
     }
 }

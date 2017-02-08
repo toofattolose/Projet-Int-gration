@@ -22,6 +22,7 @@ namespace AtelierXNA
         public Vector2 Delta { get; private set; }
         public bool[,] TableauGrid { get; set; }
 
+
         //recoit en parametre l'étendu et la charpente (grandeur et dimension du grid)
         public GridDeJeu(Game game, Vector3 étendue, Vector2 charpente)
             : base(game)
