@@ -18,7 +18,7 @@ namespace AtelierXNA
         GraphicsDeviceManager PériphériqueGraphique { get; set; }
         GraphicsDevice Peripherique { get; set; }
         SpriteBatch GestionSprites { get; set; }
-
+        BasicEffect EffetLumiere { get; set; }
         Caméra CaméraJeu { get; set; }
         InputManager GestionInput { get; set; }
 
@@ -35,7 +35,7 @@ namespace AtelierXNA
         {
             Vector3 positionCaméra = new Vector3(0, 100, 250);
             Vector3 cibleCaméra = new Vector3(0, 0, -10);
-
+            EffetLumiere = new BasicEffect(GraphicsDevice);
             
 
             GestionInput = new InputManager(this);
@@ -64,6 +64,8 @@ namespace AtelierXNA
             Services.AddService(typeof(Caméra), CaméraJeu);
             Components.Add(generateurProc);
             Components.Add(CaméraJeu);
+
+
             base.Initialize();
         }
 
