@@ -62,7 +62,7 @@ namespace AtelierXNA
                     if (distanceJoueur > 20)
                     {
                         float valeur = TrouverValeurAléatoire(0, 100);
-                        if (valeur >= 98)
+                        if (valeur >= 99)
                         {
                             float typeArbre = TrouverValeurAléatoire(0, 1);
                             if (typeArbre == 0)
@@ -77,7 +77,7 @@ namespace AtelierXNA
                         }
                         else
                         {
-                            if (valeur >= 96)
+                            if (valeur >= 98)
                             {
                                 Game.Components.Add(new RessourceOr(Game, "gold1", 0.02f, pos, new Vector3(0, rotation, 0)));
                                 Grid.TableauGrid[i, j] = false;

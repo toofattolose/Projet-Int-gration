@@ -113,6 +113,7 @@
     <Compile Include="Afficheur3D.cs" />
     <Compile Include="Arbre.cs" />
     <Compile Include="Atelier.cs" />
+    <Compile Include="BalleJoueur.cs" />
     <Compile Include="Caméra.cs" />
     <Compile Include="Caméra3rdPerson.cs" />
     <Compile Include="Case.cs" />
