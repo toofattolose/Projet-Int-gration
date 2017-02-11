@@ -122,6 +122,7 @@
     <Compile Include="GridDeJeu.cs" />
     <Compile Include="GridPathFinding.cs" />
     <Compile Include="IClicDroit.cs" />
+    <Compile Include="IClicDroitRessource.cs" />
     <Compile Include="Joueur.cs" />
     <Compile Include="Model3D.cs" />
     <Compile Include="Plante.cs" />

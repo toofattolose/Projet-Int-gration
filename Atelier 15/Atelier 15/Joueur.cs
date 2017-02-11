@@ -32,6 +32,13 @@ namespace AtelierXNA
         Vector3 Direction { get; set; }
         Model Roche { get; set; }
         const float DELTA = 256f / 64;
+        public int NombreDeBois { get; set; }
+        public int NombreDOR { get; set; }
+        float TempsCollectionRessource { get; set; }
+        int NombreCollectionRessource { get; set; }
+
+
+
 
         public Joueur(Game game, string nomModele, float échelle, Vector3 position, Vector3 rotationInitiale, float intervalleMAJ)
             : base(game, nomModele, échelle, position, rotationInitiale)
@@ -52,6 +59,8 @@ namespace AtelierXNA
             //Initialisation des données de stats du joueur
             FiringRate = 0.5f;
             Dommage = 1;
+            NombreCollectionRessource = 1;
+            TempsCollectionRessource = 1f;
 
             base.Initialize();
         }
@@ -157,16 +166,47 @@ namespace AtelierXNA
                 Point positionSouris = GestionInput.GetPositionSouris();
                 try
                 {
+                    //destruction de roche
                     foreach (Roche r in Game.Components.OfType<Roche>())
                     {
                         for (int i = 0; i < r.Modèle.Meshes.Count; i++)
                         {
                             float distanceJoueur = (float)Math.Sqrt(Math.Pow(r.Position.X - Position.X, 2) + Math.Pow(r.Position.Y - Position.Y, 2) + Math.Pow(r.Position.Z - Position.Z, 2));
-                            if (distanceJoueur <= 5)
+                            if (distanceJoueur <= 8)
                             {
                                 if (TrouverIntersection(positionSouris, r.Position, r.Modèle.Meshes[i].BoundingSphere))
                                 {
                                     r.EstCliquéDroit();
+                                }
+                            }
+                        }
+                    }
+                    //collection de bois
+                    foreach (Arbre a in Game.Components.OfType<Arbre>())
+                    {
+                        for (int i = 0; i < a.Modèle.Meshes.Count; i++)
+                        {
+                            float distanceJoueur = (float)Math.Sqrt(Math.Pow(a.Position.X - Position.X, 2) + Math.Pow(a.Position.Y - Position.Y, 2) + Math.Pow(a.Position.Z - Position.Z, 2));
+                            if (distanceJoueur <= 8)
+                            {
+                                if (TrouverIntersection(positionSouris, a.Position, a.Modèle.Meshes[i].BoundingSphere))
+                                {
+                                    a.EstCliquéDroit(TempsCollectionRessource, NombreCollectionRessource, this);
+                                }
+                            }
+                        }
+                    }
+                    //collection de l'or
+                    foreach (RessourceOr o in Game.Components.OfType<RessourceOr>())
+                    {
+                        for (int i = 0; i < o.Modèle.Meshes.Count; i++)
+                        {
+                            float distanceJoueur = (float)Math.Sqrt(Math.Pow(o.Position.X - Position.X, 2) + Math.Pow(o.Position.Y - Position.Y, 2) + Math.Pow(o.Position.Z - Position.Z, 2));
+                            if (distanceJoueur <= 8)
+                            {
+                                if (TrouverIntersection(positionSouris, o.Position, o.Modèle.Meshes[i].BoundingSphere))
+                                {
+                                    o.EstCliquéDroit(TempsCollectionRessource, NombreCollectionRessource, this);
                                 }
                             }
                         }
@@ -184,11 +224,11 @@ namespace AtelierXNA
         {
             Vector3 posSouris3D = TrouverPositionSouris(positionSouris);
             Vector3 nouvellePositionSouris = new Vector3((int)posSouris3D.X, (int)posSouris3D.Y, (int)posSouris3D.Z);
-            for (int i = 0; i < (int)DELTA * 2; i++)
+            for (int i = 0; i < (int)DELTA; i++)
             {
-                for (int j = 0; j < (int)DELTA * 2; j++)
+                for (int j = 0; j < (int)DELTA; j++)
                 {
-                    Vector3 positionPossibleRessource = new Vector3((int)positionRessource.X + i, 0, (int)positionRessource.Z + j);
+                    Vector3 positionPossibleRessource = new Vector3((int)positionRessource.X - (int)(DELTA/2) + i, 0, (int)positionRessource.Z - (int)(DELTA / 2) + j);
                     if (nouvellePositionSouris == positionPossibleRessource)
                     {
                         return true;
