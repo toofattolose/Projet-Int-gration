@@ -62,7 +62,7 @@ namespace AtelierXNA
             Services.AddService(typeof(Caméra), CaméraJeu);
             Components.Add(generateurProc);
             Components.Add(CaméraJeu);
-            GridPathFinding pathFinding = new GridPathFinding(this);
+            PathFinding pathFinding = new PathFinding(this);
             Components.Add(pathFinding);
             base.Initialize();
         }

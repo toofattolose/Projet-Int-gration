@@ -19,7 +19,7 @@ namespace AtelierXNA
         VertexPositionColor[] Sommets { get; set; }
         Vector2 Delta { get; set; }
         BasicEffect EffetDeBase { get; set; }
-        Vector3 Origine { get; set; }
+        public Vector3 Origine { get; set; }
 
         // à compléter en ajoutant les propriétés qui vous seront nécessaires pour l'implémentation du composant
 

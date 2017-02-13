@@ -119,7 +119,7 @@
     <Compile Include="Ennemis.cs" />
     <Compile Include="GenerateurProcedural.cs" />
     <Compile Include="GridDeJeu.cs" />
-    <Compile Include="GridPathFinding.cs" />
+    <Compile Include="PathFinding.cs" />
     <Compile Include="IClicDroit.cs" />
     <Compile Include="Joueur.cs" />
     <Compile Include="Model3D.cs" />
