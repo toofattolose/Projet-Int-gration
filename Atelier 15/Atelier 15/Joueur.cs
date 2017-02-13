@@ -36,6 +36,7 @@ namespace AtelierXNA
         public int NombreDOR { get; set; }
         float TempsCollectionRessource { get; set; }
         int NombreCollectionRessource { get; set; }
+        GridDeJeu Grid { get; set; }
 
 
 
@@ -49,6 +50,7 @@ namespace AtelierXNA
         public override void Initialize()
         {
             État = "enMouvement";
+            Grid = Game.Services.GetService(typeof(GridDeJeu)) as GridDeJeu;
             VitesseDéplacement = 0.2f;
             GestionInput = Game.Services.GetService(typeof(InputManager)) as InputManager;
             GestionnaireDeModèles = Game.Services.GetService(typeof(RessourcesManager<Model>)) as RessourcesManager<Model>;
@@ -99,7 +101,6 @@ namespace AtelierXNA
                 TempsÉcouléDepuisMAJ = 0;
             }
         }
-
         private void GérerTir(GameTime gameTime)
         {
             float tempsÉcoulé = (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -120,7 +121,6 @@ namespace AtelierXNA
                 }
             }
         }
-
         //Utilisé pour trouver la position de la souris dans un environnement 3D
         private Vector3 TrouverPositionSouris(Point ms)
         {
@@ -157,7 +157,6 @@ namespace AtelierXNA
             }
             Rotation = new Vector3(0, Angle, 0);
         }
-
         //Picking
         private void GérerPicking()
         {
@@ -174,7 +173,7 @@ namespace AtelierXNA
                             float distanceJoueur = (float)Math.Sqrt(Math.Pow(r.Position.X - Position.X, 2) + Math.Pow(r.Position.Y - Position.Y, 2) + Math.Pow(r.Position.Z - Position.Z, 2));
                             if (distanceJoueur <= 8)
                             {
-                                if (TrouverIntersection(positionSouris, r.Position, r.Modèle.Meshes[i].BoundingSphere))
+                                if (TrouverIntersection(positionSouris, r.Position))
                                 {
                                     r.EstCliquéDroit();
                                 }
@@ -189,7 +188,7 @@ namespace AtelierXNA
                             float distanceJoueur = (float)Math.Sqrt(Math.Pow(a.Position.X - Position.X, 2) + Math.Pow(a.Position.Y - Position.Y, 2) + Math.Pow(a.Position.Z - Position.Z, 2));
                             if (distanceJoueur <= 8)
                             {
-                                if (TrouverIntersection(positionSouris, a.Position, a.Modèle.Meshes[i].BoundingSphere))
+                                if (TrouverIntersection(positionSouris, a.Position))
                                 {
                                     a.EstCliquéDroit(TempsCollectionRessource, NombreCollectionRessource, this);
                                 }
@@ -204,7 +203,7 @@ namespace AtelierXNA
                             float distanceJoueur = (float)Math.Sqrt(Math.Pow(o.Position.X - Position.X, 2) + Math.Pow(o.Position.Y - Position.Y, 2) + Math.Pow(o.Position.Z - Position.Z, 2));
                             if (distanceJoueur <= 8)
                             {
-                                if (TrouverIntersection(positionSouris, o.Position, o.Modèle.Meshes[i].BoundingSphere))
+                                if (TrouverIntersection(positionSouris, o.Position))
                                 {
                                     o.EstCliquéDroit(TempsCollectionRessource, NombreCollectionRessource, this);
                                 }
@@ -218,9 +217,8 @@ namespace AtelierXNA
                 }    
             }
         }
-
         //Trouve l'intersection entre la position de la souris et la position de la roche
-        private bool TrouverIntersection(Point positionSouris, Vector3 positionRessource, BoundingSphere sphere)
+        private bool TrouverIntersection(Point positionSouris, Vector3 positionRessource)
         {
             Vector3 posSouris3D = TrouverPositionSouris(positionSouris);
             Vector3 nouvellePositionSouris = new Vector3((int)posSouris3D.X, (int)posSouris3D.Y, (int)posSouris3D.Z);
@@ -237,8 +235,6 @@ namespace AtelierXNA
             }
             return false;
         }
-
-
         protected override void CalculerMonde()
         {
             Monde = Matrix.Identity;
@@ -246,33 +242,104 @@ namespace AtelierXNA
             Monde *= Matrix.CreateFromAxisAngle(Vector3.Up, Angle);
             Monde *= Matrix.CreateTranslation(Position);
         }
-
         private void GérerClavierMouvement()
         {
+            Vector3 déplacement;
+            Vector3 déplacementAugmenter;
             if (GestionInput.EstEnfoncée(Keys.A))
             {
-                Position += new Vector3(-VitesseDéplacement, 0, 0);
+                déplacement = new Vector3(-VitesseDéplacement, 0, 0);
+                déplacementAugmenter = déplacement + new Vector3(-DELTA / 4, 0, 0);
+                if (VérifierSiDéplacementPossible(déplacementAugmenter))
+                {
+                    Position += déplacement;
+                }
             }
             if (GestionInput.EstEnfoncée(Keys.D))
             {
-                Position += new Vector3(VitesseDéplacement, 0, 0);
+                déplacement = new Vector3(VitesseDéplacement, 0, 0);
+                déplacementAugmenter = déplacement + new Vector3(DELTA / 4, 0, 0);
+                if (VérifierSiDéplacementPossible(déplacementAugmenter))
+                {
+                    Position += déplacement;
+                }
             }
             if (GestionInput.EstEnfoncée(Keys.W))
             {
-                Position += new Vector3(0, 0, -VitesseDéplacement);
+                déplacement = new Vector3(0, 0, -VitesseDéplacement);
+                déplacementAugmenter = déplacement + new Vector3(0, 0, -DELTA / 4);
+                if (VérifierSiDéplacementPossible(déplacementAugmenter))
+                {
+                    Position += déplacement;
+                }
             }
             if (GestionInput.EstEnfoncée(Keys.S))
             {
-                Position += new Vector3(0, 0, VitesseDéplacement);
+                déplacement = new Vector3(0, 0, VitesseDéplacement);
+                déplacementAugmenter = déplacement + new Vector3(0, 0, DELTA / 4);
+                if (VérifierSiDéplacementPossible(déplacementAugmenter))
+                {
+                    Position += déplacement;
+                }
+            }
+            if (GestionInput.EstNouvelleTouche(Keys.B))
+            {
+                État = "enConstruction";
+            }
+        }
+
+        private bool VérifierSiDéplacementPossible(Vector3 déplacement)
+        {
+            Vector3 nouvellePosition = Position + déplacement;
+            Vector2 positionDansGrid = new Vector2((float)Math.Floor(nouvellePosition.X / Grid.Delta.X), (float)Math.Floor(nouvellePosition.Z / Grid.Delta.Y));
+            if ((int)positionDansGrid.X > Grid.TableauGrid.GetLength(0) - 2)
+            {
+                return false;
+            }
+            else
+            {
+                if ((int)positionDansGrid.X < 0)
+                {
+                    return false;
+                }
+            }
+            if ((int)positionDansGrid.Y > Grid.TableauGrid.GetLength(1) - 2)
+            {
+                return false;
+            }
+            else
+            {
+                if ((int)positionDansGrid.Y < 0)
+                {
+                    return false;
+                }
             }
 
-
+            return Grid.TableauGrid[(int)positionDansGrid.X, (int)positionDansGrid.Y];
         }
+
+
 
         //mise a jour pour la construction
         private void FaireMAJConstruction(GameTime gameTime)
         {
+            float tempsÉcoulé = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            TempsÉcouléDepuisMAJ += tempsÉcoulé;
+            GérerClavierConstruction();
+            if (TempsÉcouléDepuisMAJ >= IntervalleMAJ)
+            {
+                CaméraJeu.Déplacer(Position);
+                CalculerMonde();
+                TempsÉcouléDepuisMAJ = 0;
+            }
+        }
 
+        private void GérerClavierConstruction()
+        {
+            if (GestionInput.EstNouvelleTouche(Keys.B))
+            {
+                État = "enMouvement";
+            }
         }
 
         //mise a jour pour la mort du joueur

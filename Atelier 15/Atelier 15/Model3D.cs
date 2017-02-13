@@ -29,6 +29,8 @@ namespace AtelierXNA
         Matrix[] TransformationModèle { get; set; }
         Caméra CaméraJeu { get; set; }
         public BoundingSphere SphereDeCollision { get; private set; }
+        float DeltaDiviséParDeux { get; set; }
+        float TempsÉcouléDepuisMAJ { get; set; }
 
         public Model3D(Game game, string nomModele, float échelle, Vector3 position, Vector3 rotationInitiale)
             : base(game)
@@ -46,9 +48,10 @@ namespace AtelierXNA
         public override void Initialize()
         {
             GestionnaireDeModèles = Game.Services.GetService(typeof(RessourcesManager<Model>)) as RessourcesManager<Model>;
+            DeltaDiviséParDeux = (256 / 64f) / 2;
             CaméraJeu = Game.Services.GetService(typeof(Caméra)) as Caméra;
             Modèle = GestionnaireDeModèles.Find(NomModele);
-            SphereDeCollision = new BoundingSphere(Position, 1f); //BoundingSphere.CreateFromBoundingBox(TrouverBoundingBox(Modèle, Monde));
+            SphereDeCollision = new BoundingSphere(Position, DeltaDiviséParDeux);
             TransformationModèle = new Matrix[Modèle.Bones.Count];
             Modèle.CopyAbsoluteBoneTransformsTo(TransformationModèle);
             CalculerMonde();
@@ -86,6 +89,17 @@ namespace AtelierXNA
 
             // Create and return bounding box
             return new BoundingBox(min, max);
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            float tempsÉcoulé = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            TempsÉcouléDepuisMAJ += tempsÉcoulé;
+            if (TempsÉcouléDepuisMAJ >= (1f/60f))
+            {
+                SphereDeCollision = new BoundingSphere(Position, DeltaDiviséParDeux);
+                TempsÉcouléDepuisMAJ = 0;
+            }
         }
 
         protected virtual void CalculerMonde()

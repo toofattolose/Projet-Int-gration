@@ -21,6 +21,7 @@ namespace AtelierXNA
         public Vector2 Charpente { get; private set; }
         public Vector2 Delta { get; private set; }
         public bool[,] TableauGrid { get; set; }
+        public float DeltaDiviséParDeux { get; private set; }
 
 
         //recoit en parametre l'étendu et la charpente (grandeur et dimension du grid)
@@ -38,6 +39,7 @@ namespace AtelierXNA
                 }
             }
             Delta = new Vector2(Étendue.X / Charpente.X, Étendue.Z / Charpente.Y);
+            DeltaDiviséParDeux = Delta.X / 2;
         }
     }
 }

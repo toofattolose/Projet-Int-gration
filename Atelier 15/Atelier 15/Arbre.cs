@@ -60,6 +60,7 @@ namespace AtelierXNA
             if (TempsÉcouléDepuisMAJ >= IntervalleMAJ)
             {
                 JoueurPrésent.NombreDeBois += NombreDeCollection;
+                //Game.Components.Add(new Arbre(Game, "tree1", 0.015f, JoueurPrésent.Position, new Vector3(0, 0, 0)));
                 TempsÉcouléDepuisMAJ = 0;
             }
             if (distanceJoueur >= 10)
