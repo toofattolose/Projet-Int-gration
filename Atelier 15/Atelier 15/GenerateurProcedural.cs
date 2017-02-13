@@ -58,7 +58,9 @@ namespace AtelierXNA
                 for (int j = 0; j < Charpente.Y - 1; j++)
                 {
                     Vector3 pos = new Vector3(Origine.X + (i * Delta.X) + PositionDansCase.X, Origine.Y, Origine.Z + (j * Delta.Y) + PositionDansCase.Y);
+                    Vector3 positionCaseDeConstruction = new Vector3(Origine.X + (i * Delta.X), Origine.Y, Origine.Z + (j * Delta.Y));
                     Vector3 vecteurPosJoueur = new Vector3(pos.X - OrigineJoueur.X, 0, pos.Z - OrigineJoueur.Z);
+                    Game.Components.Add(new CaseDeConstruction(Game, positionCaseDeConstruction + new Vector3(0,5,0)));
                     float distanceJoueur = (float)Math.Sqrt(Math.Pow(vecteurPosJoueur.X, 2) + Math.Pow(vecteurPosJoueur.Z, 2));
                     float rotation = MathHelper.ToRadians(TrouverValeurAléatoire(0, 360));
                     if (distanceJoueur > 20)

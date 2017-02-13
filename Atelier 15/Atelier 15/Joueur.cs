@@ -325,19 +325,44 @@ namespace AtelierXNA
         {
             float tempsÉcoulé = (float)gameTime.ElapsedGameTime.TotalSeconds;
             TempsÉcouléDepuisMAJ += tempsÉcoulé;
-            GérerClavierConstruction();
+            GérerPickingConstruction();
             if (TempsÉcouléDepuisMAJ >= IntervalleMAJ)
             {
+                GérerClavierConstruction();
                 CaméraJeu.Déplacer(Position);
                 CalculerMonde();
                 TempsÉcouléDepuisMAJ = 0;
             }
         }
+        private void GérerPickingConstruction()
+        {
+            Vector3 positionSouris = TrouverPositionSouris(GestionInput.GetPositionSouris());
+            Vector2 positionSourisDansGrid = new Vector2((int)Math.Floor(positionSouris.X / Grid.Delta.X), (int)Math.Floor(positionSouris.Z / Grid.Delta.Y));
+            
+            foreach(CaseDeConstruction c in Game.Components.OfType<CaseDeConstruction>())
+            {
+                if (positionSourisDansGrid == c.PositionDansGrid)
+                {
+                    c.Visible = true;
+                }
+                else
+                {
+                    c.Visible = false;
+                }
+            }
 
+        }
         private void GérerClavierConstruction()
         {
             if (GestionInput.EstNouvelleTouche(Keys.B))
             {
+                foreach (CaseDeConstruction c in Game.Components.OfType<CaseDeConstruction>())
+                {
+                    if (c.Visible)
+                    {
+                        c.Visible = false;
+                    }
+                }
                 État = "enMouvement";
             }
         }
