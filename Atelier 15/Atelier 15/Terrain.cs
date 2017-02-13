@@ -35,7 +35,8 @@ namespace AtelierXNA
         public override void Initialize()
         {
             InitialiserDonnéesCarte();
-            Origine = new Vector3(-Étendue.X / 2, 0, Étendue.Z / 2); 
+            //Origine = new Vector3(-Étendue.X / 2, 0, Étendue.Z / 2); 
+            Origine = Vector3.Zero;
             Delta = new Vector2(Étendue.X / Charpente.X, Étendue.Z / Charpente.Y);
             AllouerTableaux();
             CréerTableauPoints();

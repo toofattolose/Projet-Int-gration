@@ -113,14 +113,17 @@
     <Compile Include="Afficheur3D.cs" />
     <Compile Include="Arbre.cs" />
     <Compile Include="Atelier.cs" />
+    <Compile Include="BalleJoueur.cs" />
     <Compile Include="Caméra.cs" />
     <Compile Include="Caméra3rdPerson.cs" />
     <Compile Include="Case.cs" />
+    <Compile Include="CaseDeConstruction.cs" />
     <Compile Include="Ennemis.cs" />
     <Compile Include="GenerateurProcedural.cs" />
     <Compile Include="GridDeJeu.cs" />
     <Compile Include="PathFinding.cs" />
     <Compile Include="IClicDroit.cs" />
+    <Compile Include="IClicDroitRessource.cs" />
     <Compile Include="Joueur.cs" />
     <Compile Include="Model3D.cs" />
     <Compile Include="Plante.cs" />
