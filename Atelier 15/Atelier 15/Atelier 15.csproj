@@ -118,6 +118,7 @@
     <Compile Include="Caméra3rdPerson.cs" />
     <Compile Include="Case.cs" />
     <Compile Include="CaseDeConstruction.cs" />
+    <Compile Include="ControlePhaseDeJeu.cs" />
     <Compile Include="Ennemis.cs" />
     <Compile Include="GenerateurProcedural.cs" />
     <Compile Include="GridDeJeu.cs" />
