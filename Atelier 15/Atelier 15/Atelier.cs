@@ -65,6 +65,9 @@ namespace AtelierXNA
             Components.Add(new Afficheur3D(this));
             Components.Add(new Terrain(this, 1f, Vector3.Zero, Vector3.Zero, new Vector3(256, 25, 256), new Vector2(64, 64), INTERVALLE_MAJ_STANDARD));
             GenerateurProcedural generateurProc = new GenerateurProcedural(this, Vector3.Zero, new Vector3(256, 25, 256), new Vector2(64, 64));
+            ControlePhaseDeJeu controlePhase = new ControlePhaseDeJeu(this, 180f, 120f);
+            Components.Add(controlePhase);
+            Services.AddService(typeof(ControlePhaseDeJeu), controlePhase);
             CaméraJeu = new Caméra3rdPerson(this, positionCaméra, cibleCaméra, Vector3.Up, INTERVALLE_MAJ_STANDARD);
             Ennemi = new Ennemis(this, "player", 0.01f, new Vector3(256 / 2f, 0, 256 / 2f), Vector3.Zero);
             Services.AddService(typeof(Caméra), CaméraJeu);
