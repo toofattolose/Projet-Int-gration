@@ -65,11 +65,10 @@ namespace AtelierXNA
             Components.Add(new Afficheur3D(this));
             Components.Add(new Terrain(this, 1f, Vector3.Zero, Vector3.Zero, new Vector3(256, 25, 256), new Vector2(64, 64), INTERVALLE_MAJ_STANDARD));
             GenerateurProcedural generateurProc = new GenerateurProcedural(this, Vector3.Zero, new Vector3(256, 25, 256), new Vector2(64, 64));
-            ControlePhaseDeJeu controlePhase = new ControlePhaseDeJeu(this, 180f, 120f);
+            ControlePhaseDeJeu controlePhase = new ControlePhaseDeJeu(this, 2f, 120f);
             Components.Add(controlePhase);
             Services.AddService(typeof(ControlePhaseDeJeu), controlePhase);
             CaméraJeu = new Caméra3rdPerson(this, positionCaméra, cibleCaméra, Vector3.Up, INTERVALLE_MAJ_STANDARD);
-            Ennemi = new Ennemis(this, "player", 0.01f, new Vector3(256 / 2f, 0, 256 / 2f), Vector3.Zero);
             Services.AddService(typeof(Caméra), CaméraJeu);
             Components.Add(generateurProc);
             Components.Add(CaméraJeu);
@@ -82,15 +81,7 @@ namespace AtelierXNA
         protected override void Update(GameTime gameTime)
         {
             GérerClavier();
-            float tempsÉcoulé = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            TempsÉcouléDepuisMAJ += tempsÉcoulé;
-            if (TempsÉcouléDepuisMAJ >= 5)
-            {
-                Components.Add(new Ennemis(this, "player", 0.01f, new Vector3(256 / 2f + i, 0, 256 / 2f), Vector3.Zero));
-                ++i;
-                TempsÉcouléDepuisMAJ = 0;
-               
-            }
+            
             base.Update(gameTime);
         }
 

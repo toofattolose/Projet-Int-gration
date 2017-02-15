@@ -20,17 +20,20 @@ namespace AtelierXNA
         float TempsPhaseJour { get; set; }
         float TempsÉcouléDepuisMAJ { get; set; }
         float TempsPhaseNuit { get; set; }
+        float TempsSpawnEnnemis { get; set; }
         string État { get; set; }
+        int i { get; set; }
+        Game Jeu { get; set; }
 
         public ControlePhaseDeJeu(Game game, float tempsPhaseJour, float tempsPhaseNuit)
             : base(game)
         {
+            Jeu = game;
             TempsPhaseJour = tempsPhaseJour;
-            TempsPhaseNuit = TempsPhaseNuit;
+            TempsPhaseNuit = tempsPhaseNuit;
             État = "jour";
+            i = 0;
         }
-
-
 
         public override void Update(GameTime gameTime)
         {
@@ -62,6 +65,14 @@ namespace AtelierXNA
         {
             float tempsÉcoulé = (float)gameTime.ElapsedGameTime.TotalSeconds;
             TempsÉcouléDepuisMAJ += tempsÉcoulé;
+            TempsSpawnEnnemis += tempsÉcoulé;
+            if (TempsSpawnEnnemis >= 2)
+            {
+                Game.Components.Add(new Ennemis(Jeu, "player", 0.01f, new Vector3(256 / 2f + i, 0, 256 / 2f), Vector3.Zero));
+                ++i;
+                TempsSpawnEnnemis = 0;
+
+            }
             if (TempsÉcouléDepuisMAJ >= TempsPhaseNuit)
             {
                 TempsÉcouléDepuisMAJ = 0;
