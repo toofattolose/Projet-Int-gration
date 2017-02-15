@@ -108,7 +108,7 @@ namespace AtelierXNA
             {
                 if (GestionInput.EstAncienClicGauche())
                 {
-                    Game.Components.Add(new BalleJoueur(Game, "bullet", 0.01f, Position + new Vector3(0,2.5f,0), Rotation, Dommage, Direction, 1 / 60f));
+                    Game.Components.Add(new BalleJoueur(Game, "bullet", 0.015f, Position + new Vector3(0,2.5f,0), Rotation, Dommage, Direction, 1 / 60f));
                     Temps…coulÈDepuisDernierTir += temps…coulÈ;
                 }
             }
