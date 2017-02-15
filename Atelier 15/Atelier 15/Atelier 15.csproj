@@ -127,6 +127,8 @@
     <Compile Include="IClicDroitRessource.cs" />
     <Compile Include="Joueur.cs" />
     <Compile Include="Model3D.cs" />
+    <Compile Include="Mur.cs" />
+    <Compile Include="PlacementBuilding.cs" />
     <Compile Include="Plante.cs" />
     <Compile Include="PrimitiveDeBase.cs" />
     <Compile Include="PrimitiveDeBaseAnimée.cs" />

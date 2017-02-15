@@ -37,6 +37,7 @@ namespace AtelierXNA
         float TempsCollectionRessource { get; set; }
         int NombreCollectionRessource { get; set; }
         GridDeJeu Grid { get; set; }
+        PlacementBuilding BuildingEnPlacement { get; set; }
 
 
 
@@ -57,6 +58,7 @@ namespace AtelierXNA
             Roche = GestionnaireDeModèles.Find("rock1");
             CaméraJeu = Game.Services.GetService(typeof(Caméra)) as Caméra3rdPerson;
             GestionSouris = Mouse.GetState(); //utilisé pour trouver la position de la souris
+            BuildingEnPlacement = new PlacementBuilding(Game, "tree2", 0.02f, Position, Vector3.Zero);
 
             //Initialisation des données de stats du joueur
             FiringRate = 0.5f;
@@ -284,6 +286,7 @@ namespace AtelierXNA
             }
             if (GestionInput.EstNouvelleTouche(Keys.B))
             {
+                Game.Components.Add(BuildingEnPlacement);
                 État = "enConstruction";
             }
         }
@@ -363,6 +366,7 @@ namespace AtelierXNA
                         c.Visible = false;
                     }
                 }
+                BuildingEnPlacement.Dispose();
                 État = "enMouvement";
             }
         }

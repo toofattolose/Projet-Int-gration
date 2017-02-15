@@ -22,10 +22,10 @@ namespace AtelierXNA
         public Vector3 Position { get; set; }
         protected Vector3 Rotation { get; set; }
         protected float Échelle { get; set; }
-        string NomModele { get; set; }
+        protected string NomModele { get; set; }
         RessourcesManager<Model> GestionnaireDeModèles { get; set; }
         protected Matrix Monde { get; set; }
-        public Model Modèle { get; private set; }
+        public Model Modèle { get; set; }
         Matrix[] TransformationModèle { get; set; }
         Caméra CaméraJeu { get; set; }
         public BoundingSphere SphereDeCollision { get; private set; }
