@@ -12,36 +12,58 @@ using Microsoft.Xna.Framework.Media;
 
 namespace AtelierXNA
 {
-    /// <summary>
-    /// This is a game component that implements IUpdateable.
-    /// </summary>
     public class Ennemis : Model3D
     {
-        public Ennemis(Game game, string nomModele, float Èchelle, Vector3 position, Vector3 rotationInitiale)
+        public float Vie { get; set; }
+        public float Dmg { get; set; }
+        public int NumVague { get; set; }
+        Vector3 Objectif { get; set; }
+        float Temps…coulÈMAJ { get; set; }
+        float Angle { get; set;}
+
+        public Ennemis(Game game, string nomModele, float Èchelle, Vector3 position, Vector3 rotationInitiale, int numVague)
             : base(game, nomModele, Èchelle, position, rotationInitiale)
         {
-            // TODO: Construct any child components here
+            NumVague = numVague;
         }
 
-        /// <summary>
-        /// Allows the game component to perform any initialization it needs to before starting
-        /// to run.  This is where it can query for any required services and load content.
-        /// </summary>
         public override void Initialize()
         {
-            // TODO: Add your initialization code here
-
+            Vie = NumVague;
+            Dmg = 1f;
             base.Initialize();
         }
-
-        /// <summary>
-        /// Allows the game component to update itself.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
+        
         public override void Update(GameTime gameTime)
         {
-            // TODO: Add your update code here
+            float temps…coulÈ = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            Temps…coulÈMAJ += temps…coulÈ;
+            foreach(Joueur j in Game.Components.OfType<Joueur>())
+            {
+                Objectif = j.Position;
+            }
 
+            if (Temps…coulÈMAJ >= 1 / 60f)
+            {
+                Vector3 direction = new Vector3(Objectif.X - Position.X, 0, Objectif.Z - Position.Z);
+                Vector3 directionBase = Vector3.UnitX;
+                direction.Normalize();
+                directionBase.Normalize();
+                Vector3 dÈplacement = new Vector3(direction.X * 0.05f, 0, direction.Z * 0.05f);
+                double cosAngle = Vector3.Dot(direction, directionBase);
+                if(Objectif.Z > Position.Z)
+                {
+                    Angle = -(float)Math.Acos(cosAngle);
+                }
+                else
+                {
+                    Angle = (float)Math.Acos(cosAngle);
+                }
+                Rotation = new Vector3(0, Angle, 0);
+                Position += dÈplacement;
+                Temps…coulÈMAJ = 0;
+            }
+            CalculerMonde();
             base.Update(gameTime);
         }
     }

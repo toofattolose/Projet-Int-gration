@@ -21,6 +21,9 @@ namespace AtelierXNA
         BasicEffect EffetLumiere { get; set; }
         Caméra CaméraJeu { get; set; }
         InputManager GestionInput { get; set; }
+        Ennemis Ennemi { get; set; }
+        float TempsÉcouléDepuisMAJ { get; set; }
+        int i { get; set; }
 
         public Atelier()
         {
@@ -36,8 +39,9 @@ namespace AtelierXNA
             Vector3 positionCaméra = new Vector3(0, 100, 250);
             Vector3 cibleCaméra = new Vector3(0, 0, -10);
             EffetLumiere = new BasicEffect(GraphicsDevice);
+            i = 0;
 
-            
+
 
             GestionInput = new InputManager(this);
             Components.Add(GestionInput);
@@ -61,19 +65,23 @@ namespace AtelierXNA
             Components.Add(new Afficheur3D(this));
             Components.Add(new Terrain(this, 1f, Vector3.Zero, Vector3.Zero, new Vector3(256, 25, 256), new Vector2(64, 64), INTERVALLE_MAJ_STANDARD));
             GenerateurProcedural generateurProc = new GenerateurProcedural(this, Vector3.Zero, new Vector3(256, 25, 256), new Vector2(64, 64));
-            ControlePhaseDeJeu controlePhase = new ControlePhaseDeJeu(this, 180f, 120f);
+            ControlePhaseDeJeu controlePhase = new ControlePhaseDeJeu(this, 2f, 120f);
             Components.Add(controlePhase);
             Services.AddService(typeof(ControlePhaseDeJeu), controlePhase);
             CaméraJeu = new Caméra3rdPerson(this, positionCaméra, cibleCaméra, Vector3.Up, INTERVALLE_MAJ_STANDARD);
             Services.AddService(typeof(Caméra), CaméraJeu);
             Components.Add(generateurProc);
             Components.Add(CaméraJeu);
+            
+            PathFinding pathFinding = new PathFinding(this);
+            Components.Add(pathFinding);
             base.Initialize();
         }
 
         protected override void Update(GameTime gameTime)
         {
             GérerClavier();
+            
             base.Update(gameTime);
         }
 

@@ -15,15 +15,15 @@ namespace AtelierXNA
     /// <summary>
     /// This is a game component that implements IUpdateable.
     /// </summary>
-    public class GridPathFinding : Microsoft.Xna.Framework.GameComponent
+    public class PathFinding : Microsoft.Xna.Framework.GameComponent
     {
         public Point PositionDÈpart { get; set; }
         public Point PositionFinale { get; set; }
-        bool[,] Map { get; set; }
+        public bool[,] Map { get; set; }
         GridDeJeu Grid { get; set; }
 
 
-        public GridPathFinding(Game game):base(game)
+        public PathFinding(Game game):base(game)
         {
         }
 
@@ -48,19 +48,44 @@ namespace AtelierXNA
             base.Update(gameTime);
         }
 
-        //private bool ChercherCase¿Aller(Case positionCase)
+        // …TABLIR PATH POINT A AU POINT PLAYER
+        // CR…ER TOUTES LES CASES (TABLEAU 2D)
+
+        //private bool ChercherCase¿Aller(Case case1)
         //{
-        //    List<Case> casesAdjacentes = TrouverCasesAdjacentesVides(positionCase);
-        //    casesAdjacentes.Sort((case1, case2) => case1.DistanceTotale.CompareTo(case2.DistanceTotale));
+        //    List<Case> casesAdjacentes = TrouverCasesAdjacentesVides(case1);
+        //    casesAdjacentes.OrderBy(x => x.DistanceTotale).ToList();
         //    foreach (Case caseAdjacente in casesAdjacentes)
         //    {
         //    }
         //}
 
-        //private List<Case> TrouverCasesAdjacentesVides(Case positionCase)
+        //private List<Case> TrouverCasesAdjacentesVides(Case case1)
         //{
-            
+        //    List<Case> casesVides = new List<Case>();
+        //    List<Point> positionsAdjacentes = TrouverPointsAdjacents(case1.Position);
         //}
+
+        private List<Point> TrouverPointsAdjacents(Point position)
+        {
+            List<Point> positionsAdjacentes = new List<Point>();
+
+            for(int i = -1; i <= 1; ++i)
+            {
+                for(int j = -1; j <= 1; ++j)
+                {
+                    if(i == 0 && j == 0)
+                    {
+                        ++j;
+                    }
+
+                    //if() G…RER BORDURES
+                    positionsAdjacentes.Add(new Point(position.X + i, position.Y + j));
+                }
+            }
+
+            return positionsAdjacentes;
+        }
 
     }
 }
