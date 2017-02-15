@@ -21,6 +21,9 @@ namespace AtelierXNA
         BasicEffect EffetLumiere { get; set; }
         Caméra CaméraJeu { get; set; }
         InputManager GestionInput { get; set; }
+        Ennemis Ennemi { get; set; }
+        float TempsÉcouléDepuisMAJ { get; set; }
+        int i { get; set; }
 
         public Atelier()
         {
@@ -36,6 +39,7 @@ namespace AtelierXNA
             Vector3 positionCaméra = new Vector3(0, 100, 250);
             Vector3 cibleCaméra = new Vector3(0, 0, -10);
             EffetLumiere = new BasicEffect(GraphicsDevice);
+            i = 0;
 
 
 
@@ -62,9 +66,11 @@ namespace AtelierXNA
             Components.Add(new Terrain(this, 1f, Vector3.Zero, Vector3.Zero, new Vector3(256, 25, 256), new Vector2(64, 64), INTERVALLE_MAJ_STANDARD));
             GenerateurProcedural generateurProc = new GenerateurProcedural(this, Vector3.Zero, new Vector3(256, 25, 256), new Vector2(64, 64));
             CaméraJeu = new Caméra3rdPerson(this, positionCaméra, cibleCaméra, Vector3.Up, INTERVALLE_MAJ_STANDARD);
+            Ennemi = new Ennemis(this, "player", 0.01f, new Vector3(256 / 2f, 0, 256 / 2f), Vector3.Zero);
             Services.AddService(typeof(Caméra), CaméraJeu);
             Components.Add(generateurProc);
             Components.Add(CaméraJeu);
+            
             PathFinding pathFinding = new PathFinding(this);
             Components.Add(pathFinding);
             base.Initialize();
@@ -73,6 +79,15 @@ namespace AtelierXNA
         protected override void Update(GameTime gameTime)
         {
             GérerClavier();
+            float tempsÉcoulé = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            TempsÉcouléDepuisMAJ += tempsÉcoulé;
+            if (TempsÉcouléDepuisMAJ >= 5)
+            {
+                Components.Add(new Ennemis(this, "player", 0.01f, new Vector3(256 / 2f + i, 0, 256 / 2f), Vector3.Zero));
+                ++i;
+                TempsÉcouléDepuisMAJ = 0;
+               
+            }
             base.Update(gameTime);
         }
 
