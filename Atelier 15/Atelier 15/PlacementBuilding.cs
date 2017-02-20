@@ -47,6 +47,7 @@ namespace AtelierXNA
             float temps…coulÈ = (float)gameTime.ElapsedGameTime.TotalSeconds;   
             Temps…coulÈDepuisMAJ += temps…coulÈ;
             GÈrerClavier();
+            GÈrerPlacement();
             if (Temps…coulÈDepuisMAJ >= IntervalleMAJ)
             {
                 GÈrerModel();
@@ -54,6 +55,26 @@ namespace AtelierXNA
                 Temps…coulÈDepuisMAJ = 0;
             }
             base.Update(gameTime);
+        }
+
+        private void GÈrerPlacement()
+        {
+            if (GestionInput.EstNouveauClicGauche())
+            {
+                if (TypeBuilding == 3)
+                {
+                    Vector3 positionSouris = TrouverPositionSouris(GestionInput.GetPositionSouris());
+                    Vector3 positionDansGrid = new Vector3((float)Math.Floor(positionSouris.X / Grid.Delta.X), 0, (float)Math.Floor(positionSouris.Z / Grid.Delta.Y));
+                    if (Grid.TableauGrid[(int)positionDansGrid.X,(int)positionDansGrid.Z])
+                    {
+                        Vector3 vecteurDelta = new Vector3(Grid.DeltaDivisÈParDeux, 0, Grid.DeltaDivisÈParDeux);
+                        Vector3 positionBuilding = new Vector3((positionDansGrid.X * Grid.Delta.X) + vecteurDelta.X, (positionDansGrid.Y * Grid.Delta.Y) + vecteurDelta.Y, (positionDansGrid.Z * Grid.Delta.Y) + vecteurDelta.Z);
+                        Mur buildingMur = new Mur(Game, "player", 0.02f, positionBuilding, Vector3.Zero);
+                        Game.Components.Add(buildingMur);
+                        Grid.TableauGrid[(int)positionDansGrid.X, (int)positionDansGrid.Z] = false;
+                    }
+                }
+            }
         }
 
         //GestionDesTouches
@@ -136,39 +157,14 @@ namespace AtelierXNA
         {
             Vector3 positionSouris = TrouverPositionSouris(GestionInput.GetPositionSouris());
             Vector3 positionDansGrid = new Vector3((float)Math.Floor(Position.X / Grid.Delta.X), 0, (float)Math.Floor(Position.Z / Grid.Delta.Y));
-            if (Grid.TableauGrid[(int)positionDansGrid.X,(int)positionDansGrid.Z])
+            try
             {
-                base.Draw(gameTime);
-            }     
-        }
-
-        //VÈrifie si la souris sort de la zone de jeu
-        private bool VÈrifierPositionSouris(Vector3 positionSouris)
-        {
-            if (positionSouris.X < 0)
-            {
-                return false;
-            }
-            else
-            {
-                if (positionSouris.X > (Grid.Charpente.X * Grid.Delta.X) - 2)
+                if (Grid.TableauGrid[(int)positionDansGrid.X, (int)positionDansGrid.Z])
                 {
-                    return false;
+                    base.Draw(gameTime);
                 }
             }
-            if (positionSouris.Y < 0)
-            {
-                return false;
-            }
-            else
-            {
-                if (positionSouris.Y > (Grid.Charpente.Y * Grid.Delta.Y) - 2)
-                {
-                    return false;
-                }
-            }
-
-            return true;
+            catch (Exception) { }
         }
     }
 }

@@ -28,11 +28,13 @@ namespace AtelierXNA
 
         public override void Initialize()
         {
+            base.Initialize();
             Vie = 1000;
         }
 
         public override void Update(GameTime gameTime)
         {
+            base.Update(gameTime);
             if (Vie <= 0)
             {
                 Dispose();

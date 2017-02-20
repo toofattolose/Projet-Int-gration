@@ -17,7 +17,7 @@ namespace AtelierXNA
     /// </summary>
     public class Joueur : Model3D
     {
-        string …tat { get; set; }
+        public string …tat { get; set; }
         float IntervalleMAJ { get; set; }
         float Temps…coulÈDepuisMAJ { get; set; }
         float VitesseDÈplacement { get; set; }
@@ -337,6 +337,7 @@ namespace AtelierXNA
                 Temps…coulÈDepuisMAJ = 0;
             }
         }
+
         private void GÈrerPickingConstruction()
         {
             Vector3 positionSouris = TrouverPositionSouris(GestionInput.GetPositionSouris());
