@@ -69,7 +69,7 @@ namespace AtelierXNA
                     {
                         Vector3 vecteurDelta = new Vector3(Grid.DeltaDiviséParDeux, 0, Grid.DeltaDiviséParDeux);
                         Vector3 positionBuilding = new Vector3((positionDansGrid.X * Grid.Delta.X) + vecteurDelta.X, (positionDansGrid.Y * Grid.Delta.Y) + vecteurDelta.Y, (positionDansGrid.Z * Grid.Delta.Y) + vecteurDelta.Z);
-                        Mur buildingMur = new Mur(Game, "player", 0.02f, positionBuilding, Vector3.Zero);
+                        Mur buildingMur = new Mur(Game, "wall", 0.02f, positionBuilding, Vector3.Zero);
                         Game.Components.Add(buildingMur);
                         Grid.TableauGrid[(int)positionDansGrid.X, (int)positionDansGrid.Z] = false;
                     }
@@ -119,7 +119,7 @@ namespace AtelierXNA
                     }
                     else
                     {
-                        NomModele = "player";
+                        NomModele = "wall";
                     }
                 }
             }

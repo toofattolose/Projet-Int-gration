@@ -8,11 +8,18 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using Lidgren.Network;
 
 namespace AtelierXNA
 {
     public class Atelier : Microsoft.Xna.Framework.Game
     {
+        //Network
+        static NetClient Client;
+        static List<JoueurConnection> ListJoueur;
+        static System.Timers.Timer update;
+
+
         const float INTERVALLE_CALCUL_FPS = 1f;
         const float INTERVALLE_MAJ_STANDARD = 1f / 60f;
         GraphicsDeviceManager PériphériqueGraphique { get; set; }
@@ -24,6 +31,7 @@ namespace AtelierXNA
         Ennemis Ennemi { get; set; }
         float TempsÉcouléDepuisMAJ { get; set; }
         int i { get; set; }
+        string HostIp { get; set; }
 
         public Atelier()
         {
@@ -32,6 +40,17 @@ namespace AtelierXNA
             PériphériqueGraphique.SynchronizeWithVerticalRetrace = false;
             IsFixedTimeStep = false;
             IsMouseVisible = true;
+
+            //network connection
+            //NetPeerConfiguration config = new NetPeerConfiguration("game");
+            //Client = new NetClient(config);
+            //NetOutgoingMessage outmsg = Client.CreateMessage();
+            //Client.Start();
+            //outmsg.Write((byte)PacketTypes.LOGIN);
+            //outmsg.Write("myName");
+            //Client.Connect(HostIp, 5009, outmsg);
+
+
         }
 
         protected override void Initialize()
@@ -97,6 +116,13 @@ namespace AtelierXNA
         {
             GraphicsDevice.Clear(Color.Black);
             base.Draw(gameTime);
+        }
+
+        enum PacketTypes
+        {
+            LOGIN,
+            MOVE,
+            WORLDSTATE
         }
     }
 }
