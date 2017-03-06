@@ -6,23 +6,23 @@ using System.Text;
 
 namespace AtelierXNA
 {
-    class Case
+    public enum ÉtatCase { NonTesté, Ouverte, Fermée}
+
+    public class Case
     {
         public Point Position { get; private set; }
-        public bool EstCaseVide { get; set; }
-        public float DistanceCaseDépart { get; private set; }
-        public float DistanceArrivée { get; private set; }
-        public float DistanceTotale { get; set; }
+        public bool Accessible { get; set; }
+        public float G { get; private set; } //Distance case-départ
+        public float H { get; private set; } //Distance case-fin
+        public float F { get { return G + H; } } //H+G
         public ÉtatCase État { get; set; }
-       // public Case CasePrécédente { get { } set { } }
+        public Case CaseParent { get; set; }
 
-        public void CalculerDistances()
+        public Case(bool accessible, Point position)
         {
-            DistanceArrivée = DistanceCaseDépart + DistanceArrivée;
+            Accessible = accessible;
+            Position = position;
         }
-
         
     }
-
-    public enum ÉtatCase {Àtester, Ouverte, Fermée}
 }

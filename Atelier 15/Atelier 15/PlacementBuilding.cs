@@ -72,6 +72,7 @@ namespace AtelierXNA
                         Mur buildingMur = new Mur(Game, "wall", 0.02f, positionBuilding, Vector3.Zero);
                         Game.Components.Add(buildingMur);
                         Grid.TableauGrid[(int)positionDansGrid.X, (int)positionDansGrid.Z] = false;
+                        Grid.GridCase[(int)positionDansGrid.X, (int)positionDansGrid.Z].Accessible = false;
                     }
                 }
             }

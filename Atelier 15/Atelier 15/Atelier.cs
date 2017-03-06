@@ -45,6 +45,17 @@ namespace AtelierXNA
             PériphériqueGraphique.SynchronizeWithVerticalRetrace = false;
             IsFixedTimeStep = false;
             IsMouseVisible = true;
+
+            //network connection
+            //NetPeerConfiguration config = new NetPeerConfiguration("game");
+            //Client = new NetClient(config);
+            //NetOutgoingMessage outmsg = Client.CreateMessage();
+            //Client.Start();
+            //outmsg.Write((byte)PacketTypes.LOGIN);
+            //outmsg.Write("myName");
+            //Client.Connect(HostIp, 5009, outmsg);
+
+
         }
 
         protected override void Initialize()
@@ -68,9 +79,22 @@ namespace AtelierXNA
             Services.AddService(typeof(RessourcesManager<Model>), new RessourcesManager<Model>(this, "Models"));
             GestionSprites = new SpriteBatch(GraphicsDevice);
             Services.AddService(typeof(SpriteBatch), GestionSprites);
-            GenProc = new GenerateurProcedural(this, Vector3.Zero, new Vector3(256, 25, 256), new Vector2(64, 64));
-            ControlePhase = new ControlePhaseDeJeu(this, 120f, 120f);
-            Services.AddService(typeof(ControlePhaseDeJeu), ControlePhase);     
+
+            //Création des composants de base
+            Components.Add(new Afficheur3D(this));
+            Components.Add(new Terrain(this, 1f, Vector3.Zero, Vector3.Zero, new Vector3(256, 25, 256), new Vector2(64, 64), INTERVALLE_MAJ_STANDARD));
+            GenerateurProcedural generateurProc = new GenerateurProcedural(this, Vector3.Zero, new Vector3(256, 25, 256), new Vector2(64, 64));
+            ControlePhaseDeJeu controlePhase = new ControlePhaseDeJeu(this, 120f, 120f);
+            Components.Add(controlePhase);
+            Services.AddService(typeof(ControlePhaseDeJeu), controlePhase);
+            CaméraJeu = new Caméra3rdPerson(this, positionCaméra, cibleCaméra, Vector3.Up, INTERVALLE_MAJ_STANDARD);
+            Services.AddService(typeof(Caméra), CaméraJeu);
+            Components.Add(generateurProc);
+            Components.Add(CaméraJeu);
+            
+            PathFinding pathFinding = new PathFinding(this);
+            Components.Add(pathFinding);
+            base.Initialize();
         }
 
         protected override void Update(GameTime gameTime)
