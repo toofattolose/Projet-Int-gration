@@ -78,6 +78,7 @@ namespace AtelierXNA
                                 Game.Components.Add(new Arbre(Game, "tree2", 0.015f, pos, new Vector3(0, rotation, 0)));
                             }
                             Grid.TableauGrid[i, j] = false;
+                            Grid.GridCase[i, j].Accessible = false;
                         }
                         else
                         {
@@ -85,6 +86,7 @@ namespace AtelierXNA
                             {
                                 Game.Components.Add(new RessourceOr(Game, "gold1", 0.02f, pos, new Vector3(0, rotation, 0)));
                                 Grid.TableauGrid[i, j] = false;
+                                Grid.GridCase[i, j].Accessible = false;
                             }
                             else
                             {
@@ -92,6 +94,7 @@ namespace AtelierXNA
                                 {
                                     Game.Components.Add(new Roche(Game, "rock1", 0.02f, pos, new Vector3(0, rotation, 0)));
                                     Grid.TableauGrid[i, j] = false;
+                                    Grid.GridCase[i, j].Accessible = false;
                                 }
                                 else
                                 {

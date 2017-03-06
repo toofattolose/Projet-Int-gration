@@ -35,6 +35,7 @@ namespace AtelierXNA
         {
             Vector2 positionDansGrid = new Vector2((float)Math.Floor(Position.X / Grid.Delta.X), (float)Math.Floor(Position.Z / Grid.Delta.Y));
             Grid.TableauGrid[(int)positionDansGrid.X, (int)positionDansGrid.Y] = true;
+            Grid.GridCase[(int)positionDansGrid.X, (int)positionDansGrid.Y].Accessible = true;
             Dispose();
         }
     }
