@@ -17,30 +17,26 @@ namespace AtelierXNA
     /// </summary>
     public class PathFindingAStar : Microsoft.Xna.Framework.GameComponent
     {
-        public Point PositionDépart { get; set; }
-        public Point PositionFinale { get; set; }
-        public bool[,] Map { get; set; }
+        public Case CaseDépart { get; set; }
+        public Case CaseCible { get; set; }
+        List<Case> ListCasesOuvertes { get; set; }
+        List<Case> ListCasesFermées { get; set; }
+        List<Case> ListVoisins { get; set; }
+        Case CaseActuelle { get; set; }
         GridDeJeu Grid { get; set; }
-
 
         public PathFindingAStar(Game game):base(game)
         {
         }
 
-        /// <summary>
-        /// Allows the game component to perform any initialization it needs to before starting
-        /// to run.  This is where it can query for any required services and load content.
-        /// </summary>
         public override void Initialize()
         {
             Grid = Game.Services.GetService(typeof(GridDeJeu)) as GridDeJeu;
+            ListCasesFermées = new List<Case>();
+            ListCasesOuvertes = new List<Case>();
             base.Initialize();
         }
 
-        /// <summary>
-        /// Allows the game component to update itself.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime)
         {
             // TODO: Add your update code here
@@ -48,44 +44,81 @@ namespace AtelierXNA
             base.Update(gameTime);
         }
 
-        // ÉTABLIR PATH POINT A AU POINT PLAYER
-        // CRÉER TOUTES LES CASES (TABLEAU 2D)
-
-        //private bool ChercherCaseÀAller(Case case1)
-        //{
-        //    List<Case> casesAdjacentes = TrouverCasesAdjacentesVides(case1);
-        //    casesAdjacentes.OrderBy(x => x.DistanceTotale).ToList();
-        //    foreach (Case caseAdjacente in casesAdjacentes)
-        //    {
-        //    }
-        //}
-
-        //private List<Case> TrouverCasesAdjacentesVides(Case case1)
-        //{
-        //    List<Case> casesVides = new List<Case>();
-        //    List<Point> positionsAdjacentes = TrouverPointsAdjacents(case1.Position);
-        //}
-
-        private List<Point> TrouverPointsAdjacents(Point position)
+        void TrouverPath(Vector2 posDépart, Vector2 posCible)
         {
-            List<Point> positionsAdjacentes = new List<Point>();
+            int VariableExit = 1;
+            CaseDépart = Grid.GridCase[(int)Math.Floor(posDépart.X), (int)Math.Floor(posDépart.Y)];
+            CaseCible = Grid.GridCase[(int)Math.Floor(posCible.X), (int)Math.Floor(posCible.Y)];
 
-            for(int i = -1; i <= 1; ++i)
+            ListCasesOuvertes.Add(CaseDépart);
+            
+            while (ListCasesOuvertes.Count() != 0 && VariableExit != 0)
             {
-                for(int j = -1; j <= 1; ++j)
+                CaseActuelle = ListCasesOuvertes[0];
+                for(int i = 0; i < ListCasesOuvertes.Count(); ++i)
                 {
-                    if(i == 0 && j == 0)
+                    if(ListCasesOuvertes[i].F < CaseActuelle.F || ListCasesOuvertes[i].F == CaseActuelle.F && ListCasesOuvertes[i].H < CaseActuelle.H)
                     {
-                        ++j;
+                        CaseActuelle = ListCasesOuvertes[i];
                     }
+                }
+                ListCasesOuvertes.Remove(CaseActuelle);
+                ListCasesFermées.Add(CaseActuelle);
 
-                    //if() GÉRER BORDURES
-                    positionsAdjacentes.Add(new Point(position.X + i, position.Y + j));
+                if(CaseActuelle == CaseCible)
+                {
+                    VariableExit = 0;
+                }
+                else
+                {
+                    int compteurVoisins = 0;
+                    ListVoisins = Grid.GetVoisins(CaseActuelle);
+                    foreach (Case c in ListVoisins)
+                    {
+                        if(compteurVoisins == 0)
+                        {
+                            if (c.Accessible == false || ListCasesFermées.Contains(c) || (ListVoisins[1].Accessible == false && ListVoisins[3].Accessible == false))
+                            {
+                                continue;
+                            }
+                        }
+                        if(compteurVoisins == 2)
+                        {
+                            if (c.Accessible == false || ListCasesFermées.Contains(c) || (ListVoisins[1].Accessible == false && ListVoisins[4].Accessible == false))
+                            {
+                                continue;
+                            }
+                        }
+                        if(compteurVoisins == 5)
+                        {
+                            if (c.Accessible == false || ListCasesFermées.Contains(c) || (ListVoisins[3].Accessible == false && ListVoisins[6].Accessible == false))
+                            {
+                                continue;
+                            }
+                        }
+                        if(compteurVoisins == 7)
+                        {
+                            if (c.Accessible == false || ListCasesFermées.Contains(c) || (ListVoisins[6].Accessible == false && ListVoisins[4].Accessible == false))
+                            {
+                                continue;
+                            }
+                        }
+                        if(compteurVoisins == 1 || compteurVoisins == 3 || compteurVoisins == 4 || compteurVoisins == 6)
+                        {
+                            if (c.Accessible == false || ListCasesFermées.Contains(c))
+                            {
+                                continue;
+                            }
+                        }
+                    }
                 }
             }
-
-            return positionsAdjacentes;
         }
+
+        //float DistanceCase_Case(Case case1, Case case2)
+        //{
+
+        //}
 
     }
 }

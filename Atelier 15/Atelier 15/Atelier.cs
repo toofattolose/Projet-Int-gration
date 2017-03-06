@@ -67,6 +67,10 @@ namespace AtelierXNA
 
         private void InstantiationDesServices()
         {
+            Vector3 positionCaméra = new Vector3(0, 100, 250);
+            Vector3 cibleCaméra = new Vector3(0, 0, -10);
+            EffetLumiere = new BasicEffect(GraphicsDevice);
+            i = 0;
             EffetLumiere = new BasicEffect(GraphicsDevice);
             GridDeJeu = new GridDeJeu(this, new Vector3(256, 25, 256), new Vector2(64, 64));
             Services.AddService(typeof(GridDeJeu), GridDeJeu);
@@ -81,19 +85,16 @@ namespace AtelierXNA
             Services.AddService(typeof(SpriteBatch), GestionSprites);
 
             //Création des composants de base
-            Components.Add(new Afficheur3D(this));
-            Components.Add(new Terrain(this, 1f, Vector3.Zero, Vector3.Zero, new Vector3(256, 25, 256), new Vector2(64, 64), INTERVALLE_MAJ_STANDARD));
-            GenerateurProcedural generateurProc = new GenerateurProcedural(this, Vector3.Zero, new Vector3(256, 25, 256), new Vector2(64, 64));
-            ControlePhaseDeJeu controlePhase = new ControlePhaseDeJeu(this, 120f, 120f);
-            Components.Add(controlePhase);
-            Services.AddService(typeof(ControlePhaseDeJeu), controlePhase);
-            CaméraJeu = new Caméra3rdPerson(this, positionCaméra, cibleCaméra, Vector3.Up, INTERVALLE_MAJ_STANDARD);
-            Services.AddService(typeof(Caméra), CaméraJeu);
-            Components.Add(generateurProc);
-            Components.Add(CaméraJeu);
-            
-            PathFinding pathFinding = new PathFinding(this);
-            Components.Add(pathFinding);
+            //Components.Add(new Afficheur3D(this));
+            //Components.Add(new Terrain(this, 1f, Vector3.Zero, Vector3.Zero, new Vector3(256, 25, 256), new Vector2(64, 64), INTERVALLE_MAJ_STANDARD));
+            //GenerateurProcedural generateurProc = new GenerateurProcedural(this, Vector3.Zero, new Vector3(256, 25, 256), new Vector2(64, 64));
+            //ControlePhaseDeJeu controlePhase = new ControlePhaseDeJeu(this, 120f, 120f);
+            //Components.Add(controlePhase);
+            //Services.AddService(typeof(ControlePhaseDeJeu), controlePhase);
+            //CaméraJeu = new Caméra3rdPerson(this, positionCaméra, cibleCaméra, Vector3.Up, INTERVALLE_MAJ_STANDARD);
+            //Services.AddService(typeof(Caméra), CaméraJeu);
+            //Components.Add(generateurProc);
+            //Components.Add(CaméraJeu);      
             base.Initialize();
         }
 
@@ -129,11 +130,10 @@ namespace AtelierXNA
             CaméraJeu = new Caméra3rdPerson(this, positionCaméra, cibleCaméra, Vector3.Up, INTERVALLE_MAJ_STANDARD);
             Services.AddService(typeof(Caméra), CaméraJeu);
             Components.Add(CaméraJeu);
-            Components.Add(new Terrain(this, 1f, Vector3.Zero, Vector3.Zero, new Vector3(256, 25, 256), new Vector2(64, 64), INTERVALLE_MAJ_STANDARD));      
+            Components.Add(new Terrain(this, 1f, Vector3.Zero, Vector3.Zero, new Vector3(256, 25, 256), new Vector2(64, 64), INTERVALLE_MAJ_STANDARD));   
+            GenProc = new GenerateurProcedural(this, Vector3.Zero, new Vector3(256, 25, 256), new Vector2(64, 64));
             Components.Add(ControlePhase);
             Components.Add(GenProc);
-            PathFindingAStar pathFinding = new PathFindingAStar(this);
-            Components.Add(pathFinding);
         }
 
         enum PacketTypes
