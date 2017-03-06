@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 using Lidgren.Network;
 
 namespace AtelierXNA
@@ -16,7 +17,14 @@ namespace AtelierXNA
 
         static void Main(string[] args)
         {
-            int valeurNom = 0;
+            int positionDansFicher = 0;
+            List<string> listNomJoueur = new List<string>();
+            char[] split = new char[';'];
+            string pathPourFichierLectureNom = "C:\\Users\\David-alex\\Desktop\\Projet Finale Prog\\listNomJoueur.txt";
+
+            //Console.WriteLine("Entrez le lien du fichier de lecture de nom des joueurs");
+            //pathPourFichierLectureNom = Console.ReadLine();
+
             // Create new instance of configs. Parameter is "application Id". It has to be same on client and server.
             Config = new NetPeerConfiguration("game");
 
@@ -51,7 +59,7 @@ namespace AtelierXNA
             TimeSpan timetopass = new TimeSpan(0, 0, 0, 0, 30);
 
             // Write to con..
-            Console.WriteLine("Waiting for new connections and updateing world state to current ones");
+            Console.WriteLine("Waiting for new connections and updating world state to current ones");
 
             // Main loop
             // This kind of loop can't be made in XNA. In there, its basically same, but without while
@@ -80,12 +88,25 @@ namespace AtelierXNA
                                 inc.SenderConnection.Approve();
 
                                 // Init random
-                                ++valeurNom;
 
                                 // Add new character to the game.
                                 // It adds new player to the list and stores name, ( that was sent from the client )
                                 // Random x, y and stores client IP+Port
-                                GameWorldState.Add(new JoueurConnection("Player"+valeurNom.ToString(), inc.SenderConnection));
+
+
+                                //LECTEUR DE NOM
+                                listNomJoueur.Clear();
+                                StreamReader lecteurFichier = new StreamReader(pathPourFichierLectureNom);
+                                while (!lecteurFichier.EndOfStream)
+                                {
+                                    string ligneEnLecture = lecteurFichier.ReadLine();
+                                    listNomJoueur.Add(ligneEnLecture);
+                                }
+                                
+
+                                GameWorldState.Add(new JoueurConnection(listNomJoueur[positionDansFicher], inc.SenderConnection));
+                                ++positionDansFicher;
+                                lecteurFichier.Close();
 
                                 // Create message, that can be written and sent
                                 NetOutgoingMessage outmsg = Server.CreateMessage();
@@ -122,49 +143,59 @@ namespace AtelierXNA
                         // ( Approval is automated process )
                         case NetIncomingMessageType.Data:
 
-                            // Read first byte
-                            if (inc.ReadByte() == (byte)PacketTypes.SCORE)
+                            if (inc.ReadByte() == (byte)PacketTypes.STARTGAME)
                             {
-                                // Check who sent the message
-                                // This way we know, what character belongs to message sender
-                                foreach (JoueurConnection ch in GameWorldState)
+                                foreach (JoueurConnection j in GameWorldState)
                                 {
-                                    // If stored connection ( check approved message. We stored ip+port there, to character obj )
-                                    // Find the correct character
-                                    if (ch.Connection != inc.SenderConnection)
-                                        continue;
-
-                                    // Read next byte
-                                    int score = inc.ReadInt32();
-
-                                    // Create new message
-                                    NetOutgoingMessage outmsg = Server.CreateMessage();
-
-                                    // Write byte, that is type of world state
-                                    //outmsg.Write((byte)PacketTypes.WORLDSTATE);
-
-                                    // Write int, "how many players in game?"
-                                    //outmsg.Write(GameWorldState.Count);
-
-                                    // Iterate throught all the players in game
-                                    foreach (JoueurConnection ch2 in GameWorldState)
+                                    if (j.Connection != inc.SenderConnection)
                                     {
-                                        // Write all the properties of object to message
-                                        //outmsg.WriteAllProperties(ch2);
-                                        outmsg.Write(ch2.Score);
+                                        continue;
                                     }
-
-                                    // Message contains
-                                    // Byte = PacketType
-                                    // Int = Player count
-                                    // Character obj * Player count
-
-                                    // Send messsage to clients ( All connections, in reliable order, channel 0)
+                                    NetOutgoingMessage outmsg = Server.CreateMessage();
+                                    outmsg.Write((byte)PacketTypes.STARTGAME);
                                     Server.SendMessage(outmsg, Server.Connections, NetDeliveryMethod.ReliableOrdered, 0);
+                                    Console.WriteLine("La partie commmence");
                                     break;
                                 }
-
                             }
+                            // Read first byte
+                            //if (inc.ReadByte() == (byte)PacketTypes.SCORE)
+                            //{
+                            //    // Check who sent the message
+                            //    // This way we know, what character belongs to message sender
+                            //    foreach (JoueurConnection j in GameWorldState)
+                            //    {
+                            //        // If stored connection ( check approved message. We stored ip+port there, to character obj )
+                            //        // Find the correct character
+                            //        if (j.Connection != inc.SenderConnection)
+                            //            continue;
+
+                            //        // Read next byte
+                            //        int score = inc.ReadInt32();
+
+                            //        // Create new message
+                            //        NetOutgoingMessage outmsg = Server.CreateMessage();
+
+                            //        outmsg.Write(score);
+
+                            //        // Write byte, that is type of world state
+                            //        //outmsg.Write((byte)PacketTypes.WORLDSTATE);
+
+                            //        // Write int, "how many players in game?"
+                            //        //outmsg.Write(GameWorldState.Count);
+
+                            //        // Message contains
+                            //        // Byte = PacketType
+                            //        // Int = Player count
+                            //        // Character obj * Player count
+
+                            //        // Send messsage to clients ( All connections, in reliable order, channel 0)
+                            //        Server.SendMessage(outmsg, Server.Connections, NetDeliveryMethod.ReliableOrdered, 0);
+                            //        break;
+                            //    }
+
+                            //}
+                            
                             break;
                         case NetIncomingMessageType.StatusChanged:
                             // In case status changed
@@ -249,8 +280,8 @@ namespace AtelierXNA
     enum PacketTypes
     {
         LOGIN,
-        SCORE,
-        WORLDSTATE
+        WORLDSTATE,
+        STARTGAME
     }
     //class LoginPacket
     //{

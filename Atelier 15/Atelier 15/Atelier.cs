@@ -32,6 +32,11 @@ namespace AtelierXNA
         float TempsÉcouléDepuisMAJ { get; set; }
         int i { get; set; }
         string HostIp { get; set; }
+        bool PartieCommencée { get; set; }
+        bool MondeGénéré { get; set; }
+        GridDeJeu GridDeJeu { get; set; }
+        GenerateurProcedural GenProc { get; set; }
+        ControlePhaseDeJeu ControlePhase { get; set; }
 
         public Atelier()
         {
@@ -40,67 +45,37 @@ namespace AtelierXNA
             PériphériqueGraphique.SynchronizeWithVerticalRetrace = false;
             IsFixedTimeStep = false;
             IsMouseVisible = true;
-
-            //network connection
-            //NetPeerConfiguration config = new NetPeerConfiguration("game");
-            //Client = new NetClient(config);
-            //NetOutgoingMessage outmsg = Client.CreateMessage();
-            //Client.Start();
-            //outmsg.Write((byte)PacketTypes.LOGIN);
-            //outmsg.Write("myName");
-            //Client.Connect(HostIp, 5009, outmsg);
-
-
         }
 
         protected override void Initialize()
         {
-            Vector3 positionCaméra = new Vector3(0, 100, 250);
-            Vector3 cibleCaméra = new Vector3(0, 0, -10);
+            InstantiationDesServices();
+            CréationDuJeu();
+            base.Initialize();
+        }
+
+        private void InstantiationDesServices()
+        {
             EffetLumiere = new BasicEffect(GraphicsDevice);
-            i = 0;
-
-
-
+            GridDeJeu = new GridDeJeu(this, new Vector3(256, 25, 256), new Vector2(64, 64));
+            Services.AddService(typeof(GridDeJeu), GridDeJeu);
             GestionInput = new InputManager(this);
-            Components.Add(GestionInput);
-
-            //Grid de jeu
-            GridDeJeu gridDeJeu = new GridDeJeu(this, new Vector3(256, 25, 256), new Vector2(64, 64));
-            Components.Add(gridDeJeu);
-            Services.AddService(typeof(GridDeJeu), gridDeJeu);
-            
-
+            Services.AddService(typeof(InputManager), GestionInput);
             Components.Add(new AfficheurFPS(this, "Arial20", Color.Red, INTERVALLE_CALCUL_FPS));
             Services.AddService(typeof(Random), new Random());
             Services.AddService(typeof(RessourcesManager<SpriteFont>), new RessourcesManager<SpriteFont>(this, "Fonts"));
             Services.AddService(typeof(RessourcesManager<Texture2D>), new RessourcesManager<Texture2D>(this, "Textures"));
             Services.AddService(typeof(RessourcesManager<Model>), new RessourcesManager<Model>(this, "Models"));
-            Services.AddService(typeof(InputManager), GestionInput);
             GestionSprites = new SpriteBatch(GraphicsDevice);
             Services.AddService(typeof(SpriteBatch), GestionSprites);
-
-            //Création des composants de base
-            Components.Add(new Afficheur3D(this));
-            Components.Add(new Terrain(this, 1f, Vector3.Zero, Vector3.Zero, new Vector3(256, 25, 256), new Vector2(64, 64), INTERVALLE_MAJ_STANDARD));
-            GenerateurProcedural generateurProc = new GenerateurProcedural(this, Vector3.Zero, new Vector3(256, 25, 256), new Vector2(64, 64));
-            ControlePhaseDeJeu controlePhase = new ControlePhaseDeJeu(this, 120f, 120f);
-            Components.Add(controlePhase);
-            Services.AddService(typeof(ControlePhaseDeJeu), controlePhase);
-            CaméraJeu = new Caméra3rdPerson(this, positionCaméra, cibleCaméra, Vector3.Up, INTERVALLE_MAJ_STANDARD);
-            Services.AddService(typeof(Caméra), CaméraJeu);
-            Components.Add(generateurProc);
-            Components.Add(CaméraJeu);
-            
-            PathFinding pathFinding = new PathFinding(this);
-            Components.Add(pathFinding);
-            base.Initialize();
+            GenProc = new GenerateurProcedural(this, Vector3.Zero, new Vector3(256, 25, 256), new Vector2(64, 64));
+            ControlePhase = new ControlePhaseDeJeu(this, 120f, 120f);
+            Services.AddService(typeof(ControlePhaseDeJeu), ControlePhase);     
         }
 
         protected override void Update(GameTime gameTime)
         {
             GérerClavier();
-            
             base.Update(gameTime);
         }
 
@@ -118,12 +93,46 @@ namespace AtelierXNA
             base.Draw(gameTime);
         }
 
+        private void CréationDuJeu()
+        {
+            Vector3 positionCaméra = new Vector3(0, 100, 250);
+            Vector3 cibleCaméra = new Vector3(0, 0, -10);
+            //Grid de jeu
+            Components.Add(GridDeJeu);            
+            Components.Add(GestionInput);
+            //Création des composants de base
+            Components.Add(new Afficheur3D(this));
+            CaméraJeu = new Caméra3rdPerson(this, positionCaméra, cibleCaméra, Vector3.Up, INTERVALLE_MAJ_STANDARD);
+            Services.AddService(typeof(Caméra), CaméraJeu);
+            Components.Add(CaméraJeu);
+            Components.Add(new Terrain(this, 1f, Vector3.Zero, Vector3.Zero, new Vector3(256, 25, 256), new Vector2(64, 64), INTERVALLE_MAJ_STANDARD));      
+            Components.Add(ControlePhase);
+            Components.Add(GenProc);
+            PathFindingAStar pathFinding = new PathFindingAStar(this);
+            Components.Add(pathFinding);
+        }
+
         enum PacketTypes
         {
             LOGIN,
             MOVE,
             WORLDSTATE
         }
+
+
+
+        private void RejoindreUneConnection()
+        {
+            //network connection
+            NetPeerConfiguration config = new NetPeerConfiguration("game");
+            Client = new NetClient(config);
+            NetOutgoingMessage outmsg = Client.CreateMessage();
+            Client.Start();
+            outmsg.Write((byte)PacketTypes.LOGIN);
+            outmsg.Write("myName");
+            Client.Connect(HostIp, 5009, outmsg);
+        }
+
     }
 }
 

@@ -15,7 +15,7 @@ namespace AtelierXNA
     /// <summary>
     /// This is a game component that implements IUpdateable.
     /// </summary>
-    public class PathFinding : Microsoft.Xna.Framework.GameComponent
+    public class PathFindingAStar : Microsoft.Xna.Framework.GameComponent
     {
         public Point PositionDépart { get; set; }
         public Point PositionFinale { get; set; }
@@ -23,7 +23,7 @@ namespace AtelierXNA
         GridDeJeu Grid { get; set; }
 
 
-        public PathFinding(Game game):base(game)
+        public PathFindingAStar(Game game):base(game)
         {
         }
 
