@@ -40,6 +40,7 @@ namespace AtelierXNA
         PlacementBuilding BuildingEnPlacement { get; set; }
         MenuUpgradeJoueur MenuUpgrade { get; set; }
         UpgradeJoueurDommage IconUpgrade1 { get; set; }
+        float TempsSpawn { get; set; }
 
         //Upgrade
         public int NiveauDommage { get; set; }
@@ -134,12 +135,14 @@ namespace AtelierXNA
         {
             float tempsÉcoulé = (float)gameTime.ElapsedGameTime.TotalSeconds;
             TempsÉcouléDepuisMAJ += tempsÉcoulé;
+            TempsSpawn += tempsÉcoulé;
             GérerClavierMouvement();
             GérerTir(gameTime);
             GérerPicking();
-            if(tempsÉcoulé == 5)
+            if(TempsSpawn >= 5)
             {
                 Game.Components.Add(new Ennemis(Game, "player", 0.01f, new Vector3(256 / 2f, 0, 256 / 2f), Vector3.Zero));
+                TempsSpawn = 0;
             }
             if (TempsÉcouléDepuisMAJ >= IntervalleMAJ)
             {
