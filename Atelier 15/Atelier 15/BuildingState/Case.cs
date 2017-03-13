@@ -12,8 +12,8 @@ namespace AtelierXNA
     {
         public Point Position { get; private set; }
         public bool Accessible { get; set; }
-        public float G { get; private set; } //Distance case-départ
-        public float H { get; private set; } //Distance case-fin
+        public float G { get; set; } //Distance case-voisin
+        public float H { get; set; } //Distance voisin-fin
         public float F { get { return G + H; } } //H+G
         public ÉtatCase État { get; set; }
         public Case CaseParent { get; set; }
