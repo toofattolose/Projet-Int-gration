@@ -84,7 +84,7 @@ namespace AtelierXNA
                 {
                     ++j.Dommage;
                     j.NombreDOR -= 10;
-                    Niveau = j.Ni
+                    //Niveau = j.Ni
                 }                
             }
         }

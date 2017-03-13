@@ -64,7 +64,7 @@ namespace AtelierXNA
             //    directionBase.Normalize();
             //    Vector3 déplacement = new Vector3(direction.X * 0.05f, 0, direction.Z * 0.05f);
             //    double cosAngle = Vector3.Dot(direction, directionBase);
-            //    if(Objectif.Z > Position.Z)
+            //    if (Objectif.Z > Position.Z)
             //    {
             //        Angle = -(float)Math.Acos(cosAngle);
             //    }
