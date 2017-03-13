@@ -26,26 +26,35 @@ namespace AtelierXNA
         Caméra CaméraJeu { get; set; }
         MouseState GestionSouris { get; set; }
         RessourcesManager<Model> GestionnaireDeModèles { get; set; }
-        float FiringRate { get; set; }
-        public int Dommage { get; set; }
+        
         float TempsÉcouléDepuisDernierTir { get; set; }
         Vector3 Direction { get; set; }
         Model Roche { get; set; }
         const float DELTA = 256f / 64;
+
         public int NombreDeBois { get; set; }
         public int NombreDOR { get; set; }
-        float TempsCollectionRessource { get; set; }
-        int NombreCollectionRessource { get; set; }
+        
         GridDeJeu Grid { get; set; }
         PlacementBuilding BuildingEnPlacement { get; set; }
-        MenuUpgradeJoueur MenuUpgrade { get; set; }
-        UpgradeJoueurDommage IconUpgrade1 { get; set; }
+
 
         //Upgrade
+        MenuUpgradeJoueur MenuUpgrade { get; set; }
+        UpgradeJoueurDommage IconUpgrade1 { get; set; }
+        UpgradeJoueurFiringRate IconUpgrade2 { get; set; }
+        UpgradeJoueurTempsRécolte IconUpgrade3 { get; set; }
+        UpgradeJoueurNombreRécolte IconUpgrade4 { get; set; }
+
         public int NiveauDommage { get; set; }
         public int NiveauTempsRécolte{ get; set; }
         public int NiveauNombreRécolte { get; set; }
         public int NiveauFiringRate { get; set; }
+
+        public float TempsCollectionRessource { get; set; }
+        public int NombreCollectionRessource { get; set; }
+        public float FiringRate { get; set; }
+        public int Dommage { get; set; }
 
 
 
@@ -77,7 +86,7 @@ namespace AtelierXNA
             BuildingEnPlacement = new PlacementBuilding(Game, "tree2", 0.02f, Position, Vector3.Zero);
 
             //Initialisation des données de stats du joueur
-            FiringRate = 0.5f;
+            FiringRate = 1;
             Dommage = 1;
             NombreCollectionRessource = 1;
             TempsCollectionRessource = 1f;
@@ -123,6 +132,9 @@ namespace AtelierXNA
                 {
                     MenuUpgrade.Dispose();
                     IconUpgrade1.Dispose();
+                    IconUpgrade2.Dispose();
+                    IconUpgrade3.Dispose();
+                    IconUpgrade4.Dispose();
                     État = "enMouvement";
                 }
                 TempsÉcouléDepuisMAJ = 0;
@@ -151,8 +163,14 @@ namespace AtelierXNA
                 {
                     MenuUpgrade = new MenuUpgradeJoueur(Game);
                     IconUpgrade1 = new UpgradeJoueurDommage(Game,new Vector2(32, 300 + 36), "Sprites/spr_upgrade_icon_1");
+                    IconUpgrade2 = new UpgradeJoueurFiringRate(Game, new Vector2(32 + 128, 300 + 36), "Sprites/spr_upgrade_icon_2");
+                    IconUpgrade3 = new UpgradeJoueurTempsRécolte(Game, new Vector2(32 + 128 + 128, 300 + 36), "Sprites/spr_upgrade_icon_3");
+                    IconUpgrade4 = new UpgradeJoueurNombreRécolte(Game, new Vector2(32 + 128 + 128 + 128, 300 + 36), "Sprites/spr_upgrade_icon_4");
                     Game.Components.Add(MenuUpgrade);
                     Game.Components.Add(IconUpgrade1);
+                    Game.Components.Add(IconUpgrade2);
+                    Game.Components.Add(IconUpgrade3);
+                    Game.Components.Add(IconUpgrade4);
                     État = "estEnUpgrade";
                 }
                 TempsÉcouléDepuisMAJ = 0;

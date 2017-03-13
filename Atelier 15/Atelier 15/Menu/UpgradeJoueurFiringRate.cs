@@ -15,7 +15,7 @@ namespace AtelierXNA
     /// <summary>
     /// This is a game component that implements IUpdateable.
     /// </summary>
-    public class UpgradeJoueurDommage : UpgradeIcon
+    public class UpgradeJoueurFiringRate : UpgradeIcon
     {
         InputManager GestionInput { get; set; }
         float IntervalleMAJ { get; set; }
@@ -23,12 +23,12 @@ namespace AtelierXNA
         string Niveau { get; set; }
         SpriteFont ArialFont { get; set; }
 
-        public UpgradeJoueurDommage(Game game,Vector2 position, string locationTexture)
+        public UpgradeJoueurFiringRate(Game game, Vector2 position, string locationTexture)
             : base(game,position, locationTexture)
         {
-            foreach(Joueur j in Game.Components.OfType<Joueur>())
+            foreach (Joueur j in Game.Components.OfType<Joueur>())
             {
-                Niveau = j.NiveauDommage.ToString();
+                Niveau = j.NiveauFiringRate.ToString();
             }
         }
 
@@ -76,18 +76,17 @@ namespace AtelierXNA
             }
         }
 
-
         private void FaireUpgrade()
         {
-            foreach(Joueur j in Game.Components.OfType<Joueur>())
+            foreach (Joueur j in Game.Components.OfType<Joueur>())
             {
                 if (j.NombreDOR >= 10)
                 {
-                    ++j.Dommage;
+                    j.FiringRate = 0.5f;
                     j.NombreDOR -= 10;
-                    ++j.NiveauDommage;
-                    Niveau = j.NiveauDommage.ToString();
-                }                
+                    ++j.NiveauFiringRate;
+                    Niveau = j.NiveauFiringRate.ToString();
+                }
             }
         }
     }

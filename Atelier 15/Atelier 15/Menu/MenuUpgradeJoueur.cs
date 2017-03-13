@@ -32,7 +32,6 @@ namespace AtelierXNA
             GestionSprite = new SpriteBatch(Game.GraphicsDevice);
             SpriteMenu = Game.Content.Load<Texture2D>("Sprites/proj_finale_background");
             //Va créer les upgrades du joueur (components)
-            //Game.Components.Add(new UpgradeJoueurDommage(Game, new Vector2(32,300 + 36),"Sprites/spr_upgrade_icon_1"));
         }
 
         public override void Draw(GameTime gameTime)

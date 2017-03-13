@@ -1,4 +1,4 @@
-using System;
+Ôªøusing System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
@@ -15,18 +15,18 @@ namespace AtelierXNA
     /// <summary>
     /// This is a game component that implements IUpdateable.
     /// </summary>
-    public class UpgradeJoueurDommage : UpgradeIcon
+    public class UpgradeJoueurNombreR√©colte : UpgradeIcon
     {
         InputManager GestionInput { get; set; }
         float IntervalleMAJ { get; set; }
-        float Temps…coulÈDepuisMAJ { get; set; }
+        float Temps√âcoul√©DepuisMAJ { get; set; }
         string Niveau { get; set; }
         SpriteFont ArialFont { get; set; }
 
-        public UpgradeJoueurDommage(Game game,Vector2 position, string locationTexture)
+        public UpgradeJoueurNombreR√©colte(Game game, Vector2 position, string locationTexture)
             : base(game,position, locationTexture)
         {
-            foreach(Joueur j in Game.Components.OfType<Joueur>())
+            foreach (Joueur j in Game.Components.OfType<Joueur>())
             {
                 Niveau = j.NiveauDommage.ToString();
             }
@@ -42,11 +42,11 @@ namespace AtelierXNA
 
         public override void Update(GameTime gameTime)
         {
-            float temps…coulÈ = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            Temps…coulÈDepuisMAJ += temps…coulÈ;
-            if (Temps…coulÈDepuisMAJ >= IntervalleMAJ)
+            float temps√âcoul√© = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            Temps√âcoul√©DepuisMAJ += temps√âcoul√©;
+            if (Temps√âcoul√©DepuisMAJ >= IntervalleMAJ)
             {
-                GÈrerInput();
+                G√©rerInput();
             }
         }
 
@@ -68,7 +68,7 @@ namespace AtelierXNA
             GestionSprite.DrawString(ArialFont, niveauJoueur, new Vector2(Position.X, Position.Y + 64), Color.White);
         }
 
-        private void GÈrerInput()
+        private void G√©rerInput()
         {
             if (GestionInput.EstNouveauClicGauche() && TrouverSiIntersection())
             {
@@ -79,15 +79,15 @@ namespace AtelierXNA
 
         private void FaireUpgrade()
         {
-            foreach(Joueur j in Game.Components.OfType<Joueur>())
+            foreach (Joueur j in Game.Components.OfType<Joueur>())
             {
                 if (j.NombreDOR >= 10)
                 {
-                    ++j.Dommage;
+                    ++j.NombreCollectionRessource;
                     j.NombreDOR -= 10;
-                    ++j.NiveauDommage;
-                    Niveau = j.NiveauDommage.ToString();
-                }                
+                    ++j.NiveauNombreR√©colte;
+                    Niveau = j.NiveauNombreR√©colte.ToString();
+                }
             }
         }
     }

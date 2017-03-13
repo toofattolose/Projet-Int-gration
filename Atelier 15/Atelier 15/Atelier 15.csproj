@@ -118,6 +118,9 @@
     <Compile Include="Afficheur\AfficheurRessource.cs" />
     <Compile Include="Menu\UpgradeIcon.cs" />
     <Compile Include="Menu\UpgradeJoueurDommage.cs" />
+    <Compile Include="Menu\UpgradeJoueurFiringRate.cs" />
+    <Compile Include="Menu\UpgradeJoueurNombreRécolte.cs" />
+    <Compile Include="Menu\UpgradeJoueurTempsRécolte.cs" />
     <Compile Include="Model3D\Arbre.cs" />
     <Compile Include="Atelier.cs" />
     <Compile Include="Model3D\BalleJoueur.cs" />

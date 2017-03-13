@@ -17,11 +17,11 @@ namespace AtelierXNA
     /// </summary>
     public class UpgradeIcon : DrawableGameComponent
     {
+        InputManager GestionInput { get; set; }
         protected SpriteBatch GestionSprite { get; set; }
         protected Texture2D SpriteUpgrade { get; set; }
         protected Vector2 Position { get; set; }
         string LocationTexture { get; set; }
-        protected Rectangle RectangleDeCollision { get; set; }
         
 
         public UpgradeIcon(Game game, Vector2 position, string locationTexture)
@@ -34,10 +34,9 @@ namespace AtelierXNA
         public override void Initialize()
         {
             // TODO: Add your initialization code here
-            
+            GestionInput = Game.Services.GetService(typeof(InputManager)) as InputManager;
             GestionSprite = new SpriteBatch(Game.GraphicsDevice);
             SpriteUpgrade = Game.Content.Load<Texture2D>(LocationTexture);
-            RectangleDeCollision = new Rectangle((int)Position.X, (int)Position.Y, SpriteUpgrade.Width, SpriteUpgrade.Height);
             base.Initialize();
         }
 
@@ -57,6 +56,21 @@ namespace AtelierXNA
         private void DessinerIcon()
         {
             GestionSprite.Draw(SpriteUpgrade, Position, Color.White);
+        }
+
+        protected bool TrouverSiIntersection()
+        {
+            for (int i = 0; i < 64; i++)
+            {
+                for (int j = 0; j < 64; j++)
+                {
+                    if ((GestionInput.GetPositionSouris().X == Position.X + i) && GestionInput.GetPositionSouris().Y == Position.Y + j)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
     }
 }
