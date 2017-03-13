@@ -15,10 +15,12 @@ namespace AtelierXNA
     /// <summary>
     /// This is a game component that implements IUpdateable.
     /// </summary>
-    public class Mur : Batiment
+    public class BatimentRechargable : Batiment
     {
+        public int NombreMaxEnergie { get; set; }
+        public int NombrePtsEnergie { get; set; }
 
-        public Mur(Game game, string nomModele, float échelle, Vector3 position, Vector3 rotationInitiale)
+        public BatimentRechargable(Game game, string nomModele, float échelle, Vector3 position, Vector3 rotationInitiale)
             : base(game, nomModele,échelle,position,rotationInitiale)
         {
             // TODO: Construct any child components here
@@ -27,17 +29,8 @@ namespace AtelierXNA
         public override void Initialize()
         {
             base.Initialize();
-            NombreMaxPtsDeVie = 1000;
-            NombrePtsDeVie = NombreMaxPtsDeVie;
-        }
-
-        public override void Update(GameTime gameTime)
-        {
-            base.Update(gameTime);
-            if (NombrePtsDeVie <= 0)
-            {
-                Dispose();
-            }
+            NombreMaxEnergie = 100;
+            NombrePtsEnergie = NombreMaxEnergie;
         }
     }
 }

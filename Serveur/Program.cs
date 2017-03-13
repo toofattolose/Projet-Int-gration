@@ -17,10 +17,8 @@ namespace AtelierXNA
 
         static void Main(string[] args)
         {
-            int positionDansFicher = 0;
             List<string> listNomJoueur = new List<string>();
             char[] split = new char[';'];
-            string pathPourFichierLectureNom = "C:\\Users\\David-alex\\Desktop\\Projet Finale Prog\\listNomJoueur.txt";
 
             //Console.WriteLine("Entrez le lien du fichier de lecture de nom des joueurs");
             //pathPourFichierLectureNom = Console.ReadLine();
@@ -86,7 +84,7 @@ namespace AtelierXNA
 
                                 // Approve clients connection ( Its sort of agreenment. "You can be my client and i will host you" )
                                 inc.SenderConnection.Approve();
-
+                                string nom = inc.ReadString() + (GameWorldState.Count + 1).ToString();
                                 // Init random
 
                                 // Add new character to the game.
@@ -95,18 +93,9 @@ namespace AtelierXNA
 
 
                                 //LECTEUR DE NOM
-                                listNomJoueur.Clear();
-                                StreamReader lecteurFichier = new StreamReader(pathPourFichierLectureNom);
-                                while (!lecteurFichier.EndOfStream)
-                                {
-                                    string ligneEnLecture = lecteurFichier.ReadLine();
-                                    listNomJoueur.Add(ligneEnLecture);
-                                }
-                                
 
-                                GameWorldState.Add(new JoueurConnection(listNomJoueur[positionDansFicher], inc.SenderConnection));
-                                ++positionDansFicher;
-                                lecteurFichier.Close();
+                                //GameWorldState.Add(new JoueurConnection(listNomJoueur[positionDansFicher], inc.SenderConnection));
+                                GameWorldState.Add(new JoueurConnection(nom, inc.SenderConnection));
 
                                 // Create message, that can be written and sent
                                 NetOutgoingMessage outmsg = Server.CreateMessage();
@@ -136,6 +125,7 @@ namespace AtelierXNA
 
                                 // Debug
                                 Console.WriteLine("Approved new connection and updated the world status");
+                                Console.WriteLine(nom);
                             }
 
                             break;
@@ -158,43 +148,6 @@ namespace AtelierXNA
                                     break;
                                 }
                             }
-                            // Read first byte
-                            //if (inc.ReadByte() == (byte)PacketTypes.SCORE)
-                            //{
-                            //    // Check who sent the message
-                            //    // This way we know, what character belongs to message sender
-                            //    foreach (JoueurConnection j in GameWorldState)
-                            //    {
-                            //        // If stored connection ( check approved message. We stored ip+port there, to character obj )
-                            //        // Find the correct character
-                            //        if (j.Connection != inc.SenderConnection)
-                            //            continue;
-
-                            //        // Read next byte
-                            //        int score = inc.ReadInt32();
-
-                            //        // Create new message
-                            //        NetOutgoingMessage outmsg = Server.CreateMessage();
-
-                            //        outmsg.Write(score);
-
-                            //        // Write byte, that is type of world state
-                            //        //outmsg.Write((byte)PacketTypes.WORLDSTATE);
-
-                            //        // Write int, "how many players in game?"
-                            //        //outmsg.Write(GameWorldState.Count);
-
-                            //        // Message contains
-                            //        // Byte = PacketType
-                            //        // Int = Player count
-                            //        // Character obj * Player count
-
-                            //        // Send messsage to clients ( All connections, in reliable order, channel 0)
-                            //        Server.SendMessage(outmsg, Server.Connections, NetDeliveryMethod.ReliableOrdered, 0);
-                            //        break;
-                            //    }
-
-                            //}
                             
                             break;
                         case NetIncomingMessageType.StatusChanged:
@@ -216,6 +169,7 @@ namespace AtelierXNA
                                     if (cha.Connection == inc.SenderConnection)
                                     {
                                         GameWorldState.Remove(cha);
+                                        Console.WriteLine(cha.Nom + " s'est déconnecté");
                                         break;
                                     }
                                 }
@@ -281,7 +235,7 @@ namespace AtelierXNA
     {
         LOGIN,
         WORLDSTATE,
-        STARTGAME
+        STARTGAME,
     }
     //class LoginPacket
     //{

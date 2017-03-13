@@ -15,29 +15,15 @@ namespace AtelierXNA
     /// <summary>
     /// This is a game component that implements IUpdateable.
     /// </summary>
-    public class Mur : Batiment
+    public class Batiment : Model3D
     {
+        public int NombrePtsDeVie { get; set; }
+        public int NombreMaxPtsDeVie { get; set; }
 
-        public Mur(Game game, string nomModele, float échelle, Vector3 position, Vector3 rotationInitiale)
+        public Batiment(Game game, string nomModele, float échelle, Vector3 position, Vector3 rotationInitiale)
             : base(game, nomModele,échelle,position,rotationInitiale)
         {
             // TODO: Construct any child components here
-        }
-
-        public override void Initialize()
-        {
-            base.Initialize();
-            NombreMaxPtsDeVie = 1000;
-            NombrePtsDeVie = NombreMaxPtsDeVie;
-        }
-
-        public override void Update(GameTime gameTime)
-        {
-            base.Update(gameTime);
-            if (NombrePtsDeVie <= 0)
-            {
-                Dispose();
-            }
         }
     }
 }

@@ -115,9 +115,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Afficheur3D.cs" />
+    <Compile Include="AfficheurRessource.cs" />
     <Compile Include="Arbre.cs" />
     <Compile Include="Atelier.cs" />
     <Compile Include="BalleJoueur.cs" />
+    <Compile Include="Batiment.cs" />
+    <Compile Include="BatimentRechargable.cs" />
     <Compile Include="Caméra.cs" />
     <Compile Include="Caméra3rdPerson.cs" />
     <Compile Include="Case.cs" />
@@ -125,6 +128,7 @@
     <Compile Include="ControlePhaseDeJeu.cs" />
     <Compile Include="Ennemis.cs" />
     <Compile Include="GenerateurProcedural.cs" />
+    <Compile Include="Generatrice.cs" />
     <Compile Include="GridDeJeu.cs" />
     <Compile Include="JoueurConnection.cs" />
     <Compile Include="PathFindingAStar.cs" />
@@ -139,6 +143,7 @@
     <Compile Include="PrimitiveDeBaseAnimée.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="Reparateur.cs" />
     <Compile Include="RessourceOr.cs" />
     <Compile Include="Roche.cs" />
     <Compile Include="Terrain.cs" />
