@@ -64,8 +64,8 @@ namespace AtelierXNA
 
         private void DessinerNiveau()
         {
-            string niveauJoueur = "Niveau " + Niveau;
-            GestionSprite.DrawString(ArialFont, niveauJoueur, new Vector2(Position.X, Position.Y + 64), Color.White);
+            string niveauJoueur = "Cadence " + Niveau;
+            GestionSprite.DrawString(ArialFont, niveauJoueur, new Vector2(Position.X-16 , Position.Y + 64), Color.White);
         }
 
         private void GérerInput()

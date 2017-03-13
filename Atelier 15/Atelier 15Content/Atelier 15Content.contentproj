@@ -177,11 +177,6 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Sprites\spr_upgrade_icon_1.png">
-      <Name>spr_upgrade_icon_1</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
     <Compile Include="Sprites\spr_upgrade_icon_2.png">
       <Name>spr_upgrade_icon_2</Name>
       <Importer>TextureImporter</Importer>
@@ -194,6 +189,13 @@
     </Compile>
     <Compile Include="Sprites\spr_upgrade_icon_4.png">
       <Name>spr_upgrade_icon_4</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Sprites\spr_upgrade_icon_1.png">
+      <Name>spr_upgrade_icon_1</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

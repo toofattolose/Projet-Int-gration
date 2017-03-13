@@ -98,7 +98,7 @@ namespace AtelierXNA
                 if (GestionInput.EstEnfoncée(Keys.LeftShift) || GestionInput.EstEnfoncée(Keys.RightShift))
                 {
                      GérerDéplacement();
-                    CréerPointDeVue(Position, Cible, OrientationVerticale);
+                     CréerPointDeVue(Position, Cible, OrientationVerticale);
                 }
                 TempsÉcouléDepuisMAJ = 0;
             }
