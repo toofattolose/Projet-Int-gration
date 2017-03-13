@@ -27,7 +27,7 @@ namespace AtelierXNA
         MouseState GestionSouris { get; set; }
         RessourcesManager<Model> GestionnaireDeModèles { get; set; }
         float FiringRate { get; set; }
-        int Dommage { get; set; }
+        public int Dommage { get; set; }
         float TempsÉcouléDepuisDernierTir { get; set; }
         Vector3 Direction { get; set; }
         Model Roche { get; set; }
@@ -38,7 +38,15 @@ namespace AtelierXNA
         int NombreCollectionRessource { get; set; }
         GridDeJeu Grid { get; set; }
         PlacementBuilding BuildingEnPlacement { get; set; }
-        Game game { get; set; }
+        MenuUpgradeJoueur MenuUpgrade { get; set; }
+        UpgradeJoueurDommage IconUpgrade1 { get; set; }
+
+        //Upgrade
+        public int NiveauDommage { get; set; }
+        public int NiveauTempsRécolte{ get; set; }
+        public int NiveauNombreRécolte { get; set; }
+        public int NiveauFiringRate { get; set; }
+
 
 
 
@@ -51,6 +59,13 @@ namespace AtelierXNA
 
         public override void Initialize()
         {
+            //Upgrade
+            NiveauDommage = 1;
+            NiveauFiringRate = 1;
+            NiveauNombreRécolte = 1;
+            NiveauTempsRécolte = 1;
+
+
             État = "enMouvement";
             Grid = Game.Services.GetService(typeof(GridDeJeu)) as GridDeJeu;
             VitesseDéplacement = 0.2f;
@@ -85,6 +100,32 @@ namespace AtelierXNA
                 case ("estMort"):
                     EstMort(gameTime);
                     break;
+                case ("estEnUpgrade"):
+                    EstEnUpgrade(gameTime);
+                    break;
+            }
+        }
+
+        private void EstEnUpgrade(GameTime gameTime)
+        {
+            float tempsÉcoulé = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            TempsÉcouléDepuisMAJ += tempsÉcoulé;
+            if (TempsÉcouléDepuisMAJ >= IntervalleMAJ)
+            {
+                CaméraJeu.Déplacer(Position);
+                CalculerMonde();
+                if (GestionInput.EstNouvelleTouche(Keys.B))
+                {
+                    Game.Components.Add(BuildingEnPlacement);
+                    État = "enConstruction";
+                }
+                if (GestionInput.EstNouvelleTouche(Keys.M))
+                {
+                    MenuUpgrade.Dispose();
+                    IconUpgrade1.Dispose();
+                    État = "enMouvement";
+                }
+                TempsÉcouléDepuisMAJ = 0;
             }
         }
 
@@ -105,6 +146,19 @@ namespace AtelierXNA
                 GérerRotationJoueur();
                 CaméraJeu.Déplacer(Position);
                 CalculerMonde();
+                if (GestionInput.EstNouvelleTouche(Keys.B))
+                {
+                    Game.Components.Add(BuildingEnPlacement);
+                    État = "enConstruction";
+                }
+                if (GestionInput.EstNouvelleTouche(Keys.M))
+                {
+                    MenuUpgrade = new MenuUpgradeJoueur(Game);
+                    IconUpgrade1 = new UpgradeJoueurDommage(Game,new Vector2(32, 300 + 36), "Sprites/spr_upgrade_icon_1");
+                    Game.Components.Add(MenuUpgrade);
+                    Game.Components.Add(IconUpgrade1);
+                    État = "estEnUpgrade";
+                }
                 TempsÉcouléDepuisMAJ = 0;
             }
         }
@@ -289,11 +343,7 @@ namespace AtelierXNA
                     Position += déplacement;
                 }
             }
-            if (GestionInput.EstNouvelleTouche(Keys.B))
-            {
-                Game.Components.Add(BuildingEnPlacement);
-                État = "enConstruction";
-            }
+            
         }
 
         private bool VérifierSiDéplacementPossible(Vector3 déplacement)
@@ -339,6 +389,12 @@ namespace AtelierXNA
                 GérerClavierConstruction();
                 CaméraJeu.Déplacer(Position);
                 CalculerMonde();
+                if (GestionInput.EstNouvelleTouche(Keys.M))
+                {
+                    MenuUpgrade = new MenuUpgradeJoueur(Game);
+                    Game.Components.Add(MenuUpgrade);
+                    État = "estEnUpgrade";
+                }
                 TempsÉcouléDepuisMAJ = 0;
             }
         }

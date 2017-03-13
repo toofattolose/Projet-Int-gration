@@ -61,18 +61,38 @@ namespace AtelierXNA
         {
             if (GestionInput.EstNouveauClicGauche())
             {
+                Vector3 positionSouris = TrouverPositionSouris(GestionInput.GetPositionSouris());
+                Vector3 vecteurDelta = new Vector3(Grid.DeltaDiviséParDeux, 0, Grid.DeltaDiviséParDeux);
+                Vector3 positionDansGrid = new Vector3((float)Math.Floor(positionSouris.X / Grid.Delta.X), 0, (float)Math.Floor(positionSouris.Z / Grid.Delta.Y));
+                Vector3 positionBuilding = new Vector3((positionDansGrid.X * Grid.Delta.X) + vecteurDelta.X, (positionDansGrid.Y * Grid.Delta.Y) + vecteurDelta.Y, (positionDansGrid.Z * Grid.Delta.Y) + vecteurDelta.Z);
                 if (TypeBuilding == 3)
-                {
-                    Vector3 positionSouris = TrouverPositionSouris(GestionInput.GetPositionSouris());
-                    Vector3 positionDansGrid = new Vector3((float)Math.Floor(positionSouris.X / Grid.Delta.X), 0, (float)Math.Floor(positionSouris.Z / Grid.Delta.Y));
+                {                    
                     if (Grid.TableauGrid[(int)positionDansGrid.X,(int)positionDansGrid.Z])
                     {
-                        Vector3 vecteurDelta = new Vector3(Grid.DeltaDiviséParDeux, 0, Grid.DeltaDiviséParDeux);
-                        Vector3 positionBuilding = new Vector3((positionDansGrid.X * Grid.Delta.X) + vecteurDelta.X, (positionDansGrid.Y * Grid.Delta.Y) + vecteurDelta.Y, (positionDansGrid.Z * Grid.Delta.Y) + vecteurDelta.Z);
                         Mur buildingMur = new Mur(Game, "wall", 0.02f, positionBuilding, Vector3.Zero);
                         Game.Components.Add(buildingMur);
                         Grid.TableauGrid[(int)positionDansGrid.X, (int)positionDansGrid.Z] = false;
                         Grid.GridCase[(int)positionDansGrid.X, (int)positionDansGrid.Z].Accessible = false;
+                    }
+                }
+                else
+                {
+                    if (TypeBuilding == 2)
+                    {
+                        Generatrice buildingGeneratrice = new Generatrice(Game, "generator", 0.02f, positionBuilding, Vector3.Zero);
+                        Game.Components.Add(buildingGeneratrice);
+                        Grid.TableauGrid[(int)positionDansGrid.X, (int)positionDansGrid.Z] = false;
+                        Grid.GridCase[(int)positionDansGrid.X, (int)positionDansGrid.Z].Accessible = false;
+                    }
+                    else
+                    {
+                        if (TypeBuilding == 1)
+                        {                           
+                            Reparateur buildingReparateur = new Reparateur(Game, "reparator", 0.02f, positionBuilding, Vector3.Zero);
+                            Game.Components.Add(buildingReparateur);
+                            Grid.TableauGrid[(int)positionDansGrid.X, (int)positionDansGrid.Z] = false;
+                            Grid.GridCase[(int)positionDansGrid.X, (int)positionDansGrid.Z].Accessible = false;
+                        }
                     }
                 }
             }
@@ -110,13 +130,13 @@ namespace AtelierXNA
             {
                 if (TypeBuilding == 1)
                 {
-                    NomModele = "tree1";
+                    NomModele = "reparator";
                 }
                 else
                 {
                     if (TypeBuilding == 2)
                     {
-                        NomModele = "rock1";
+                        NomModele = "generator";
                     }
                     else
                     {
