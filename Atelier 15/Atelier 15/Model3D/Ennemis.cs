@@ -14,6 +14,7 @@ namespace AtelierXNA
 {
     public class Ennemis : Model3D
     {
+        const int Delta = 4;
         public float Vie { get; set; }
         public float Dmg { get; set; }
         public int NumVague { get; set; }
@@ -30,13 +31,12 @@ namespace AtelierXNA
         public Ennemis(Game game, string nomModele, float échelle, Vector3 position, Vector3 rotationInitiale)
             : base(game, nomModele, échelle, position, rotationInitiale)
         {
-            PositionDépart = new Vector2(position.X, position.Z);
             PathFinding = new PathFindingAStar(game);
         }
 
         public override void Initialize()
         {
-            foreach(Joueur j in Game.Components)
+            foreach(Joueur j in Game.Components.OfType<Joueur>())
             {
                 Player = j;
             }
@@ -49,33 +49,33 @@ namespace AtelierXNA
         {
             float tempsÉcoulé = (float)gameTime.ElapsedGameTime.TotalSeconds;
             TempsÉcouléMAJ += tempsÉcoulé;
-            PathFinding.TrouverPath(PositionDépart, new Vector2(Player.Position.X, Player.Position.Z));
-            Path = PathFinding.Path;
-            CaseEnnemi = new Case(true, new Point((int)Math.Floor(Position.X), (int)Math.Floor(Position.Z)));
+            //PathFinding.TrouverPath(new Vector2(Position.X, Position.Z), new Vector2(Player.Position.X, Player.Position.Z));
+            //Path = PathFinding.Path;
+            //CaseEnnemi = new Case(true, new Point((int)(Position.X / Delta), (int)(Position.Z / Delta)));
 
-            int indexEnnemi = Path.IndexOf(Path.Find(c => c == CaseEnnemi));
-            CaseSuivante = Path[indexEnnemi + 1];
+            //int indexEnnemi = Path.IndexOf(Path.Find(c => c.Position == CaseEnnemi.Position));
+            //CaseSuivante = Path[indexEnnemi + 1];
 
-            if (TempsÉcouléMAJ >= 1 / 60f)
-            {
-                Vector3 direction = new Vector3(CaseSuivante.Position.X - CaseEnnemi.Position.X, 0, CaseSuivante.Position.Y - CaseEnnemi.Position.Y);
-                Vector3 directionBase = Vector3.UnitX;
-                direction.Normalize();
-                directionBase.Normalize();
-                Vector3 déplacement = new Vector3(direction.X * 0.05f, 0, direction.Z * 0.05f);
-                double cosAngle = Vector3.Dot(direction, directionBase);
-                if(Objectif.Z > Position.Z)
-                {
-                    Angle = -(float)Math.Acos(cosAngle);
-                }
-                else
-                {
-                    Angle = (float)Math.Acos(cosAngle);
-                }
-                Rotation = new Vector3(0, Angle, 0);
-                Position += déplacement;
-                TempsÉcouléMAJ = 0;
-            }
+            //if (TempsÉcouléMAJ >= 1 / 60f)
+            //{
+            //    Vector3 direction = new Vector3(CaseSuivante.Position.X * Delta - CaseEnnemi.Position.X * Delta, 0, CaseSuivante.Position.Y * Delta - CaseEnnemi.Position.Y * Delta);
+            //    Vector3 directionBase = Vector3.UnitX;
+            //    direction.Normalize();
+            //    directionBase.Normalize();
+            //    Vector3 déplacement = new Vector3(direction.X * 0.05f, 0, direction.Z * 0.05f);
+            //    double cosAngle = Vector3.Dot(direction, directionBase);
+            //    if(Objectif.Z > Position.Z)
+            //    {
+            //        Angle = -(float)Math.Acos(cosAngle);
+            //    }
+            //    else
+            //    {
+            //        Angle = (float)Math.Acos(cosAngle);
+            //    }
+            //    Rotation = new Vector3(0, Angle, 0);
+            //    Position += déplacement;
+            //    TempsÉcouléMAJ = 0;
+            //}
             CalculerMonde();
             base.Update(gameTime);
         }
