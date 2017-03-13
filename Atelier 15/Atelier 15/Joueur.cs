@@ -100,6 +100,11 @@ namespace AtelierXNA
                 GérerRotationJoueur();
                 CaméraJeu.Déplacer(Position);
                 CalculerMonde();
+                if (GestionInput.EstNouvelleTouche(Keys.B))
+                {
+                    Game.Components.Add(BuildingEnPlacement);
+                    État = "enConstruction";
+                }
                 TempsÉcouléDepuisMAJ = 0;
             }
         }
@@ -284,11 +289,7 @@ namespace AtelierXNA
                     Position += déplacement;
                 }
             }
-            if (GestionInput.EstNouvelleTouche(Keys.B))
-            {
-                Game.Components.Add(BuildingEnPlacement);
-                État = "enConstruction";
-            }
+            
         }
 
         private bool VérifierSiDéplacementPossible(Vector3 déplacement)

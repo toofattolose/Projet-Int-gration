@@ -108,6 +108,7 @@ namespace AtelierXNA
                     }  
                 }
             }
+            Game.Components.Add(new AfficheurRessource(Game));
         }
         private float TrouverValeurAléatoire(int valeurMin, int valeurMax)
         {

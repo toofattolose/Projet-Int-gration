@@ -111,7 +111,6 @@ namespace AtelierXNA
             GenProc = new GenerateurProcedural(this, Vector3.Zero, new Vector3(256, 25, 256), new Vector2(64, 64));
             Components.Add(ControlePhase);
             Components.Add(GenProc);
-            Components.Add(new AfficheurRessource(this));
         }
 
     }
