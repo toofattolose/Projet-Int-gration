@@ -114,39 +114,42 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Afficheur3D.cs" />
-    <Compile Include="AfficheurRessource.cs" />
-    <Compile Include="Arbre.cs" />
+    <Compile Include="Afficheur\Afficheur3D.cs" />
+    <Compile Include="Afficheur\AfficheurRessource.cs" />
+    <Compile Include="Menu\UpgradeIcon.cs" />
+    <Compile Include="Menu\UpgradeJoueurDommage.cs" />
+    <Compile Include="Model3D\Arbre.cs" />
     <Compile Include="Atelier.cs" />
-    <Compile Include="BalleJoueur.cs" />
-    <Compile Include="Batiment.cs" />
-    <Compile Include="BatimentRechargable.cs" />
-    <Compile Include="Caméra.cs" />
-    <Compile Include="Caméra3rdPerson.cs" />
-    <Compile Include="Case.cs" />
-    <Compile Include="CaseDeConstruction.cs" />
-    <Compile Include="ControlePhaseDeJeu.cs" />
-    <Compile Include="Ennemis.cs" />
-    <Compile Include="GenerateurProcedural.cs" />
-    <Compile Include="Generatrice.cs" />
-    <Compile Include="GridDeJeu.cs" />
-    <Compile Include="JoueurConnection.cs" />
-    <Compile Include="PathFindingAStar.cs" />
-    <Compile Include="IClicDroit.cs" />
-    <Compile Include="IClicDroitRessource.cs" />
-    <Compile Include="Joueur.cs" />
-    <Compile Include="Model3D.cs" />
-    <Compile Include="Mur.cs" />
-    <Compile Include="PlacementBuilding.cs" />
-    <Compile Include="Plante.cs" />
-    <Compile Include="PrimitiveDeBase.cs" />
-    <Compile Include="PrimitiveDeBaseAnimée.cs" />
+    <Compile Include="Model3D\BalleJoueur.cs" />
+    <Compile Include="BuildingState\Batiment.cs" />
+    <Compile Include="BuildingState\BatimentRechargable.cs" />
+    <Compile Include="Afficheur\Caméra.cs" />
+    <Compile Include="Afficheur\Caméra3rdPerson.cs" />
+    <Compile Include="BuildingState\Case.cs" />
+    <Compile Include="BuildingState\CaseDeConstruction.cs" />
+    <Compile Include="Terrain\ControlePhaseDeJeu.cs" />
+    <Compile Include="Model3D\Ennemis.cs" />
+    <Compile Include="Terrain\GenerateurProcedural.cs" />
+    <Compile Include="Model3D\Generatrice.cs" />
+    <Compile Include="Terrain\GridDeJeu.cs" />
+    <Compile Include="Menu\JoueurConnection.cs" />
+    <Compile Include="Menu\MenuUpgradeJoueur.cs" />
+    <Compile Include="Terrain\PathFindingAStar.cs" />
+    <Compile Include="Interface\IClicDroit.cs" />
+    <Compile Include="Interface\IClicDroitRessource.cs" />
+    <Compile Include="Model3D\Joueur.cs" />
+    <Compile Include="Model3D\Model3D.cs" />
+    <Compile Include="Model3D\Mur.cs" />
+    <Compile Include="BuildingState\PlacementBuilding.cs" />
+    <Compile Include="Model3D\Plante.cs" />
+    <Compile Include="Afficheur\PrimitiveDeBase.cs" />
+    <Compile Include="Afficheur\PrimitiveDeBaseAnimée.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="Reparateur.cs" />
-    <Compile Include="RessourceOr.cs" />
-    <Compile Include="Roche.cs" />
-    <Compile Include="Terrain.cs" />
+    <Compile Include="Model3D\Reparateur.cs" />
+    <Compile Include="Model3D\RessourceOr.cs" />
+    <Compile Include="Model3D\Roche.cs" />
+    <Compile Include="Terrain\Terrain.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />
@@ -185,6 +188,7 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />
   <!--

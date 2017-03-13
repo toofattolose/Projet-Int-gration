@@ -27,7 +27,7 @@ namespace AtelierXNA
         MouseState GestionSouris { get; set; }
         RessourcesManager<Model> GestionnaireDeModËles { get; set; }
         float FiringRate { get; set; }
-        int Dommage { get; set; }
+        public int Dommage { get; set; }
         float Temps…coulÈDepuisDernierTir { get; set; }
         Vector3 Direction { get; set; }
         Model Roche { get; set; }
@@ -38,6 +38,15 @@ namespace AtelierXNA
         int NombreCollectionRessource { get; set; }
         GridDeJeu Grid { get; set; }
         PlacementBuilding BuildingEnPlacement { get; set; }
+        MenuUpgradeJoueur MenuUpgrade { get; set; }
+        UpgradeJoueurDommage IconUpgrade1 { get; set; }
+
+        //Upgrade
+        public int NiveauDommage { get; set; }
+        public int NiveauTempsRÈcolte{ get; set; }
+        public int NiveauNombreRÈcolte { get; set; }
+        public int NiveauFiringRate { get; set; }
+
 
 
 
@@ -50,6 +59,13 @@ namespace AtelierXNA
 
         public override void Initialize()
         {
+            //Upgrade
+            NiveauDommage = 1;
+            NiveauFiringRate = 1;
+            NiveauNombreRÈcolte = 1;
+            NiveauTempsRÈcolte = 1;
+
+
             …tat = "enMouvement";
             Grid = Game.Services.GetService(typeof(GridDeJeu)) as GridDeJeu;
             VitesseDÈplacement = 0.2f;
@@ -84,6 +100,32 @@ namespace AtelierXNA
                 case ("estMort"):
                     EstMort(gameTime);
                     break;
+                case ("estEnUpgrade"):
+                    EstEnUpgrade(gameTime);
+                    break;
+            }
+        }
+
+        private void EstEnUpgrade(GameTime gameTime)
+        {
+            float temps…coulÈ = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            Temps…coulÈDepuisMAJ += temps…coulÈ;
+            if (Temps…coulÈDepuisMAJ >= IntervalleMAJ)
+            {
+                CamÈraJeu.DÈplacer(Position);
+                CalculerMonde();
+                if (GestionInput.EstNouvelleTouche(Keys.B))
+                {
+                    Game.Components.Add(BuildingEnPlacement);
+                    …tat = "enConstruction";
+                }
+                if (GestionInput.EstNouvelleTouche(Keys.M))
+                {
+                    MenuUpgrade.Dispose();
+                    IconUpgrade1.Dispose();
+                    …tat = "enMouvement";
+                }
+                Temps…coulÈDepuisMAJ = 0;
             }
         }
 
@@ -104,6 +146,14 @@ namespace AtelierXNA
                 {
                     Game.Components.Add(BuildingEnPlacement);
                     …tat = "enConstruction";
+                }
+                if (GestionInput.EstNouvelleTouche(Keys.M))
+                {
+                    MenuUpgrade = new MenuUpgradeJoueur(Game);
+                    IconUpgrade1 = new UpgradeJoueurDommage(Game,new Vector2(32, 300 + 36), "Sprites/spr_upgrade_icon_1");
+                    Game.Components.Add(MenuUpgrade);
+                    Game.Components.Add(IconUpgrade1);
+                    …tat = "estEnUpgrade";
                 }
                 Temps…coulÈDepuisMAJ = 0;
             }
@@ -335,6 +385,12 @@ namespace AtelierXNA
                 GÈrerClavierConstruction();
                 CamÈraJeu.DÈplacer(Position);
                 CalculerMonde();
+                if (GestionInput.EstNouvelleTouche(Keys.M))
+                {
+                    MenuUpgrade = new MenuUpgradeJoueur(Game);
+                    Game.Components.Add(MenuUpgrade);
+                    …tat = "estEnUpgrade";
+                }
                 Temps…coulÈDepuisMAJ = 0;
             }
         }
