@@ -38,6 +38,7 @@ namespace AtelierXNA
         int NombreCollectionRessource { get; set; }
         GridDeJeu Grid { get; set; }
         PlacementBuilding BuildingEnPlacement { get; set; }
+        Game game { get; set; }
 
 
 
@@ -95,6 +96,10 @@ namespace AtelierXNA
             GérerClavierMouvement();
             GérerTir(gameTime);
             GérerPicking();
+            if(tempsÉcoulé == 5)
+            {
+                Game.Components.Add(new Ennemis(Game, "player", 0.01f, new Vector3(256 / 2f, 0, 256 / 2f), Vector3.Zero));
+            }
             if (TempsÉcouléDepuisMAJ >= IntervalleMAJ)
             {
                 GérerRotationJoueur();

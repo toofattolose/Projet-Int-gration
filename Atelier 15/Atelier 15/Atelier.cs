@@ -132,10 +132,9 @@ namespace AtelierXNA
             Components.Add(CaméraJeu);
             Components.Add(new Terrain(this, 1f, Vector3.Zero, Vector3.Zero, new Vector3(256, 25, 256), new Vector2(64, 64), INTERVALLE_MAJ_STANDARD));   
             GenProc = new GenerateurProcedural(this, Vector3.Zero, new Vector3(256, 25, 256), new Vector2(64, 64));
-            Components.Add(ControlePhase);
             Components.Add(GenProc);
         }
-
+        
         enum PacketTypes
         {
             LOGIN,
