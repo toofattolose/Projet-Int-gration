@@ -39,6 +39,8 @@ namespace AtelierXNA
         GridDeJeu Grid { get; set; }
         PlacementBuilding BuildingEnPlacement { get; set; }
 
+        byte TypeBuildingSelectionner { get; set; }
+
 
         //Upgrade
         MenuUpgradeJoueur MenuUpgrade { get; set; }
@@ -47,6 +49,7 @@ namespace AtelierXNA
         UpgradeJoueurTempsRécolte IconUpgradeTempsRécolte { get; set; }
         UpgradeJoueurNombreRécolte IconUpgradeNombreRécolte { get; set; }
         UpgradeMur IconUpgradeMur { get; set; }
+        UpgradeGeneratrice IconUpgradeGeneratrice { get; set; }
 
         public int NiveauDommage { get; set; }
         public int NiveauTempsRécolte{ get; set; }
@@ -60,6 +63,7 @@ namespace AtelierXNA
         public int Vie { get; set; }
 
         Mur MurSélecitonné { get; set; }
+        Generatrice GeneratriceSélectionné { get; set; }
 
 
 
@@ -152,14 +156,34 @@ namespace AtelierXNA
             if (GestionInput.EstNouvelleTouche(Keys.B))
             {
                 MenuUpgrade.Dispose();
-                IconUpgradeMur.Dispose();
+                if (TypeBuildingSelectionner == (byte)TypeUpgrade.Mur)
+                {
+                    IconUpgradeMur.Dispose();
+                }
+                else
+                {
+                    if (TypeBuildingSelectionner == (byte)TypeUpgrade.Generatrice)
+                    {
+                        IconUpgradeGeneratrice.Dispose();
+                    }
+                }
                 Game.Components.Add(BuildingEnPlacement);
                 État = "enConstruction";
             }
             if (GestionInput.EstNouvelleTouche(Keys.M))
             {
                 MenuUpgrade.Dispose();
-                IconUpgradeMur.Dispose();
+                if (TypeBuildingSelectionner == (byte)TypeUpgrade.Mur)
+                {
+                    IconUpgradeMur.Dispose();
+                }
+                else
+                {
+                    if (TypeBuildingSelectionner == (byte)TypeUpgrade.Generatrice)
+                    {
+                        IconUpgradeGeneratrice.Dispose();
+                    }
+                }
                 MenuUpgrade = new MenuUpgradeJoueur(Game);
                 IconUpgradeDommage = new UpgradeJoueurDommage(Game, new Vector2(32, 300 + 36), "Sprites/spr_upgrade_icon1");
                 IconUpgradeFiringRate = new UpgradeJoueurFiringRate(Game, new Vector2(32 + 128, 300 + 36), "Sprites/spr_upgrade_icon2");
@@ -171,6 +195,23 @@ namespace AtelierXNA
                 Game.Components.Add(IconUpgradeTempsRécolte);
                 Game.Components.Add(IconUpgradeNombreRécolte);
                 État = "estEnUpgrade";
+            }
+
+            if (GestionInput.EstNouveauClicDroit())
+            {
+                MenuUpgrade.Dispose();
+                if (TypeBuildingSelectionner == (byte)TypeUpgrade.Mur)
+                {
+                    IconUpgradeMur.Dispose();
+                }
+                else
+                {
+                    if (TypeBuildingSelectionner == (byte)TypeUpgrade.Generatrice)
+                    {
+                        IconUpgradeGeneratrice.Dispose();
+                    }
+                }
+                État = "enMouvement";
             }
         }
 
@@ -372,13 +413,36 @@ namespace AtelierXNA
                             float distanceJoueur = (float)Math.Sqrt(Math.Pow(m.Position.X - Position.X, 2) + Math.Pow(m.Position.Y - Position.Y, 2) + Math.Pow(m.Position.Z - Position.Z, 2));
                             if (distanceJoueur <= 40)
                             {
-                                if (TrouverIntersection(positionSouris, m.Position))
+                                if (TrouverIntersection(positionSouris, m.Position) && État == "enMouvement")
                                 {
                                     MenuUpgrade = new MenuUpgradeJoueur(Game);
                                     IconUpgradeMur = new UpgradeMur(Game, new Vector2(32, 350 + 36), "Sprites/spr_upgrade_icon1", m);
                                     Game.Components.Add(MenuUpgrade);
                                     Game.Components.Add(IconUpgradeMur);
                                     MurSélecitonné = m;
+                                    TypeBuildingSelectionner = (byte)TypeUpgrade.Mur;
+                                    État = "enUpgradeBuilding";
+                                }
+                            }
+                        }
+                    }
+
+                    //sélection de la génératrice
+                    foreach (Generatrice g in Game.Components.OfType<Generatrice>())
+                    {
+                        for (int i = 0; i < g.Modèle.Meshes.Count; i++)
+                        {
+                            float distanceJoueur = (float)Math.Sqrt(Math.Pow(g.Position.X - Position.X, 2) + Math.Pow(g.Position.Y - Position.Y, 2) + Math.Pow(g.Position.Z - Position.Z, 2));
+                            if (distanceJoueur <= 40)
+                            {
+                                if (TrouverIntersection(positionSouris, g.Position) && État == "enMouvement")
+                                {
+                                    MenuUpgrade = new MenuUpgradeJoueur(Game);
+                                    IconUpgradeGeneratrice = new UpgradeGeneratrice(Game, new Vector2(32, 350 + 36), "Sprites/spr_upgrade_icon1", g);
+                                    Game.Components.Add(MenuUpgrade);
+                                    Game.Components.Add(IconUpgradeGeneratrice);
+                                    GeneratriceSélectionné = g;
+                                    TypeBuildingSelectionner = (byte)TypeUpgrade.Generatrice;
                                     État = "enUpgradeBuilding";
                                 }
                             }
@@ -431,7 +495,17 @@ namespace AtelierXNA
                 if (État == "enUpgradeBuilding")
                 {
                     MenuUpgrade.Dispose();
-                    IconUpgradeMur.Dispose();
+                    if (TypeBuildingSelectionner == (byte)TypeUpgrade.Mur)
+                    {
+                        IconUpgradeMur.Dispose();
+                    }
+                    else
+                    {
+                        if (TypeBuildingSelectionner == (byte)TypeUpgrade.Generatrice)
+                        {
+                            IconUpgradeGeneratrice.Dispose();
+                        }
+                    }
                     État = "enMouvement";
                 }
             }
@@ -446,7 +520,17 @@ namespace AtelierXNA
                 if (État == "enUpgradeBuilding")
                 {
                     MenuUpgrade.Dispose();
-                    IconUpgradeMur.Dispose();
+                    if (TypeBuildingSelectionner == (byte)TypeUpgrade.Mur)
+                    {
+                        IconUpgradeMur.Dispose();
+                    }
+                    else
+                    {
+                        if (TypeBuildingSelectionner == (byte)TypeUpgrade.Generatrice)
+                        {
+                            IconUpgradeGeneratrice.Dispose();
+                        }
+                    }
                     État = "enMouvement";
                 }
             }
@@ -461,7 +545,17 @@ namespace AtelierXNA
                 if (État == "enUpgradeBuilding")
                 {
                     MenuUpgrade.Dispose();
-                    IconUpgradeMur.Dispose();
+                    if (TypeBuildingSelectionner == (byte)TypeUpgrade.Mur)
+                    {
+                        IconUpgradeMur.Dispose();
+                    }
+                    else
+                    {
+                        if (TypeBuildingSelectionner == (byte)TypeUpgrade.Generatrice)
+                        {
+                            IconUpgradeGeneratrice.Dispose();
+                        }
+                    }
                     État = "enMouvement";
                 }
             }
@@ -476,7 +570,17 @@ namespace AtelierXNA
                 if (État == "enUpgradeBuilding")
                 {
                     MenuUpgrade.Dispose();
-                    IconUpgradeMur.Dispose();
+                    if (TypeBuildingSelectionner == (byte)TypeUpgrade.Mur)
+                    {
+                        IconUpgradeMur.Dispose();
+                    }
+                    else
+                    {
+                        if (TypeBuildingSelectionner == (byte)TypeUpgrade.Generatrice)
+                        {
+                            IconUpgradeGeneratrice.Dispose();
+                        }
+                    }           
                     État = "enMouvement";
                 }
             }
@@ -575,6 +679,14 @@ namespace AtelierXNA
         private void EstMort(GameTime gameTime)
         {
 
+        }
+        
+        enum TypeUpgrade
+        {
+            Mur,
+            Generatrice,
+            Turret,
+            Reparateur
         }
     }
 }
