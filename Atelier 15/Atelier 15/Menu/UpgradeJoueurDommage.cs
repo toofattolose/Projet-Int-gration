@@ -49,26 +49,26 @@ namespace AtelierXNA
             tableauValeurNiveau[3, 2] = 8; //nombre collection ressource
 
             tableauValeurNiveau[4, 0] = 5;
-            tableauValeurNiveau[4, 0] = 1500;
+            tableauValeurNiveau[4, 1] = 1500;
             tableauValeurNiveau[4, 2] = 16; //nombre collection ressource
 
-            tableauValeurNiveau[5, 1] = 6;
-            tableauValeurNiveau[5, 0] = 3000;
+            tableauValeurNiveau[5, 0] = 6;
+            tableauValeurNiveau[5, 1] = 3000;
             tableauValeurNiveau[5, 2] = 32; //nombre collection ressource
 
-            tableauValeurNiveau[6, 1] = 7;
-            tableauValeurNiveau[6, 0] = 5000;
+            tableauValeurNiveau[6, 0] = 7;
+            tableauValeurNiveau[6, 1] = 5000;
             tableauValeurNiveau[6, 2] = 64; //nombre collection ressource
 
             tableauValeurNiveau[7, 0] = 8;
-            tableauValeurNiveau[7, 0] = 10000;
+            tableauValeurNiveau[7, 1] = 10000;
             tableauValeurNiveau[7, 2] = 128; //nombre collection ressource
 
-            tableauValeurNiveau[8, 1] = 9;
+            tableauValeurNiveau[8, 0] = 9;
             tableauValeurNiveau[8, 1] = 25000;
             tableauValeurNiveau[8, 2] = 256; //nombre collection ressource
 
-            tableauValeurNiveau[9, 1] = 10;
+            tableauValeurNiveau[9, 0] = 10;
             tableauValeurNiveau[9, 1] = 50000;
             tableauValeurNiveau[9, 2] = 512; //nombre collection ressource
         }
@@ -106,7 +106,7 @@ namespace AtelierXNA
         private void DessinerNiveau()
         {
             string niveauJoueur = "Dommage " + Niveau.ToString();
-            string coutOr = "Or: " + tableauValeurNiveau[Niveau, 1].ToString();
+            string coutOr = "Or: " + tableauValeurNiveau[Niveau - 1, 1].ToString();
             GestionSprite.DrawString(ArialFont, niveauJoueur, new Vector2(Position.X-16, Position.Y + 64), Color.White);
             GestionSprite.DrawString(ArialFont, coutOr, new Vector2(Position.X, Position.Y - 32), Color.Yellow);
         }
@@ -122,15 +122,23 @@ namespace AtelierXNA
 
         private void FaireUpgrade()
         {
-            foreach(Joueur j in Game.Components.OfType<Joueur>())
+            bool estUpgrader = false;
+            foreach (Joueur j in Game.Components.OfType<Joueur>())
             {
-                if (j.NombreDOR >= 10)
+                for (int i = 0; i < tableauValeurNiveau.GetLength(0); i++)
                 {
-                    ++j.Dommage;
-                    j.NombreDOR -= 10;
-                    ++j.NiveauDommage;
-                    Niveau = j.NiveauDommage;
-                }                
+                    if (Niveau == tableauValeurNiveau[i, 0] && Niveau != 10 && !estUpgrader)
+                    {
+                        if (j.NombreDOR >= tableauValeurNiveau[i, 1])
+                        {
+                            j.Dommage = (int)tableauValeurNiveau[i + 1, 2];
+                            j.NombreDOR -= (int)tableauValeurNiveau[i, 1];
+                            ++j.NiveauDommage;
+                            Niveau = j.NiveauDommage;
+                            estUpgrader = true;
+                        }
+                    }
+                }
             }
         }
     }

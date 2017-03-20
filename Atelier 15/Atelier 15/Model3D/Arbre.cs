@@ -62,6 +62,8 @@ namespace AtelierXNA
             if (TempsÉcouléDepuisMAJ >= IntervalleMAJ)
             {
                 JoueurPrésent.NombreDeBois += NombreDeCollection;
+                AfficheurCollectionRessource afficheur = new AfficheurCollectionRessource(Game, Position, Color.White, NombreDeCollection);
+                Game.Components.Add(afficheur);
                 TempsÉcouléDepuisMAJ = 0;
             }
             if (distanceJoueur >= 10)

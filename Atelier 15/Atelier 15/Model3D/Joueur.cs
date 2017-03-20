@@ -50,6 +50,7 @@ namespace AtelierXNA
         UpgradeJoueurNombreRécolte IconUpgradeNombreRécolte { get; set; }
         UpgradeMur IconUpgradeMur { get; set; }
         UpgradeGeneratrice IconUpgradeGeneratrice { get; set; }
+        UpgradeReparateur IconUpgradeReparateur { get; set; }
 
         public int NiveauDommage { get; set; }
         public int NiveauTempsRécolte{ get; set; }
@@ -61,10 +62,10 @@ namespace AtelierXNA
         public float FiringRate { get; set; }
         public int Dommage { get; set; }
         public int Vie { get; set; }
-        float TempsSpawn { get; set; }
 
         Mur MurSélecitonné { get; set; }
         Generatrice GeneratriceSélectionné { get; set; }
+        Reparateur ReparateurSélectionné { get; set; }
 
 
 
@@ -167,6 +168,13 @@ namespace AtelierXNA
                     {
                         IconUpgradeGeneratrice.Dispose();
                     }
+                    else
+                    {
+                        if (TypeBuildingSelectionner == (byte)TypeUpgrade.Reparateur)
+                        {
+                            IconUpgradeReparateur.Dispose();
+                        }
+                    }
                 }
                 Game.Components.Add(BuildingEnPlacement);
                 État = "enConstruction";
@@ -183,6 +191,13 @@ namespace AtelierXNA
                     if (TypeBuildingSelectionner == (byte)TypeUpgrade.Generatrice)
                     {
                         IconUpgradeGeneratrice.Dispose();
+                    }
+                    else
+                    {
+                        if (TypeBuildingSelectionner == (byte)TypeUpgrade.Reparateur)
+                        {
+                            IconUpgradeReparateur.Dispose();
+                        }
                     }
                 }
                 MenuUpgrade = new MenuUpgradeJoueur(Game);
@@ -210,6 +225,13 @@ namespace AtelierXNA
                     if (TypeBuildingSelectionner == (byte)TypeUpgrade.Generatrice)
                     {
                         IconUpgradeGeneratrice.Dispose();
+                    }
+                    else
+                    {
+                        if (TypeBuildingSelectionner == (byte)TypeUpgrade.Reparateur)
+                        {
+                            IconUpgradeReparateur.Dispose();
+                        }
                     }
                 }
                 État = "enMouvement";
@@ -259,7 +281,7 @@ namespace AtelierXNA
             GérerPicking();
             if(TempsSpawn >= 5)
             {
-                Game.Components.Add(new Ennemis(Game, "player", 0.01f, new Vector3(256 / 2f + 2, 0, 256 / 2f + 2), Vector3.Zero));
+                //Game.Components.Add(new Ennemis(Game, "player", 0.01f, new Vector3(256 / 2f + 2, 0, 256 / 2f + 2), Vector3.Zero));
                 TempsSpawn = 0;
             }
             if(Vie <= 0)
@@ -449,6 +471,28 @@ namespace AtelierXNA
                             }
                         }
                     }
+
+                    //sélection du reparateur
+                    foreach (Reparateur r in Game.Components.OfType<Reparateur>())
+                    {
+                        for (int i = 0; i < r.Modèle.Meshes.Count; i++)
+                        {
+                            float distanceJoueur = (float)Math.Sqrt(Math.Pow(r.Position.X - Position.X, 2) + Math.Pow(r.Position.Y - Position.Y, 2) + Math.Pow(r.Position.Z - Position.Z, 2));
+                            if (distanceJoueur <= 40)
+                            {
+                                if (TrouverIntersection(positionSouris, r.Position) && État == "enMouvement")
+                                {
+                                    MenuUpgrade = new MenuUpgradeJoueur(Game);
+                                    IconUpgradeReparateur = new UpgradeReparateur(Game, new Vector2(32, 350 + 36), "Sprites/spr_upgrade_icon1", r);
+                                    Game.Components.Add(MenuUpgrade);
+                                    Game.Components.Add(IconUpgradeReparateur);
+                                    ReparateurSélectionné = r;
+                                    TypeBuildingSelectionner = (byte)TypeUpgrade.Reparateur;
+                                    État = "enUpgradeBuilding";
+                                }
+                            }
+                        }
+                    }
                 }
                 catch (Exception)
                 {
@@ -506,6 +550,13 @@ namespace AtelierXNA
                         {
                             IconUpgradeGeneratrice.Dispose();
                         }
+                        else
+                        {
+                            if (TypeBuildingSelectionner == (byte)TypeUpgrade.Reparateur)
+                            {
+                                IconUpgradeReparateur.Dispose();
+                            }
+                        }
                     }
                     État = "enMouvement";
                 }
@@ -530,6 +581,13 @@ namespace AtelierXNA
                         if (TypeBuildingSelectionner == (byte)TypeUpgrade.Generatrice)
                         {
                             IconUpgradeGeneratrice.Dispose();
+                        }
+                        else
+                        {
+                            if (TypeBuildingSelectionner == (byte)TypeUpgrade.Reparateur)
+                            {
+                                IconUpgradeReparateur.Dispose();
+                            }
                         }
                     }
                     État = "enMouvement";
@@ -556,6 +614,13 @@ namespace AtelierXNA
                         {
                             IconUpgradeGeneratrice.Dispose();
                         }
+                        else
+                        {
+                            if (TypeBuildingSelectionner == (byte)TypeUpgrade.Reparateur)
+                            {
+                                IconUpgradeReparateur.Dispose();
+                            }
+                        }
                     }
                     État = "enMouvement";
                 }
@@ -580,6 +645,13 @@ namespace AtelierXNA
                         if (TypeBuildingSelectionner == (byte)TypeUpgrade.Generatrice)
                         {
                             IconUpgradeGeneratrice.Dispose();
+                        }
+                        else
+                        {
+                            if (TypeBuildingSelectionner == (byte)TypeUpgrade.Reparateur)
+                            {
+                                IconUpgradeReparateur.Dispose();
+                            }
                         }
                     }           
                     État = "enMouvement";
@@ -630,7 +702,7 @@ namespace AtelierXNA
             {
                 CaméraJeu.Déplacer(Position);
                 CalculerMonde();
-                
+                GérerRotationJoueur();
                 TempsÉcouléDepuisMAJ = 0;
             }
                 GérerClavierConstruction();
