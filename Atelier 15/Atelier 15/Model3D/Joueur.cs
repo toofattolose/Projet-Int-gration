@@ -58,7 +58,6 @@ namespace AtelierXNA
         public float FiringRate { get; set; }
         public int Dommage { get; set; }
         public int Vie { get; set; }
-        float TempsSpawn { get; set; }
 
         Mur MurSélecitonné { get; set; }
 
