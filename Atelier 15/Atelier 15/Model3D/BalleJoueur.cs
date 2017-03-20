@@ -34,7 +34,7 @@ namespace AtelierXNA
 
         public override void Initialize()
         {
-            Vitesse = 1.5f;
+            Vitesse = 2f;
             base.Initialize();
         }
 

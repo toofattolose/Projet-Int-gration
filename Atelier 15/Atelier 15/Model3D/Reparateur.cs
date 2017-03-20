@@ -22,7 +22,6 @@ namespace AtelierXNA
         int NombrePtsDeVieEnvoyé { get; set; }
         int NombreÉnergieUtilisé { get; set; }
         float IntervalleEnvoieRecharge { get; set; }
-        int Niveau { get; set; }
         float TempsÉcouléDepuisEnvoie { get; set; }
 
         public Reparateur(Game game, string nomModele, float échelle, Vector3 position, Vector3 rotationInitiale)

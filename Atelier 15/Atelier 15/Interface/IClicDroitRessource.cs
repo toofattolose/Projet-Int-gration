@@ -7,6 +7,6 @@ namespace AtelierXNA
 {
     interface IClicDroitRessource
     {
-        void EstCliquéDroit(float tempsCollection, int nombreCollection, Joueur joueurPrésent);
+        void EstCliquéDroit(Joueur joueurPrésent);
     }
 }

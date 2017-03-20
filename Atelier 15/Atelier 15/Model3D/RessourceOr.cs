@@ -36,6 +36,8 @@ namespace AtelierXNA
             switch (État)
             {
                 case "collection":
+                    IntervalleMAJ = JoueurPrésent.TempsCollectionRessource;
+                    NombreDeCollection = JoueurPrésent.NombreCollectionRessource;
                     CollectionDeRessource(gameTime);
                     break;
                 case "null":
@@ -44,10 +46,10 @@ namespace AtelierXNA
         }
 
         //méthode qui va collectionner le bois
-        public void EstCliquéDroit(float tempsDeCollection, int nombreDeCollection, Joueur joueurPrésent)
+        public void EstCliquéDroit(Joueur joueurPrésent)
         {
-            IntervalleMAJ = tempsDeCollection;
-            NombreDeCollection = nombreDeCollection;
+            IntervalleMAJ = joueurPrésent.TempsCollectionRessource;
+            NombreDeCollection = joueurPrésent.NombreCollectionRessource;
             JoueurPrésent = joueurPrésent;
             État = "collection";
         }
