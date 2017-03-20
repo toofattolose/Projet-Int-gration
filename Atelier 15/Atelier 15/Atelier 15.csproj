@@ -116,6 +116,7 @@
   <ItemGroup>
     <Compile Include="Afficheur\Afficheur3D.cs" />
     <Compile Include="Afficheur\AfficheurRessource.cs" />
+    <Compile Include="Menu\UpgradeGeneratrice.cs" />
     <Compile Include="Menu\UpgradeIcon.cs" />
     <Compile Include="Menu\UpgradeJoueurDommage.cs" />
     <Compile Include="Menu\UpgradeJoueurFiringRate.cs" />
