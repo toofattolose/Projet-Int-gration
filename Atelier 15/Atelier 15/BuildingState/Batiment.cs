@@ -19,11 +19,18 @@ namespace AtelierXNA
     {
         public int NombrePtsDeVie { get; set; }
         public int NombreMaxPtsDeVie { get; set; }
+        public int Niveau { get; set; }
 
         public Batiment(Game game, string nomModele, float échelle, Vector3 position, Vector3 rotationInitiale)
             : base(game, nomModele,échelle,position,rotationInitiale)
         {
             // TODO: Construct any child components here
+        }
+
+        public override void Initialize()
+        {
+            base.Initialize();
+            Niveau = 1;
         }
     }
 }

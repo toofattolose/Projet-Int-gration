@@ -35,6 +35,8 @@ namespace AtelierXNA
             switch(État)
             {
                 case "collection":
+                    IntervalleMAJ = JoueurPrésent.TempsCollectionRessource;
+                    NombreDeCollection = JoueurPrésent.NombreCollectionRessource;
                     CollectionDeRessource(gameTime);
                     break;
                 case "null":
@@ -43,10 +45,10 @@ namespace AtelierXNA
         }
 
         //méthode qui va collectionner le bois
-        public void EstCliquéDroit(float tempsDeCollection, int nombreDeCollection, Joueur joueurPrésent)
+        public void EstCliquéDroit(Joueur joueurPrésent)
         {
-            IntervalleMAJ = tempsDeCollection;
-            NombreDeCollection = nombreDeCollection;
+            IntervalleMAJ = joueurPrésent.TempsCollectionRessource;
+            NombreDeCollection = joueurPrésent.NombreCollectionRessource;
             JoueurPrésent = joueurPrésent;
             État = "collection";
         }
@@ -60,7 +62,6 @@ namespace AtelierXNA
             if (TempsÉcouléDepuisMAJ >= IntervalleMAJ)
             {
                 JoueurPrésent.NombreDeBois += NombreDeCollection;
-                //Game.Components.Add(new Arbre(Game, "tree1", 0.015f, JoueurPrésent.Position, new Vector3(0, 0, 0)));
                 TempsÉcouléDepuisMAJ = 0;
             }
             if (distanceJoueur >= 10)

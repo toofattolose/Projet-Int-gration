@@ -22,7 +22,6 @@ namespace AtelierXNA
         int Nombre…nergieEnvoyÈ { get; set; }
         int Nombre…nergieRecharge { get; set; }
         float IntervalleEnvoieRecharge { get; set; }
-        int Niveau { get; set; }
         float Temps…coulÈDepuisEnvoie { get; set; }
 
         public Generatrice(Game game, string nomModele, float Èchelle, Vector3 position, Vector3 rotationInitiale)

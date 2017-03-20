@@ -20,16 +20,33 @@ namespace AtelierXNA
         InputManager GestionInput { get; set; }
         float IntervalleMAJ { get; set; }
         float TempsÉcouléDepuisMAJ { get; set; }
-        string Niveau { get; set; }
+        int Niveau { get; set; }
         SpriteFont ArialFont { get; set; }
+        float[,] tableauValeurNiveau = new float[5, 3];
 
         public UpgradeJoueurTempsRécolte(Game game, Vector2 position, string locationTexture)
             : base(game,position, locationTexture)
         {
             foreach (Joueur j in Game.Components.OfType<Joueur>())
             {
-                Niveau = j.NiveauTempsRécolte.ToString();
+                Niveau = j.NiveauTempsRécolte;
             }
+
+            tableauValeurNiveau[0, 0] = 1;
+            tableauValeurNiveau[0, 1] = 1f;
+            tableauValeurNiveau[0, 2] = 10;
+            tableauValeurNiveau[1, 0] = 2;
+            tableauValeurNiveau[1, 1] = 1 / 2f;
+            tableauValeurNiveau[1, 2] = 10;
+            tableauValeurNiveau[2, 0] = 3;
+            tableauValeurNiveau[2, 1] = 1 / 3f;
+            tableauValeurNiveau[2, 2] = 10;
+            tableauValeurNiveau[3, 0] = 4;
+            tableauValeurNiveau[3, 1] = 1 / 5f;
+            tableauValeurNiveau[3, 2] = 10;
+            tableauValeurNiveau[4, 0] = 5;
+            tableauValeurNiveau[4, 1] = 1 / 10f;
+            tableauValeurNiveau[4, 2] = 10;
         }
 
         public override void Initialize()
@@ -64,8 +81,10 @@ namespace AtelierXNA
 
         private void DessinerNiveau()
         {
-            string niveauJoueur = "Collection " + Niveau;
-            GestionSprite.DrawString(ArialFont, niveauJoueur, new Vector2(Position.X-16, Position.Y + 64), Color.White);
+            string niveauJoueur = "Collection " + Niveau.ToString();
+            string coutOr = "Or: " + tableauValeurNiveau[Niveau, 2];
+            GestionSprite.DrawString(ArialFont, niveauJoueur, new Vector2(Position.X - 16, Position.Y + 64), Color.White);
+            GestionSprite.DrawString(ArialFont, coutOr, new Vector2(Position.X, Position.Y - 32), Color.Yellow);
         }
 
         private void GérerInput()
@@ -78,14 +97,23 @@ namespace AtelierXNA
 
         private void FaireUpgrade()
         {
+            bool estUpgrader = false;
+
             foreach (Joueur j in Game.Components.OfType<Joueur>())
             {
                 if (j.NombreDOR >= 10)
                 {
-                    j.TempsCollectionRessource = 0.5f;
-                    j.NombreDOR -= 10;
-                    ++j.NiveauTempsRécolte;
-                    Niveau = j.NiveauTempsRécolte.ToString();
+                    for (int i = 0; i < tableauValeurNiveau.GetLength(0); i++)
+                    {
+                        if (tableauValeurNiveau[i, 0] == j.NiveauTempsRécolte && j.NiveauTempsRécolte != 5 && !estUpgrader)
+                        {
+                            j.TempsCollectionRessource = tableauValeurNiveau[i, 1];
+                            j.NombreDOR -= (int)tableauValeurNiveau[i,2];
+                            ++j.NiveauTempsRécolte;
+                            Niveau = j.NiveauTempsRécolte;
+                            estUpgrader = true;
+                        }
+                    }                  
                 }
             }
         }
