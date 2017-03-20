@@ -55,6 +55,8 @@ namespace AtelierXNA
         public int NombreCollectionRessource { get; set; }
         public float FiringRate { get; set; }
         public int Dommage { get; set; }
+        public int Vie { get; set; }
+        float TempsSpawn { get; set; }
 
 
 
@@ -73,7 +75,7 @@ namespace AtelierXNA
             NiveauFiringRate = 1;
             NiveauNombreRécolte = 1;
             NiveauTempsRécolte = 1;
-
+            Vie = 1;
 
             État = "enMouvement";
             Grid = Game.Services.GetService(typeof(GridDeJeu)) as GridDeJeu;
@@ -152,8 +154,12 @@ namespace AtelierXNA
             GérerPicking();
             if(TempsSpawn >= 5)
             {
-                Game.Components.Add(new Ennemis(Game, "player", 0.01f, new Vector3(256 / 2f, 0, 256 / 2f), Vector3.Zero));
+                Game.Components.Add(new Ennemis(Game, "player", 0.01f, new Vector3(256 / 2f + 2, 0, 256 / 2f + 2), Vector3.Zero));
                 TempsSpawn = 0;
+            }
+            if(Vie <= 0)
+            {
+                État = "estMort";
             }
             if (TempsÉcouléDepuisMAJ >= IntervalleMAJ)
             {
