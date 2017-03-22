@@ -12,7 +12,7 @@ using Microsoft.Xna.Framework.Media;
 
 namespace AtelierXNA
 {
-    public class Ennemis : Model3D
+    public class Ennemis : Model3DAvecCollision
     {
         const int Delta = 4;
         public float Vie { get; set; }

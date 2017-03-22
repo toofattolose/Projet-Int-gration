@@ -12,32 +12,31 @@ using Microsoft.Xna.Framework.Media;
 
 namespace AtelierXNA
 {
-    ///SUPA HOT FIRE
-    
     /// <summary>
-    /// C'est le model de base pour tous les modèles 3D
+    /// This is a game component that implements IUpdateable.
     /// </summary>
-    public class Model3D : Microsoft.Xna.Framework.DrawableGameComponent
+    public class Model3DAvecCollision : Model3D
     {
-        public Vector3 Position { get; set; }
-        protected Vector3 Rotation { get; set; }
-        protected float Échelle { get; set; }
-        protected string NomModele { get; set; }
         RessourcesManager<Model> GestionnaireDeModèles { get; set; }
-        protected Matrix Monde { get; set; }
-        public Model Modèle { get; set; }
         Matrix[] TransformationModèle { get; set; }
         Caméra CaméraJeu { get; set; }
         float DeltaDiviséParDeux { get; set; }
+        public BoundingSphere SphereDeCollision { get; private set; }
         float TempsÉcouléDepuisMAJ { get; set; }
+        float Rayon { get; set; }
 
-        public Model3D(Game game, string nomModele, float échelle, Vector3 position, Vector3 rotationInitiale)
-            : base(game)
+        public bool EstEnCollision(object autreObjet)
         {
-            Position = position;
-            Rotation = rotationInitiale;
-            Échelle = échelle;
-            NomModele = nomModele;
+            return SphèreDeCollision.Intersects((autreObjet as Model3DAvecCollision).SphèreDeCollision);
+        }
+
+        public BoundingSphere SphèreDeCollision { get { return new BoundingSphere(Position, Rayon); } }
+
+
+        public Model3DAvecCollision(Game game, string nomModele, float échelle, Vector3 position, Vector3 rotationInitiale)
+            : base(game, nomModele, échelle, position, rotationInitiale)
+        {
+
         }
 
         /// <summary>
@@ -53,10 +52,11 @@ namespace AtelierXNA
             SphereDeCollision = new BoundingSphere(Position, DeltaDiviséParDeux);
             TransformationModèle = new Matrix[Modèle.Bones.Count];
             Modèle.CopyAbsoluteBoneTransformsTo(TransformationModèle);
+            Rayon = 2f;
             CalculerMonde();
         }
 
-        protected BoundingBox TrouverBoundingBox(Model model, Matrix worldTransform)
+        protected BoundingBox UpdateBoundingBox(Model model, Matrix worldTransform)
         {
             // Initialize minimum and maximum corners of the bounding box to max and min values
             Vector3 min = new Vector3(float.MaxValue, float.MaxValue, float.MaxValue);
@@ -90,25 +90,20 @@ namespace AtelierXNA
             return new BoundingBox(min, max);
         }
 
+        /// <summary>
+        /// Allows the game component to update itself.
+        /// </summary>
+        /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime)
         {
             float tempsÉcoulé = (float)gameTime.ElapsedGameTime.TotalSeconds;
             TempsÉcouléDepuisMAJ += tempsÉcoulé;
-            if (TempsÉcouléDepuisMAJ >= (1f/60f))
+            if (TempsÉcouléDepuisMAJ >= (1f / 60f))
             {
                 SphereDeCollision = new BoundingSphere(Position, DeltaDiviséParDeux);
                 TempsÉcouléDepuisMAJ = 0;
             }
         }
-
-        protected virtual void CalculerMonde()
-        {
-            Monde = Matrix.Identity;
-            Monde *= Matrix.CreateScale(Échelle);
-            Monde *= Matrix.CreateFromYawPitchRoll(Rotation.Y, Rotation.X, Rotation.Z);
-            Monde *= Matrix.CreateTranslation(Position);
-        }
-
         public override void Draw(GameTime gameTime)
         {
             foreach (ModelMesh maille in Modèle.Meshes)

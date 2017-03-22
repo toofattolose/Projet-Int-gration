@@ -136,6 +136,7 @@
     <Compile Include="Afficheur\Caméra3rdPerson.cs" />
     <Compile Include="BuildingState\Case.cs" />
     <Compile Include="BuildingState\CaseDeConstruction.cs" />
+    <Compile Include="Model3D\Model3DAvecCollision.cs" />
     <Compile Include="Terrain\ControlePhaseDeJeu.cs" />
     <Compile Include="Model3D\Ennemis.cs" />
     <Compile Include="Terrain\GenerateurProcedural.cs" />
