@@ -96,6 +96,7 @@ namespace AtelierXNA
         protected override void Update(GameTime gameTime)
         {
             GérerClavier();
+            //GérerCollisions();
             base.Update(gameTime);
         }
 

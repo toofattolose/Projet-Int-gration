@@ -31,10 +31,10 @@ namespace AtelierXNA
         int IndexEnnemi { get; set; }
         int IndexAncien { get; set; }
         float Distance { get; set; }
-        bool Centré { get; set; }
-        Vector3 Direction { get; set; }
-        Vector3 DirectionBase { get; set; }
+        bool Déplacer { get; set; }
         Vector3 Déplacement { get; set; }
+        int CompteurDéplacement { get; set; }
+        bool Centré { get; set; }
 
         //Enemy stats
         int Niveau { get; set; }
@@ -95,63 +95,65 @@ namespace AtelierXNA
             TempsÉcouléMAJ += tempsÉcoulé;
             CaseEnnemi = new Case(true, new Point((int)(Position.X / Delta), (int)(Position.Z / Delta)));
             CasePlayer = new Case(true, new Point((int)(Player.Position.X / Delta), (int)(Player.Position.Z / Delta)));
-            //EstCentré();
 
-            //if (Centré)
-            //{
-                PathFinding.TrouverPath(new Vector2(Position.X, Position.Z), new Vector2(Player.Position.X, Player.Position.Z));
-                Path = PathFinding.Path;
-                IndexEnnemi = Path.IndexOf(Path.Find(c => c.Position == CaseEnnemi.Position));
-                CaseSuivante = Path[IndexEnnemi + 1];
                 
+            //if (Déplacer && CaseEnnemi != CasePlayer)
+            //{
+            //    PathFinding.TrouverPath(new Vector2(Position.X, Position.Z), new Vector2((float)Math.Round(Player.Position.X, 0), (float)Math.Round(Player.Position.Z, 0)));
+            //    Path = PathFinding.Path;
+            //    CompteurDéplacement = 40;
+            //}
+            //else
+            //{
+            //    Déplacement = Vector3.Zero;
             //}
 
-            if (TempsÉcouléMAJ >= 1 / 60f)
+
+            if (CompteurDéplacement >= 0)
             {
-                Vector3 direction = new Vector3(CaseSuivante.Position.X * Delta - CaseEnnemi.Position.X * Delta, 0, CaseSuivante.Position.Y * Delta - CaseEnnemi.Position.Y * Delta);
-                Vector3 directionBase = Vector3.UnitX;
-                direction.Normalize();
-                directionBase.Normalize();
-                Vector3 déplacement = new Vector3(direction.X * 0.1f, 0, direction.Z * 0.1f);
-                double cosAngle = Vector3.Dot(Direction, DirectionBase);
-                if (Objectif.Z > Position.Z)
+                if (Path != null && Path.Count != 0 && CaseEnnemi != CasePlayer)
                 {
-                    Angle = -(float)Math.Acos(cosAngle);
+                    IndexEnnemi = Path.IndexOf(Path.Find(c => c == CaseEnnemi));
+                    CaseSuivante = Path[IndexEnnemi + 1];
+                Vector3 direction = new Vector3(CaseSuivante.Position.X * Delta - CaseEnnemi.Position.X * Delta, 0, CaseSuivante.Position.Y * Delta - CaseEnnemi.Position.Y * Delta);
+                    direction = Vector3.Normalize(direction);
+                    Déplacement = new Vector3(direction.X * 0.1f, 0, direction.Z * 0.1f);
+                    if (float.IsNaN(Déplacement.Y) || float.IsNaN(Déplacement.X))
+                    {
+                        string a = "a";
+                    }
+                Vector3 directionBase = Vector3.UnitX;
+                directionBase.Normalize();
+                    //double cosAngle = Vector3.Dot(direction, directionBase);
+                    //if (Objectif.Z > Position.Z)
+                    //{
+                    //    Angle = -(float)Math.Acos(cosAngle);
+                    //}
+                    //else
+                    //{
+                    //    Angle = (float)Math.Acos(cosAngle);
+                    //}
+                    //Rotation = new Vector3(0, Angle, 0);
                 }
                 else
                 {
-                    Angle = (float)Math.Acos(cosAngle);
+                    Déplacement = Vector3.Zero;
                 }
+                Distance = (float)Math.Sqrt(Math.Pow(Player.Position.X - Position.X + Déplacement.X, 2) + Math.Pow(Player.Position.Z - Position.Z + Déplacement.Z, 2));
+                Position += Déplacement;
 
-                Distance = (float)Math.Sqrt(Math.Pow(Player.Position.X - Position.X + Déplacement.X, 2) + Math.Pow(Player.Position.Y - Position.Y + Déplacement.Y, 2));
-                Rotation = new Vector3(0, Angle, 0);
-                if (Distance >= 1)
-                {
-                    Position += déplacement;
-                }
-
+                Déplacer = false;
+                CompteurDéplacement--;
                 TempsÉcouléMAJ = 0;
-            }
-
-            //else
-            //{
-            //    --Player.Vie;
-            //}
-
-            CalculerMonde();
-            base.Update(gameTime);
-        }
-
-        void EstCentré()
-        {
-            if (Position.X == CaseEnnemi.Position.X * Delta + 2 && Position.Z == CaseEnnemi.Position.Y * Delta + 2)
-            {
-                Centré = true;
             }
             else
             {
-                Centré = false;
+                PathFinding.TrouverPath(new Vector2(Position.X, Position.Z), new Vector2((float)Math.Round(Player.Position.X, 0), (float)Math.Round(Player.Position.Z, 0)));
+                Path = PathFinding.Path;
+                CompteurDéplacement = 40;
             }
+            CalculerMonde();
+            base.Update(gameTime);
         }
     }
 }

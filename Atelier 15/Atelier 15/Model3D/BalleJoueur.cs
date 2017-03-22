@@ -47,6 +47,7 @@ namespace AtelierXNA
             {
                 GérerDéplacement();
                 CalculerMonde();
+                GérerCollision();
                 TempsÉcouléDepuisMAJ = 0;
             }
             if (tempsÉcoulé >= 3)

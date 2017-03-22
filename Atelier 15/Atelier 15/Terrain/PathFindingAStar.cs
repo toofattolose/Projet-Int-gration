@@ -31,19 +31,6 @@ namespace AtelierXNA
         {
         }
 
-        public override void Initialize()
-        {
-            
-            base.Initialize();
-        }
-
-        public override void Update(GameTime gameTime)
-        {
-            // TODO: Add your update code here
-
-            base.Update(gameTime);
-        }
-
         public void TrouverPath(Vector2 posDépart, Vector2 posCible)
         {
             Grid = Game.Services.GetService(typeof(GridDeJeu)) as GridDeJeu;

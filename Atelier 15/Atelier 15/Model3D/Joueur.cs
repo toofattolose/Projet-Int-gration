@@ -15,7 +15,7 @@ namespace AtelierXNA
     /// <summary>
     /// This is a game component that implements IUpdateable.
     /// </summary>
-    public class Joueur : Model3D
+    public class Joueur : Model3DAvecCollision
     {
         public string …tat { get; set; }
         float IntervalleMAJ { get; set; }
@@ -27,7 +27,7 @@ namespace AtelierXNA
         MouseState GestionSouris { get; set; }
         RessourcesManager<Model> GestionnaireDeModËles { get; set; }
         float TempsSpawn { get; set; }
-
+        
         float Temps…coulÈDepuisDernierTir { get; set; }
         Vector3 Direction { get; set; }
         Model Roche { get; set; }
@@ -35,7 +35,7 @@ namespace AtelierXNA
 
         public int NombreDeBois { get; set; }
         public int NombreDOR { get; set; }
-
+        
         GridDeJeu Grid { get; set; }
         PlacementBuilding BuildingEnPlacement { get; set; }
 
@@ -186,7 +186,7 @@ namespace AtelierXNA
                 if (m.Position.X < (Position.X - offsetX) || (m.Position.X > Position.X + offsetX) || (m.Position.Y < Position.Y - offsetY) || (m.Position.Y > Position.Y + offsetY))
                 {
                     m.Visible = false;
-                }
+        }
                 else
                 {
                     m.Visible = true;
@@ -374,7 +374,7 @@ namespace AtelierXNA
                     if (TypeBuildingSelectionner == (byte)TypeUpgrade.Generatrice)
                     {
                         IconUpgradeGeneratrice.Dispose();
-                    }
+        }
                     else
                     {
                         if (TypeBuildingSelectionner == (byte)TypeUpgrade.Reparateur)
@@ -409,29 +409,29 @@ namespace AtelierXNA
             {
                 CamÈraJeu.DÈplacer(Position);
                 CalculerMonde();
-
-
+                
+                
                 Temps…coulÈDepuisMAJ = 0;
             }
-            if (GestionInput.EstNouvelleTouche(Keys.B))
-            {
+                if (GestionInput.EstNouvelleTouche(Keys.B))
+                {
                 MenuUpgrade.Dispose();
                 IconUpgradeDommage.Dispose();
                 IconUpgradeFiringRate.Dispose();
                 IconUpgradeTempsRÈcolte.Dispose();
                 IconUpgradeNombreRÈcolte.Dispose();
-                Game.Components.Add(BuildingEnPlacement);
-                …tat = "enConstruction";
-            }
-            if (GestionInput.EstNouvelleTouche(Keys.M))
-            {
-                MenuUpgrade.Dispose();
+                    Game.Components.Add(BuildingEnPlacement);
+                    …tat = "enConstruction";
+                }
+                if (GestionInput.EstNouvelleTouche(Keys.M))
+                {
+                    MenuUpgrade.Dispose();
                 IconUpgradeDommage.Dispose();
                 IconUpgradeFiringRate.Dispose();
                 IconUpgradeTempsRÈcolte.Dispose();
                 IconUpgradeNombreRÈcolte.Dispose();
-                …tat = "enMouvement";
-            }
+                    …tat = "enMouvement";
+                }
             if (GestionInput.EstNouvelleTouche(Keys.E))
             {
                 MenuUpgrade.Dispose();
@@ -483,25 +483,25 @@ namespace AtelierXNA
                 CalculerMonde();
                 Temps…coulÈDepuisMAJ = 0;
             }
-            if (GestionInput.EstNouvelleTouche(Keys.B))
-            {
-                Game.Components.Add(BuildingEnPlacement);
-                …tat = "enConstruction";
-            }
-            if (GestionInput.EstNouvelleTouche(Keys.M))
-            {
-                MenuUpgrade = new MenuUpgradeJoueur(Game);
+                if (GestionInput.EstNouvelleTouche(Keys.B))
+                {
+                    Game.Components.Add(BuildingEnPlacement);
+                    …tat = "enConstruction";
+                }
+                if (GestionInput.EstNouvelleTouche(Keys.M))
+                {
+                    MenuUpgrade = new MenuUpgradeJoueur(Game);
                 IconUpgradeDommage = new UpgradeJoueurDommage(Game, new Vector2(32, 350 + 36), "Sprites/spr_upgrade_icon1");
                 IconUpgradeFiringRate = new UpgradeJoueurFiringRate(Game, new Vector2(32 + 128, 350 + 36), "Sprites/spr_upgrade_icon2");
                 IconUpgradeTempsRÈcolte = new UpgradeJoueurTempsRÈcolte(Game, new Vector2(32 + 128 + 128, 350 + 36), "Sprites/spr_upgrade_icon3");
                 IconUpgradeNombreRÈcolte = new UpgradeJoueurNombreRÈcolte(Game, new Vector2(32 + 128 + 128 + 128, 350 + 36), "Sprites/spr_upgrade_icon4");
-                Game.Components.Add(MenuUpgrade);
+                    Game.Components.Add(MenuUpgrade);
                 Game.Components.Add(IconUpgradeDommage);
                 Game.Components.Add(IconUpgradeFiringRate);
                 Game.Components.Add(IconUpgradeTempsRÈcolte);
                 Game.Components.Add(IconUpgradeNombreRÈcolte);
-                …tat = "estEnUpgrade";
-            }
+                    …tat = "estEnUpgrade";
+                }
             if (GestionInput.EstNouvelleTouche(Keys.E))
             {
                 MenuEnemy = new MenuAchatEnemy(Game);
@@ -700,7 +700,7 @@ namespace AtelierXNA
                 catch (Exception)
                 {
 
-                }
+                }    
             }
         }
         //Trouve l'intersection entre la position de la souris et la position de la roche
@@ -791,7 +791,7 @@ namespace AtelierXNA
                             {
                                 IconUpgradeReparateur.Dispose();
                             }
-                        }
+                    }
                     }
                     …tat = "enMouvement";
                 }
@@ -855,12 +855,12 @@ namespace AtelierXNA
                             {
                                 IconUpgradeReparateur.Dispose();
                             }
-                        }
+                    }           
                     }
                     …tat = "enMouvement";
                 }
             }
-
+            
         }
 
         private bool VÈrifierSiDÈplacementPossible(Vector3 dÈplacement)
@@ -908,8 +908,8 @@ namespace AtelierXNA
                 GÈrerRotationJoueur();
                 Temps…coulÈDepuisMAJ = 0;
             }
-            if (GestionInput.EstNouvelleTouche(Keys.M))
-            {
+                if (GestionInput.EstNouvelleTouche(Keys.M))
+                {
                 foreach (CaseDeConstruction c in Game.Components.OfType<CaseDeConstruction>())
                 {
                     if (c.Visible)
@@ -918,18 +918,18 @@ namespace AtelierXNA
                     }
                 }
                 BuildingEnPlacement.Dispose();
-                MenuUpgrade = new MenuUpgradeJoueur(Game);
+                    MenuUpgrade = new MenuUpgradeJoueur(Game);
                 IconUpgradeDommage = new UpgradeJoueurDommage(Game, new Vector2(32, 350 + 36), "Sprites/spr_upgrade_icon1");
                 IconUpgradeFiringRate = new UpgradeJoueurFiringRate(Game, new Vector2(32 + 128, 350 + 36), "Sprites/spr_upgrade_icon2");
                 IconUpgradeTempsRÈcolte = new UpgradeJoueurTempsRÈcolte(Game, new Vector2(32 + 128 + 128, 350 + 36), "Sprites/spr_upgrade_icon3");
                 IconUpgradeNombreRÈcolte = new UpgradeJoueurNombreRÈcolte(Game, new Vector2(32 + 128 + 128 + 128, 350 + 36), "Sprites/spr_upgrade_icon4");
-                Game.Components.Add(MenuUpgrade);
+                    Game.Components.Add(MenuUpgrade);
                 Game.Components.Add(IconUpgradeDommage);
                 Game.Components.Add(IconUpgradeFiringRate);
                 Game.Components.Add(IconUpgradeTempsRÈcolte);
                 Game.Components.Add(IconUpgradeNombreRÈcolte);
-                …tat = "estEnUpgrade";
-            }
+                    …tat = "estEnUpgrade";
+                }
             if (GestionInput.EstNouvelleTouche(Keys.E))
             {
                 foreach (CaseDeConstruction c in Game.Components.OfType<CaseDeConstruction>())
@@ -963,7 +963,7 @@ namespace AtelierXNA
         {
             Vector3 positionSouris = TrouverPositionSouris(GestionInput.GetPositionSouris());
             Vector2 positionSourisDansGrid = new Vector2((int)Math.Floor(positionSouris.X / Grid.Delta.X), (int)Math.Floor(positionSouris.Z / Grid.Delta.Y));
-
+            
             foreach (CaseDeConstruction c in Game.Components.OfType<CaseDeConstruction>())
             {
                 if (positionSourisDansGrid == c.PositionDansGrid)
@@ -998,7 +998,7 @@ namespace AtelierXNA
         {
 
         }
-
+        
         enum TypeUpgrade
         {
             Mur,
