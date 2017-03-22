@@ -15,7 +15,7 @@ namespace AtelierXNA
     /// <summary>
     /// This is a game component that implements IUpdateable.
     /// </summary>
-    public class BalleJoueur : Model3D
+    public class BalleJoueur : Model3DAvecCollision
     {
         float Vitesse { get; set; }
         int Dommage { get; set; }

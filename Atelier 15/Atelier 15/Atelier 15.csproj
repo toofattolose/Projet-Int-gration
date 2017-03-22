@@ -127,6 +127,7 @@
     <Compile Include="GenerateurProcedural.cs" />
     <Compile Include="GridDeJeu.cs" />
     <Compile Include="JoueurConnection.cs" />
+    <Compile Include="Model3DAvecCollision.cs" />
     <Compile Include="PathFindingAStar.cs" />
     <Compile Include="IClicDroit.cs" />
     <Compile Include="IClicDroitRessource.cs" />

@@ -15,7 +15,7 @@ namespace AtelierXNA
     /// <summary>
     /// This is a game component that implements IUpdateable.
     /// </summary>
-    public class Joueur : Model3D
+    public class Joueur : Model3DAvecCollision
     {
         public string État { get; set; }
         float IntervalleMAJ { get; set; }
