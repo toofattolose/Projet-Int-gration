@@ -43,7 +43,7 @@ namespace AtelierXNA
             Origine = Vector3.Zero;
             
             Grid = Game.Services.GetService(typeof(GridDeJeu)) as GridDeJeu;
-            OrigineJoueur = new Vector3(Étendue.X /2f, 0, Étendue.Z / 2f);
+            OrigineJoueur = new Vector3(Étendue.X /2f + 2, 0, Étendue.Z / 2f + 2);
             Delta = new Vector2(Étendue.X / Charpente.X, Étendue.Z / Charpente.Y);
             PositionDansCase = Delta / 2;
             CréerLesComposants();
@@ -108,6 +108,7 @@ namespace AtelierXNA
                     }  
                 }
             }
+            Game.Components.Add(new AfficheurRessource(Game));
         }
         private float TrouverValeurAléatoire(int valeurMin, int valeurMax)
         {

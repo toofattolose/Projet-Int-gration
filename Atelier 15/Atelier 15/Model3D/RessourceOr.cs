@@ -15,7 +15,7 @@ namespace AtelierXNA
     /// <summary>
     /// This is a game component that implements IUpdateable.
     /// </summary>
-    public class Arbre : Model3D, IClicDroitRessource
+    public class RessourceOr : Model3D
     {
         float IntervalleMAJ { get; set; }
         float TempsÉcouléDepuisMAJ { get; set; }
@@ -24,17 +24,20 @@ namespace AtelierXNA
         int NombreDeCollection { get; set; }
         Joueur JoueurPrésent { get; set; }
 
-        public Arbre(Game game, string nomModele, float échelle, Vector3 position, Vector3 rotationInitiale)
+        public RessourceOr(Game game, string nomModele, float échelle, Vector3 position, Vector3 rotationInitiale)
             : base(game, nomModele, échelle, position, rotationInitiale)
         {
 
         }
 
+
         public override void Update(GameTime gameTime)
         {
-            switch(État)
+            switch (État)
             {
                 case "collection":
+                    IntervalleMAJ = JoueurPrésent.TempsCollectionRessource;
+                    NombreDeCollection = JoueurPrésent.NombreCollectionRessource;
                     CollectionDeRessource(gameTime);
                     break;
                 case "null":
@@ -43,10 +46,10 @@ namespace AtelierXNA
         }
 
         //méthode qui va collectionner le bois
-        public void EstCliquéDroit(float tempsDeCollection, int nombreDeCollection, Joueur joueurPrésent)
+        public void EstCliquéDroit(Joueur joueurPrésent)
         {
-            IntervalleMAJ = tempsDeCollection;
-            NombreDeCollection = nombreDeCollection;
+            IntervalleMAJ = joueurPrésent.TempsCollectionRessource;
+            NombreDeCollection = joueurPrésent.NombreCollectionRessource;
             JoueurPrésent = joueurPrésent;
             État = "collection";
         }
@@ -59,8 +62,7 @@ namespace AtelierXNA
             TempsÉcouléDepuisMAJ += tempsÉcoulé;
             if (TempsÉcouléDepuisMAJ >= IntervalleMAJ)
             {
-                JoueurPrésent.NombreDeBois += NombreDeCollection;
-                //Game.Components.Add(new Arbre(Game, "tree1", 0.015f, JoueurPrésent.Position, new Vector3(0, 0, 0)));
+                JoueurPrésent.NombreDOR += NombreDeCollection;
                 TempsÉcouléDepuisMAJ = 0;
             }
             if (distanceJoueur >= 10)

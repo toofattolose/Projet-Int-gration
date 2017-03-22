@@ -55,7 +55,7 @@ namespace AtelierXNA
                 {
                     if (!(j == 0 && i == 0))
                     {
-                        if(caseActuelle.Position.X + j >= 0 && caseActuelle.Position.X + j < 256 && caseActuelle.Position.Y + i >= 0 && caseActuelle.Position.Y + i < 256)
+                        if(caseActuelle.Position.X + j >= 0 && caseActuelle.Position.X + j < 64 && caseActuelle.Position.Y + i >= 0 && caseActuelle.Position.Y + i < 64)
                         {
                             ListVoisins.Add(GridCase[caseActuelle.Position.X + j, caseActuelle.Position.Y + i]);
                         }
