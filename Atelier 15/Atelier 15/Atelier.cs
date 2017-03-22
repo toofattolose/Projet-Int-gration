@@ -78,6 +78,7 @@ namespace AtelierXNA
         protected override void Update(GameTime gameTime)
         {
             GérerClavier();
+            GérerCollisions();
             base.Update(gameTime);
         }
 
@@ -110,6 +111,41 @@ namespace AtelierXNA
             Components.Add(new Terrain(this, 1f, Vector3.Zero, Vector3.Zero, new Vector3(256, 25, 256), new Vector2(64, 64), INTERVALLE_MAJ_STANDARD));   
             GenProc = new GenerateurProcedural(this, Vector3.Zero, new Vector3(256, 25, 256), new Vector2(64, 64));
             Components.Add(GenProc);
+        }
+
+        enum PacketTypes
+        {
+            LOGIN,
+            MOVE,
+            WORLDSTATE
+        }
+
+
+
+        private void RejoindreUneConnection()
+        {
+            //network connection
+            NetPeerConfiguration config = new NetPeerConfiguration("game");
+            Client = new NetClient(config);
+            NetOutgoingMessage outmsg = Client.CreateMessage();
+            Client.Start();
+            outmsg.Write((byte)PacketTypes.LOGIN);
+            outmsg.Write("myName");
+            Client.Connect(HostIp, 5009, outmsg);
+        }
+
+        private void GérerCollisions()
+        {
+            foreach (BalleJoueur balle in Components.Where(composant => composant is BalleJoueur))
+            {
+               foreach (Ennemis ennemi in Components.Where(composant => composant is Ennemis))
+                {
+                    if(balle.EstEnCollision(Ennemi))
+                    {
+                        Window.Title = "ca marche";
+                    }
+                }      
+            }
         }
 
     }
