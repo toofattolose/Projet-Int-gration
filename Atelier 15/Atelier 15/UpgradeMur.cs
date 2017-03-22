@@ -26,7 +26,7 @@ namespace AtelierXNA
 
 
         public UpgradeMur(Game game, Vector2 position, string locationTexture, Mur murSélectionner)
-            : base(game,position, locationTexture)
+            : base(game, position, locationTexture)
         {
             MurSélectionné = murSélectionner;
         }

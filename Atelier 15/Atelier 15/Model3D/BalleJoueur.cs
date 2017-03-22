@@ -47,6 +47,7 @@ namespace AtelierXNA
             {
                 GérerDéplacement();
                 CalculerMonde();
+                GérerCollision();
                 TempsÉcouléDepuisMAJ = 0;
             }
             if (tempsÉcoulé >= 3)
@@ -59,6 +60,22 @@ namespace AtelierXNA
         private void GérerDéplacement()
         {
             Position += Direction * Vitesse;
+        }
+
+        public void GérerCollision()
+        {
+            try
+            {
+                foreach (Ennemis e in Game.Components.OfType<Ennemis>())
+                {
+                    if (EstEnCollision(e))
+                    {
+                        Dispose();
+                        e.Dispose();
+                    }
+                }
+            }
+            catch (Exception) { }
         }
     }
 }

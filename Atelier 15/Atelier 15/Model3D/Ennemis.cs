@@ -78,10 +78,15 @@ namespace AtelierXNA
             {
                 if (Path != null && Path.Count != 0 && CaseEnnemi != CasePlayer)
                 {
-                    CaseSuivante = Path[0];
+                    IndexEnnemi = Path.IndexOf(Path.Find(c => c == CaseEnnemi));
+                    CaseSuivante = Path[IndexEnnemi + 1];
                     Vector3 direction = new Vector3(CaseSuivante.Position.X * Delta - CaseEnnemi.Position.X * Delta, 0, CaseSuivante.Position.Y * Delta - CaseEnnemi.Position.Y * Delta);
-                    direction.Normalize();
+                    direction = Vector3.Normalize(direction);
                     DÈplacement = new Vector3(direction.X * 0.1f, 0, direction.Z * 0.1f);
+                    if (float.IsNaN(DÈplacement.Y) || float.IsNaN(DÈplacement.X))
+                    {
+                        string a = "a";
+                    }
                     Vector3 directionBase = Vector3.UnitX;
                     directionBase.Normalize();
                     //double cosAngle = Vector3.Dot(direction, directionBase);
@@ -101,6 +106,7 @@ namespace AtelierXNA
                 }
                 Distance = (float)Math.Sqrt(Math.Pow(Player.Position.X - Position.X + DÈplacement.X, 2) + Math.Pow(Player.Position.Z - Position.Z + DÈplacement.Z, 2));
                 Position += DÈplacement;
+                
                 DÈplacer = false;
                 CompteurDÈplacement--;
                 Temps…coulÈMAJ = 0;

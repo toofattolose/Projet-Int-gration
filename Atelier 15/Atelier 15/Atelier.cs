@@ -78,7 +78,7 @@ namespace AtelierXNA
         protected override void Update(GameTime gameTime)
         {
             GérerClavier();
-            GérerCollisions();
+            //GérerCollisions();
             base.Update(gameTime);
         }
 
@@ -113,19 +113,30 @@ namespace AtelierXNA
             Components.Add(GenProc);
         }
 
-        private void GérerCollisions()
+        enum PacketTypes
         {
-            foreach (BalleJoueur balle in Components.Where(composant => composant is BalleJoueur))
-            {
-               foreach (Ennemis ennemi in Components.Where(composant => composant is Ennemis))
-                {
-                    if(balle.EstEnCollision(Ennemi))
-                    {
-                        Window.Title = "ca marche";
-                    }
-                }      
-            }
+            LOGIN,
+            MOVE,
+            WORLDSTATE
         }
+
+
+
+ 
+        //private void GérerCollisions()
+        //{
+        //    foreach (BalleJoueur balle in Components.Where(composant => composant is BalleJoueur))
+        //    {
+        //       foreach (Ennemis ennemi in Components.Where(composant => composant is Ennemis))
+        //        {
+        //            if(balle.EstEnCollision(ennemi))
+        //            {
+        //                Window.Title = "ca marche";
+        //                //balle.Dispose();
+        //            }
+        //        }      
+        //    }
+        //}
 
     }
 }
