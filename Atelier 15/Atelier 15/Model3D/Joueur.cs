@@ -75,7 +75,8 @@ namespace AtelierXNA
         public int NombreCollectionRessource { get; set; }
         public float FiringRate { get; set; }
         public int Dommage { get; set; }
-        public int Vie { get; set; }
+        public int NbPtsDeVieMax { get; set; }
+        public int NbPtsDeVie { get; set; }
 
         Mur MurSélecitonné { get; set; }
         Generatrice GeneratriceSélectionné { get; set; }
@@ -100,7 +101,8 @@ namespace AtelierXNA
             NiveauFiringRate = 1;
             NiveauNombreRécolte = 1;
             NiveauTempsRécolte = 1;
-            Vie = 1;
+            NbPtsDeVieMax = 10;
+            NbPtsDeVie = NbPtsDeVieMax;
 
             État = "enMouvement";
             Grid = Game.Services.GetService(typeof(GridDeJeu)) as GridDeJeu;
@@ -469,7 +471,7 @@ namespace AtelierXNA
                 //Game.Components.Add(new Ennemis(Game, "player", 0.01f, new Vector3(256 / 2f + 2, 0, 256 / 2f + 2), Vector3.Zero));
                 TempsSpawn = 0;
             }
-            if (Vie <= 0)
+            if (NbPtsDeVie <= 0)
             {
                 État = "estMort";
             }

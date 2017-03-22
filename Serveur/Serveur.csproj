@@ -54,9 +54,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Atelier 15\Atelier 15\Atelier 15.csproj">
-      <Project>{cfa38ef7-eb9f-49ba-a6fd-2dcd4b575c28}</Project>
-      <Name>Atelier 15</Name>
+    <ProjectReference Include="..\..\Menu Projet Finale\Menu Projet Finale\Menu Projet Finale.csproj">
+      <Project>{83fdce34-586f-456a-869a-39c74c24b9cd}</Project>
+      <Name>Menu Projet Finale</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

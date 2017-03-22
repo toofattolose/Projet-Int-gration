@@ -60,5 +60,20 @@ namespace AtelierXNA
         {
             Position += Direction * Vitesse;
         }
+
+        private void GérerCollision()
+        {
+            try
+            {
+                foreach(Ennemis e in Game.Components.OfType<Ennemis>())
+                {
+                    if (EstEnCollision(e))
+                    {
+                        Dispose();
+                    }
+                }
+            }
+            catch (Exception) { }
+        }
     }
 }

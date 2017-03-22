@@ -17,7 +17,6 @@ namespace AtelierXNA
     /// </summary>
     public class UpgradeJoueurNombreRécolte : UpgradeIcon
     {
-        InputManager GestionInput { get; set; }
         float IntervalleMAJ { get; set; }
         float TempsÉcouléDepuisMAJ { get; set; }
         int Niveau { get; set; }

@@ -30,7 +30,7 @@ namespace AtelierXNA
             Config.Port = 5009;
 
             // Max client amount
-            Config.MaximumConnections = 4;
+            Config.MaximumConnections = 8;
 
             // Enable New messagetype. Explained later
             Config.EnableMessageType(NetIncomingMessageType.ConnectionApproval);
@@ -160,9 +160,10 @@ namespace AtelierXNA
                                     }
                                     NetOutgoingMessage outmsg = Server.CreateMessage();
                                     outmsg.Write((byte)PacketTypes.ENEMY);
-                                    outmsg.Write(inc.ReadInt16());
+                                    int niveau = inc.ReadInt32();
+                                    outmsg.Write(niveau);
                                     Server.SendMessage(outmsg, Server.Connections, NetDeliveryMethod.ReliableOrdered, 0);
-                                    Console.WriteLine("Un enemie niveau " + inc.ReadInt16().ToString()+" est envoyé");
+                                    Console.WriteLine("Un enemie niveau " + niveau.ToString()+" est envoyé");
                                     break;
                                 }
                             }

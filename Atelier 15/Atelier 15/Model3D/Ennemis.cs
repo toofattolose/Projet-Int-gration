@@ -15,8 +15,8 @@ namespace AtelierXNA
     public class Ennemis : Model3DAvecCollision
     {
         const int Delta = 4;
-        public float Vie { get; set; }
-        public float Dmg { get; set; }
+        public int Vie { get; set; }
+        public int Dmg { get; set; }
         public int NumVague { get; set; }
         Vector3 Objectif { get; set; }
         float TempsÉcouléMAJ { get; set; }
@@ -36,10 +36,39 @@ namespace AtelierXNA
         Vector3 DirectionBase { get; set; }
         Vector3 Déplacement { get; set; }
 
-        public Ennemis(Game game, string nomModele, float échelle, Vector3 position, Vector3 rotationInitiale)
+        //Enemy stats
+        int Niveau { get; set; }
+        int[,] StatsEnemy = new int[12, 2];
+
+        public Ennemis(Game game, string nomModele, float échelle, Vector3 position, Vector3 rotationInitiale, int niveau)
             : base(game, nomModele, échelle, position, rotationInitiale)
         {
             PathFinding = new PathFindingAStar(game);
+            Niveau = niveau;
+            StatsEnemy[0, 0] = 1;
+            StatsEnemy[0, 1] = 5;
+            StatsEnemy[1, 0] = 2;
+            StatsEnemy[1, 1] = 10;
+            StatsEnemy[2, 0] = 3;
+            StatsEnemy[2, 1] = 15;
+            StatsEnemy[3, 0] = 4;
+            StatsEnemy[3, 1] = 20;
+            StatsEnemy[4, 0] = 5;
+            StatsEnemy[4, 1] = 25;
+            StatsEnemy[5, 0] = 6;
+            StatsEnemy[5, 1] = 50;
+            StatsEnemy[6, 0] = 7;
+            StatsEnemy[6, 1] = 75;
+            StatsEnemy[7, 0] = 8;
+            StatsEnemy[7, 1] = 100;
+            StatsEnemy[8, 0] = 9;
+            StatsEnemy[8, 1] = 150;
+            StatsEnemy[9, 0] = 10;
+            StatsEnemy[9, 1] = 200;
+            StatsEnemy[10, 0] = 11;
+            StatsEnemy[10, 1] = 250;
+            StatsEnemy[11, 0] = 12;
+            StatsEnemy[11, 1] = 500;
         }
 
         public override void Initialize()
@@ -49,8 +78,14 @@ namespace AtelierXNA
                 Player = j;
             }
             Centré = true;
-            Vie = 1f;
-            Dmg = 1f;
+            for (int i = 0; i < StatsEnemy.GetLength(0); i++)
+            {
+                if (StatsEnemy[i,0] == Niveau)
+                {
+                    Vie = StatsEnemy[i, 1];
+                }
+            }
+            Dmg = 1;
             base.Initialize();
         }
 

@@ -50,7 +50,6 @@ namespace AtelierXNA
             DeltaDivisÈParDeux = (256 / 64f) / 2;
             CamÈraJeu = Game.Services.GetService(typeof(CamÈra)) as CamÈra;
             ModËle = GestionnaireDeModËles.Find(NomModele);
-            SphereDeCollision = new BoundingSphere(Position, DeltaDivisÈParDeux);
             TransformationModËle = new Matrix[ModËle.Bones.Count];
             ModËle.CopyAbsoluteBoneTransformsTo(TransformationModËle);
             CalculerMonde();
@@ -96,7 +95,6 @@ namespace AtelierXNA
             Temps…coulÈDepuisMAJ += temps…coulÈ;
             if (Temps…coulÈDepuisMAJ >= (1f/60f))
             {
-                SphereDeCollision = new BoundingSphere(Position, DeltaDivisÈParDeux);
                 Temps…coulÈDepuisMAJ = 0;
             }
         }

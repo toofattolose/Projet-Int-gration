@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using Lidgren.Network;
 
 
 namespace AtelierXNA
@@ -20,6 +21,7 @@ namespace AtelierXNA
         int Niveau { get; set; }
         int Prix { get; set; }
         SpriteFont Arial { get; set; }
+        NetClient Client { get; set; }
 
         public EnemyIcon(Game game, Vector2 position, string location, int niveau, int prix)
             : base(game, position, location)
@@ -33,6 +35,13 @@ namespace AtelierXNA
         {
             base.Initialize();
             Arial = Game.Content.Load<SpriteFont>("Fonts/Arial20");
+            Client = Game.Services.GetService(typeof(NetClient)) as NetClient;
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            base.Update(gameTime);
+            EstCliqué();
         }
 
         public override void Draw(GameTime gameTime)
@@ -53,7 +62,30 @@ namespace AtelierXNA
 
         public void EstCliqué()
         {
+            if (GestionInput.EstNouveauClicGauche() && TrouverSiIntersection())
+            {
+                foreach(Joueur j in Game.Components.OfType<Joueur>())
+                {
+                    if (j.NombreDOR >= Prix)
+                    {
+                        
+                        NetOutgoingMessage outmsg = Client.CreateMessage();
+                        outmsg.Write((byte)PacketTypes.ENEMY);
+                        outmsg.Write(Niveau);
+                        Client.SendMessage(outmsg, NetDeliveryMethod.ReliableOrdered);
+                        j.NombreDOR -= Prix;
+                    }
+                }
+                
+            }
+        }
 
+        enum PacketTypes
+        {
+            LOGIN,
+            WORLDSTATE,
+            STARTGAME,
+            ENEMY
         }
 
     }

@@ -17,7 +17,6 @@ namespace AtelierXNA
     /// </summary>
     public class UpgradeReparateur : UpgradeIcon
     {
-        InputManager GestionInput { get; set; }
         float IntervalleMAJ { get; set; }
         float TempsÉcouléDepuisMAJ { get; set; }
         string Niveau { get; set; }

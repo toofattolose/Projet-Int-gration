@@ -18,7 +18,6 @@ namespace AtelierXNA
     public class UpgradeJoueurFiringRate : UpgradeIcon
     {
         float[,] tableauValeurNiveau = new float[6, 3];
-        InputManager GestionInput { get; set; }
         float IntervalleMAJ { get; set; }
         float Temps…coulÈDepuisMAJ { get; set; }
         int Niveau { get; set; }
