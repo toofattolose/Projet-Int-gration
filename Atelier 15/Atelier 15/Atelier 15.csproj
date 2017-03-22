@@ -122,7 +122,7 @@
     <Compile Include="Menu\UpgradeJoueurFiringRate.cs" />
     <Compile Include="Menu\UpgradeJoueurNombreRécolte.cs" />
     <Compile Include="Menu\UpgradeJoueurTempsRécolte.cs" />
-    <Compile Include="Menu\UpgradeMur.cs" />
+    <Compile Include="Model3DAvecCollision.cs" />
     <Compile Include="Model3D\Arbre.cs" />
     <Compile Include="Atelier.cs" />
     <Compile Include="Model3D\BalleJoueur.cs" />
@@ -155,6 +155,7 @@
     <Compile Include="Model3D\RessourceOr.cs" />
     <Compile Include="Model3D\Roche.cs" />
     <Compile Include="Terrain\Terrain.cs" />
+    <Compile Include="UpgradeMur.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

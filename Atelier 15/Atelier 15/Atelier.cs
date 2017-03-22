@@ -113,27 +113,6 @@ namespace AtelierXNA
             Components.Add(GenProc);
         }
 
-        enum PacketTypes
-        {
-            LOGIN,
-            MOVE,
-            WORLDSTATE
-        }
-
-
-
-        private void RejoindreUneConnection()
-        {
-            //network connection
-            NetPeerConfiguration config = new NetPeerConfiguration("game");
-            Client = new NetClient(config);
-            NetOutgoingMessage outmsg = Client.CreateMessage();
-            Client.Start();
-            outmsg.Write((byte)PacketTypes.LOGIN);
-            outmsg.Write("myName");
-            Client.Connect(HostIp, 5009, outmsg);
-        }
-
         private void GérerCollisions()
         {
             foreach (BalleJoueur balle in Components.Where(composant => composant is BalleJoueur))

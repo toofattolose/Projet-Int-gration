@@ -36,7 +36,7 @@ namespace AtelierXNA
         public Model3DAvecCollision(Game game, string nomModele, float échelle, Vector3 position, Vector3 rotationInitiale)
             : base(game, nomModele, échelle, position, rotationInitiale)
         {
-            
+
         }
 
         /// <summary>

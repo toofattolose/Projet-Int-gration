@@ -107,12 +107,6 @@ namespace AtelierXNA
             }
             else
             {
-                try
-                {
-                    float y = Position.X + Position.Z;
-                }
-                catch { Exception e; }
-            
                 PathFinding.TrouverPath(new Vector2(Position.X, Position.Z), new Vector2((float)Math.Round(Player.Position.X, 0), (float)Math.Round(Player.Position.Z, 0)));
                 Path = PathFinding.Path;
                 CompteurDéplacement = 40;

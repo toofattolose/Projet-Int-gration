@@ -65,7 +65,7 @@ namespace AtelierXNA
         {
             string niveauBatiment = "Niveau " + MurSélectionné.Niveau.ToString();
             string vieBatiment = "Vie "+MurSélectionné.NombrePtsDeVie.ToString() + "/" + MurSélectionné.NombreMaxPtsDeVie.ToString();
-            string coutUpgrade = "Bois: " + MurSélectionné.TableauValeurNiveau[MurSélectionné.Niveau, 2].ToString() + " / Or: " + MurSélectionné.TableauValeurNiveau[MurSélectionné.Niveau, 3].ToString();
+            string coutUpgrade = "Bois: " + MurSélectionné.TableauValeurNiveau[MurSélectionné.Niveau - 1, 2].ToString() + " / Or: " + MurSélectionné.TableauValeurNiveau[MurSélectionné.Niveau - 1, 3].ToString();
 
             GestionSprite.DrawString(ArialFont, niveauBatiment, new Vector2(Position.X - 16, Position.Y + 64), Color.White);
             GestionSprite.DrawString(ArialFont, vieBatiment, new Vector2(Position.X + 128, Position.Y), Color.Green);
