@@ -78,7 +78,7 @@ namespace AtelierXNA
         protected override void Update(GameTime gameTime)
         {
             GérerClavier();
-            GérerCollisions();
+            //GérerCollisions();
             base.Update(gameTime);
         }
 
@@ -122,31 +122,21 @@ namespace AtelierXNA
 
 
 
-        private void RejoindreUneConnection()
-        {
-            //network connection
-            NetPeerConfiguration config = new NetPeerConfiguration("game");
-            Client = new NetClient(config);
-            NetOutgoingMessage outmsg = Client.CreateMessage();
-            Client.Start();
-            outmsg.Write((byte)PacketTypes.LOGIN);
-            outmsg.Write("myName");
-            Client.Connect(HostIp, 5009, outmsg);
-        }
-
-        private void GérerCollisions()
-        {
-            foreach (BalleJoueur balle in Components.Where(composant => composant is BalleJoueur))
-            {
-               foreach (Ennemis ennemi in Components.Where(composant => composant is Ennemis))
-                {
-                    if(balle.EstEnCollision(Ennemi))
-                    {
-                        Window.Title = "ca marche";
-                    }
-                }      
-            }
-        }
+ 
+        //private void GérerCollisions()
+        //{
+        //    foreach (BalleJoueur balle in Components.Where(composant => composant is BalleJoueur))
+        //    {
+        //       foreach (Ennemis ennemi in Components.Where(composant => composant is Ennemis))
+        //        {
+        //            if(balle.EstEnCollision(ennemi))
+        //            {
+        //                Window.Title = "ca marche";
+        //                //balle.Dispose();
+        //            }
+        //        }      
+        //    }
+        //}
 
     }
 }

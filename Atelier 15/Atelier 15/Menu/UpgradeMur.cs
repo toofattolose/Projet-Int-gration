@@ -10,39 +10,74 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 
 
-namespace AtelierXNA.Menu
+namespace AtelierXNA
 {
     /// <summary>
     /// This is a game component that implements IUpdateable.
     /// </summary>
-    public class UpgradeMur : Microsoft.Xna.Framework.GameComponent
+    public class UpgradeMur : UpgradeIcon
     {
-        public UpgradeMur(Game game)
-            : base(game)
+        InputManager GestionInput { get; set; }
+        float IntervalleMAJ { get; set; }
+        float TempsÉcouléDepuisMAJ { get; set; }
+        string Niveau { get; set; }
+        SpriteFont ArialFont { get; set; }
+        Mur MurSélectionné { get; set; }
+
+
+        public UpgradeMur(Game game, Vector2 position, string locationTexture, Mur murSélectionner)
+            : base(game, position, locationTexture)
         {
-            // TODO: Construct any child components here
+            MurSélectionné = murSélectionner;
         }
 
-        /// <summary>
-        /// Allows the game component to perform any initialization it needs to before starting
-        /// to run.  This is where it can query for any required services and load content.
-        /// </summary>
         public override void Initialize()
         {
-            // TODO: Add your initialization code here
-
             base.Initialize();
+            IntervalleMAJ = 1 / 60f;
+            ArialFont = Game.Content.Load<SpriteFont>("Fonts/Arial20");
+            GestionInput = Game.Services.GetService(typeof(InputManager)) as InputManager;
         }
 
-        /// <summary>
-        /// Allows the game component to update itself.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime)
         {
-            // TODO: Add your update code here
+            float tempsÉcoulé = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            TempsÉcouléDepuisMAJ += tempsÉcoulé;
+            if (TempsÉcouléDepuisMAJ >= IntervalleMAJ)
+            {
+                GérerInput();
+            }
+        }
 
-            base.Update(gameTime);
+        public override void Draw(GameTime gameTime)
+        {
+            base.Draw(gameTime);
+            GestionSprite.Begin();
+            DessinerInformation();
+            GestionSprite.End();
+
+            Game.GraphicsDevice.BlendState = BlendState.Opaque;
+            Game.GraphicsDevice.DepthStencilState = DepthStencilState.Default;
+            Game.GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
+        }
+
+        private void DessinerInformation()
+        {
+            string niveauBatiment = "Niveau " + MurSélectionné.Niveau.ToString();
+            string vieBatiment = "Vie " + MurSélectionné.NombrePtsDeVie.ToString() + "/" + MurSélectionné.NombreMaxPtsDeVie.ToString();
+            string coutUpgrade = "Bois: " + MurSélectionné.TableauValeurNiveau[MurSélectionné.Niveau, 2].ToString() + " / Or: " + MurSélectionné.TableauValeurNiveau[MurSélectionné.Niveau, 3].ToString();
+
+            GestionSprite.DrawString(ArialFont, niveauBatiment, new Vector2(Position.X - 16, Position.Y + 64), Color.White);
+            GestionSprite.DrawString(ArialFont, vieBatiment, new Vector2(Position.X + 128, Position.Y), Color.Green);
+            GestionSprite.DrawString(ArialFont, coutUpgrade, new Vector2(Position.X + 128, Position.Y + 32), Color.Blue);
+        }
+
+        private void GérerInput()
+        {
+            if (GestionInput.EstNouveauClicGauche() && TrouverSiIntersection())
+            {
+                MurSélectionné.MonterDeNiveau();
+            }
         }
     }
 }
