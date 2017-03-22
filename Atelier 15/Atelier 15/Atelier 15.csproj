@@ -117,6 +117,8 @@
     <Compile Include="Afficheur\Afficheur3D.cs" />
     <Compile Include="Afficheur\AfficheurCollectionRessource.cs" />
     <Compile Include="Afficheur\AfficheurRessource.cs" />
+    <Compile Include="Menu\EnemyIcon.cs" />
+    <Compile Include="Menu\MenuAchatEnemy.cs" />
     <Compile Include="Menu\UpgradeGeneratrice.cs" />
     <Compile Include="Menu\UpgradeIcon.cs" />
     <Compile Include="Menu\UpgradeJoueurDommage.cs" />

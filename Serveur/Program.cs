@@ -133,7 +133,9 @@ namespace AtelierXNA
                         // ( Approval is automated process )
                         case NetIncomingMessageType.Data:
 
-                            if (inc.ReadByte() == (byte)PacketTypes.STARTGAME)
+                            byte type = inc.ReadByte();
+
+                            if (type == (byte)PacketTypes.STARTGAME)
                             {
                                 foreach (JoueurConnection j in GameWorldState)
                                 {
@@ -145,6 +147,22 @@ namespace AtelierXNA
                                     outmsg.Write((byte)PacketTypes.STARTGAME);
                                     Server.SendMessage(outmsg, Server.Connections, NetDeliveryMethod.ReliableOrdered, 0);
                                     Console.WriteLine("La partie commmence");
+                                    break;
+                                }
+                            }
+                            if (type == (byte)PacketTypes.ENEMY)
+                            {
+                                foreach (JoueurConnection j in GameWorldState)
+                                {
+                                    if (j.Connection != inc.SenderConnection)
+                                    {
+                                        continue;
+                                    }
+                                    NetOutgoingMessage outmsg = Server.CreateMessage();
+                                    outmsg.Write((byte)PacketTypes.ENEMY);
+                                    outmsg.Write(inc.ReadInt16());
+                                    Server.SendMessage(outmsg, Server.Connections, NetDeliveryMethod.ReliableOrdered, 0);
+                                    Console.WriteLine("Un enemie niveau " + inc.ReadInt16().ToString()+" est envoyé");
                                     break;
                                 }
                             }
@@ -236,6 +254,7 @@ namespace AtelierXNA
         LOGIN,
         WORLDSTATE,
         STARTGAME,
+        ENEMY
     }
     //class LoginPacket
     //{

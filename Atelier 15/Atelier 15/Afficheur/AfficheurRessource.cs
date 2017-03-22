@@ -51,8 +51,8 @@ namespace AtelierXNA
         public override void Draw(GameTime gameTime)
         {
             GestionSprite.Begin();
-            AfficherRessourceBois(NbBois.ToString());
-            AfficherRessourceOr(NbOr.ToString());
+            AfficherRessourceBois("Bois: "+NbBois.ToString());
+            AfficherRessourceOr("Or: "+NbOr.ToString());
             GestionSprite.End();
             Game.GraphicsDevice.BlendState = BlendState.Opaque;
             Game.GraphicsDevice.DepthStencilState = DepthStencilState.Default;
@@ -73,7 +73,7 @@ namespace AtelierXNA
             int offset = 32;
 
             Vector2 dimension = ArialFont.MeasureString(ressource);
-            Vector2 position = new Vector2(dimension.X + offset, dimension.Y);
+            Vector2 position = new Vector2(offset, dimension.Y);
 
             GestionSprite.DrawString(ArialFont, ressource, position, Color.White);
         }
@@ -83,7 +83,7 @@ namespace AtelierXNA
             int offset = 32;
 
             Vector2 dimension = ArialFont.MeasureString(ressource);
-            Vector2 position = new Vector2(dimension.X + (10*offset), dimension.Y);
+            Vector2 position = new Vector2(offset, dimension.Y + offset);
 
             GestionSprite.DrawString(ArialFont, ressource, position, Color.White);
         }
