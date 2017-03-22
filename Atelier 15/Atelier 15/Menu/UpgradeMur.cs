@@ -41,36 +41,7 @@ namespace AtelierXNA
 
         public override void Update(GameTime gameTime)
         {
-            float tempsÉcoulé = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            TempsÉcouléDepuisMAJ += tempsÉcoulé;
-            if (TempsÉcouléDepuisMAJ >= IntervalleMAJ)
-            {
-                GérerInput();
-            }
-        }
-
-        public override void Draw(GameTime gameTime)
-        {
-            base.Draw(gameTime);
-            GestionSprite.Begin();
-            DessinerInformation();
-            GestionSprite.End();
-
-            Game.GraphicsDevice.BlendState = BlendState.Opaque;
-            Game.GraphicsDevice.DepthStencilState = DepthStencilState.Default;
-            Game.GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
-        }
-
-        private void DessinerInformation()
-        {
-            string niveauBatiment = "Niveau " + MurSélectionné.Niveau.ToString();
-            string vieBatiment = "Vie " + MurSélectionné.NombrePtsDeVie.ToString() + "/" + MurSélectionné.NombreMaxPtsDeVie.ToString();
-            string coutUpgrade = "Bois: " + MurSélectionné.TableauValeurNiveau[MurSélectionné.Niveau, 2].ToString() + " / Or: " + MurSélectionné.TableauValeurNiveau[MurSélectionné.Niveau, 3].ToString();
-
-            GestionSprite.DrawString(ArialFont, niveauBatiment, new Vector2(Position.X - 16, Position.Y + 64), Color.White);
-            GestionSprite.DrawString(ArialFont, vieBatiment, new Vector2(Position.X + 128, Position.Y), Color.Green);
-            GestionSprite.DrawString(ArialFont, coutUpgrade, new Vector2(Position.X + 128, Position.Y + 32), Color.Blue);
-        }
+            // TODO: Add your update code here
 
         private void GérerInput()
         {
