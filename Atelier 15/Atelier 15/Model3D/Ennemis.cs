@@ -40,7 +40,6 @@ namespace AtelierXNA
         {
             PathFinding = new PathFindingAStar(game);
             DÈplacer = true;
-            CompteurDÈplacement = -1;
         }
 
         public override void Initialize()
@@ -61,18 +60,12 @@ namespace AtelierXNA
             CaseEnnemi = new Case(true, new Point((int)(Position.X / Delta), (int)(Position.Z / Delta)));
             CasePlayer = new Case(true, new Point((int)(Player.Position.X / Delta), (int)(Player.Position.Z / Delta)));
 
-
-            //if (DÈplacer && CaseEnnemi != CasePlayer)
-            //{
-            //    PathFinding.TrouverPath(new Vector2(Position.X, Position.Z), new Vector2((float)Math.Round(Player.Position.X, 0), (float)Math.Round(Player.Position.Z, 0)));
-            //    Path = PathFinding.Path;
-            //    CompteurDÈplacement = 40;
-            //}
-            //else
-            //{
-            //    DÈplacement = Vector3.Zero;
-            //}
-
+            if (DÈplacer && CaseEnnemi != CasePlayer)
+            {
+                PathFinding.TrouverPath(new Vector2(Position.X, Position.Z), new Vector2((float)Math.Round(Player.Position.X, 0), (float)Math.Round(Player.Position.Z, 0)));
+                Path = PathFinding.Path;
+                CompteurDÈplacement = 40;
+            }
 
             if (CompteurDÈplacement >= 0)
             {
@@ -80,12 +73,15 @@ namespace AtelierXNA
                 {
                     IndexEnnemi = Path.IndexOf(Path.Find(c => c == CaseEnnemi));
                     CaseSuivante = Path[IndexEnnemi + 1];
-                    Vector3 direction = new Vector3(CaseSuivante.Position.X * Delta - CaseEnnemi.Position.X * Delta, 0, CaseSuivante.Position.Y * Delta - CaseEnnemi.Position.Y * Delta);
-                    direction = Vector3.Normalize(direction);
-                    DÈplacement = new Vector3(direction.X * 0.1f, 0, direction.Z * 0.1f);
-                    if (float.IsNaN(DÈplacement.Y) || float.IsNaN(DÈplacement.X))
+                    if(CaseEnnemi.Position != CaseSuivante.Position)
                     {
-                        string a = "a";
+                        Vector3 direction = new Vector3(CaseSuivante.Position.X * Delta - CaseEnnemi.Position.X * Delta, 0, CaseSuivante.Position.Y * Delta - CaseEnnemi.Position.Y * Delta);
+                        direction = Vector3.Normalize(direction);
+                        DÈplacement = new Vector3(direction.X * 0.1f, 0, direction.Z * 0.1f);
+                    }
+                    else
+                    {
+                        DÈplacement = Vector3.Zero;
                     }
                     Vector3 directionBase = Vector3.UnitX;
                     directionBase.Normalize();
@@ -106,17 +102,16 @@ namespace AtelierXNA
                 }
                 Distance = (float)Math.Sqrt(Math.Pow(Player.Position.X - Position.X + DÈplacement.X, 2) + Math.Pow(Player.Position.Z - Position.Z + DÈplacement.Z, 2));
                 Position += DÈplacement;
-                
                 DÈplacer = false;
                 CompteurDÈplacement--;
                 Temps…coulÈMAJ = 0;
             }
-            else
+
+            if (CompteurDÈplacement == -1 || DÈplacement == Vector3.Zero)
             {
-                PathFinding.TrouverPath(new Vector2(Position.X, Position.Z), new Vector2((float)Math.Round(Player.Position.X, 0), (float)Math.Round(Player.Position.Z, 0)));
-                Path = PathFinding.Path;
-                CompteurDÈplacement = 40;
+                DÈplacer = true;
             }
+
             CalculerMonde();
             base.Update(gameTime);
         }

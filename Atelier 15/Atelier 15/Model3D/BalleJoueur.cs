@@ -20,6 +20,7 @@ namespace AtelierXNA
         float Vitesse { get; set; }
         int Dommage { get; set; }
         float TempsÉcouléDepuisMAJ { get; set; }
+        float TempsÉcouléBalle { get; set; }
         float IntervalleMAJ { get; set; }
         Vector3 Direction { get; set; }
 
@@ -43,6 +44,7 @@ namespace AtelierXNA
         {
             float tempsÉcoulé = (float)gameTime.ElapsedGameTime.TotalSeconds;
             TempsÉcouléDepuisMAJ += tempsÉcoulé;
+            TempsÉcouléBalle += tempsÉcoulé;
             if (TempsÉcouléDepuisMAJ >= IntervalleMAJ)
             {
                 GérerDéplacement();
@@ -50,7 +52,7 @@ namespace AtelierXNA
                 GérerCollision();
                 TempsÉcouléDepuisMAJ = 0;
             }
-            if (tempsÉcoulé >= 3)
+            if (TempsÉcouléBalle >= 3)
             {
                 Dispose();
             }

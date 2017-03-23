@@ -82,7 +82,7 @@ namespace AtelierXNA
         private void DessinerNiveau()
         {
             string niveauJoueur = "Collection " + Niveau.ToString();
-            string coutOr = "Or: " + tableauValeurNiveau[Niveau, 2];
+            string coutOr = "Or: " + tableauValeurNiveau[Niveau - 1 , 2];
             GestionSprite.DrawString(ArialFont, niveauJoueur, new Vector2(Position.X - 16, Position.Y + 64), Color.White);
             GestionSprite.DrawString(ArialFont, coutOr, new Vector2(Position.X, Position.Y - 32), Color.Yellow);
         }
