@@ -74,7 +74,6 @@ namespace AtelierXNA
             if (TempsSpawnEnnemis >= 2)
             //if(GestionInput.EstEnfoncée(Keys.P))
             {
-                Game.Components.Add(new Ennemis(Jeu, "player", 0.01f, new Vector3(256 / 2f, 0, 256 / 2f), Vector3.Zero));
                 ++i;
                 TempsSpawnEnnemis = 0;
             }

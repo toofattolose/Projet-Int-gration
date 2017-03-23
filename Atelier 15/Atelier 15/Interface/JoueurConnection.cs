@@ -43,5 +43,10 @@ namespace AtelierXNA
             Connection = net;
             Score = 0;
         }
+
+        public JoueurConnection()
+        {
+
+        }
     }
 }

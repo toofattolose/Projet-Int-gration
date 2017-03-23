@@ -115,14 +115,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Afficheur\Afficheur3D.cs" />
+    <Compile Include="Afficheur\AfficheurCollectionRessource.cs" />
     <Compile Include="Afficheur\AfficheurRessource.cs" />
+    <Compile Include="Interface\JoueurConnection.cs" />
+    <Compile Include="Menu\EnemyIcon.cs" />
+    <Compile Include="Menu\MenuAchatEnemy.cs" />
     <Compile Include="Menu\UpgradeGeneratrice.cs" />
     <Compile Include="Menu\UpgradeIcon.cs" />
     <Compile Include="Menu\UpgradeJoueurDommage.cs" />
     <Compile Include="Menu\UpgradeJoueurFiringRate.cs" />
     <Compile Include="Menu\UpgradeJoueurNombreRécolte.cs" />
     <Compile Include="Menu\UpgradeJoueurTempsRécolte.cs" />
-    <Compile Include="Model3DAvecCollision.cs" />
+    <Compile Include="Menu\UpgradeMur.cs" />
+    <Compile Include="Menu\UpgradeReparateur.cs" />
     <Compile Include="Model3D\Arbre.cs" />
     <Compile Include="Atelier.cs" />
     <Compile Include="Model3D\BalleJoueur.cs" />
@@ -132,12 +137,13 @@
     <Compile Include="Afficheur\Caméra3rdPerson.cs" />
     <Compile Include="BuildingState\Case.cs" />
     <Compile Include="BuildingState\CaseDeConstruction.cs" />
+    <Compile Include="Model3D\Model3DAvecCollision.cs" />
     <Compile Include="Terrain\ControlePhaseDeJeu.cs" />
     <Compile Include="Model3D\Ennemis.cs" />
+    <Compile Include="Terrain\EnemySpawner.cs" />
     <Compile Include="Terrain\GenerateurProcedural.cs" />
     <Compile Include="Model3D\Generatrice.cs" />
     <Compile Include="Terrain\GridDeJeu.cs" />
-    <Compile Include="Menu\JoueurConnection.cs" />
     <Compile Include="Menu\MenuUpgradeJoueur.cs" />
     <Compile Include="Terrain\PathFindingAStar.cs" />
     <Compile Include="Interface\IClicDroit.cs" />
@@ -155,7 +161,6 @@
     <Compile Include="Model3D\RessourceOr.cs" />
     <Compile Include="Model3D\Roche.cs" />
     <Compile Include="Terrain\Terrain.cs" />
-    <Compile Include="UpgradeMur.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

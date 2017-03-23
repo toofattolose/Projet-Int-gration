@@ -15,20 +15,19 @@ namespace AtelierXNA
     /// <summary>
     /// This is a game component that implements IUpdateable.
     /// </summary>
-    public class UpgradeMur : UpgradeIcon
+    public class UpgradeReparateur : UpgradeIcon
     {
-        InputManager GestionInput { get; set; }
         float IntervalleMAJ { get; set; }
         float TempsÉcouléDepuisMAJ { get; set; }
         string Niveau { get; set; }
         SpriteFont ArialFont { get; set; }
-        Mur MurSélectionné { get; set; }
+        Reparateur ReparateurSelectionner { get; set; }
 
 
-        public UpgradeMur(Game game, Vector2 position, string locationTexture, Mur murSélectionner)
-            : base(game, position, locationTexture)
+        public UpgradeReparateur(Game game, Vector2 position, string locationTexture, Reparateur reparateurSelectionner)
+            : base(game,position, locationTexture)
         {
-            MurSélectionné = murSélectionner;
+            ReparateurSelectionner = reparateurSelectionner;
         }
 
         public override void Initialize()
@@ -63,9 +62,9 @@ namespace AtelierXNA
 
         private void DessinerInformation()
         {
-            string niveauBatiment = "Niveau " + MurSélectionné.Niveau.ToString();
-            string vieBatiment = "Vie "+MurSélectionné.NombrePtsDeVie.ToString() + "/" + MurSélectionné.NombreMaxPtsDeVie.ToString();
-            string coutUpgrade = "Bois: " + MurSélectionné.TableauValeurNiveau[MurSélectionné.Niveau - 1, 2].ToString() + " / Or: " + MurSélectionné.TableauValeurNiveau[MurSélectionné.Niveau - 1, 3].ToString();
+            string niveauBatiment = "Niveau " + ReparateurSelectionner.Niveau.ToString();
+            string vieBatiment = "Vie " + ReparateurSelectionner.NombrePtsDeVie.ToString() + "/" + ReparateurSelectionner.NombreMaxPtsDeVie.ToString();
+            string coutUpgrade = "Bois: " + ReparateurSelectionner.TableauValeurNiveau[ReparateurSelectionner.Niveau, 2].ToString() + " / Or: " + ReparateurSelectionner.TableauValeurNiveau[ReparateurSelectionner.Niveau, 3].ToString();
 
             GestionSprite.DrawString(ArialFont, niveauBatiment, new Vector2(Position.X - 16, Position.Y + 64), Color.White);
             GestionSprite.DrawString(ArialFont, vieBatiment, new Vector2(Position.X + 128, Position.Y), Color.Green);
@@ -76,7 +75,7 @@ namespace AtelierXNA
         {
             if (GestionInput.EstNouveauClicGauche() && TrouverSiIntersection())
             {
-                MurSélectionné.MonterDeNiveau();
+                ReparateurSelectionner.MonterDeNiveau();
             }
         }
     }

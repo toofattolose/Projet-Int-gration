@@ -64,16 +64,15 @@ namespace AtelierXNA
             Position += Direction * Vitesse;
         }
 
-        public void GérerCollision()
+        private void GérerCollision()
         {
             try
             {
-                foreach (Ennemis e in Game.Components.OfType<Ennemis>())
+                foreach(Ennemis e in Game.Components.OfType<Ennemis>())
                 {
                     if (EstEnCollision(e))
                     {
                         Dispose();
-                        e.Dispose();
                     }
                 }
             }

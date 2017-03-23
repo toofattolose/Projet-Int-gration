@@ -30,7 +30,7 @@ namespace AtelierXNA
             Config.Port = 5009;
 
             // Max client amount
-            Config.MaximumConnections = 4;
+            Config.MaximumConnections = 8;
 
             // Enable New messagetype. Explained later
             Config.EnableMessageType(NetIncomingMessageType.ConnectionApproval);
@@ -133,7 +133,9 @@ namespace AtelierXNA
                         // ( Approval is automated process )
                         case NetIncomingMessageType.Data:
 
-                            if (inc.ReadByte() == (byte)PacketTypes.STARTGAME)
+                            byte type = inc.ReadByte();
+
+                            if (type == (byte)PacketTypes.STARTGAME)
                             {
                                 foreach (JoueurConnection j in GameWorldState)
                                 {
@@ -145,6 +147,23 @@ namespace AtelierXNA
                                     outmsg.Write((byte)PacketTypes.STARTGAME);
                                     Server.SendMessage(outmsg, Server.Connections, NetDeliveryMethod.ReliableOrdered, 0);
                                     Console.WriteLine("La partie commmence");
+                                    break;
+                                }
+                            }
+                            if (type == (byte)PacketTypes.ENEMY)
+                            {
+                                foreach (JoueurConnection j in GameWorldState)
+                                {
+                                    if (j.Connection != inc.SenderConnection)
+                                    {
+                                        continue;
+                                    }
+                                    NetOutgoingMessage outmsg = Server.CreateMessage();
+                                    outmsg.Write((byte)PacketTypes.ENEMY);
+                                    int niveau = inc.ReadInt32();
+                                    outmsg.Write(niveau);
+                                    Server.SendMessage(outmsg, Server.Connections, NetDeliveryMethod.ReliableOrdered, 0);
+                                    Console.WriteLine("Un enemie niveau " + niveau.ToString()+" est envoyé");
                                     break;
                                 }
                             }
@@ -236,6 +255,7 @@ namespace AtelierXNA
         LOGIN,
         WORLDSTATE,
         STARTGAME,
+        ENEMY
     }
     //class LoginPacket
     //{

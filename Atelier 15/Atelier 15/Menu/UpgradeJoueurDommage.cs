@@ -17,7 +17,6 @@ namespace AtelierXNA
     /// </summary>
     public class UpgradeJoueurDommage : UpgradeIcon
     {
-        InputManager GestionInput { get; set; }
         float IntervalleMAJ { get; set; }
         float Temps…coulÈDepuisMAJ { get; set; }
         int Niveau { get; set; }
@@ -122,15 +121,23 @@ namespace AtelierXNA
 
         private void FaireUpgrade()
         {
-            foreach(Joueur j in Game.Components.OfType<Joueur>())
+            bool estUpgrader = false;
+            foreach (Joueur j in Game.Components.OfType<Joueur>())
             {
-                if (j.NombreDOR >= 10)
+                for (int i = 0; i < tableauValeurNiveau.GetLength(0); i++)
                 {
-                    ++j.Dommage;
-                    j.NombreDOR -= 10;
-                    ++j.NiveauDommage;
-                    Niveau = j.NiveauDommage;
-                }                
+                    if (Niveau == tableauValeurNiveau[i, 0] && Niveau != 10 && !estUpgrader)
+                    {
+                        if (j.NombreDOR >= tableauValeurNiveau[i, 1])
+                        {
+                            j.Dommage = (int)tableauValeurNiveau[i + 1, 2];
+                            j.NombreDOR -= (int)tableauValeurNiveau[i, 1];
+                            ++j.NiveauDommage;
+                            Niveau = j.NiveauDommage;
+                            estUpgrader = true;
+                        }
+                    }
+                }
             }
         }
     }

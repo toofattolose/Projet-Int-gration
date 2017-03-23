@@ -17,7 +17,7 @@ namespace AtelierXNA
     /// </summary>
     public class UpgradeIcon : DrawableGameComponent
     {
-        InputManager GestionInput { get; set; }
+        protected InputManager GestionInput { get; set; }
         protected SpriteBatch GestionSprite { get; set; }
         protected Texture2D SpriteUpgrade { get; set; }
         protected Vector2 Position { get; set; }
