@@ -73,7 +73,7 @@ namespace AtelierXNA
             {
                 for (int j = PtsSommets.GetLength(1) - 1; j >= 0; --j)
                 {
-                    PtsSommets[i, j] = new Vector3(PositionInitiale.X + (i * Grid.Delta.X), 0, PositionInitiale.Z + (j * Grid.Delta.Y));
+                    PtsSommets[i, j] = new Vector3(PositionInitiale.X + (i * Grid.Delta.X), 0.25f, PositionInitiale.Z + (j * Grid.Delta.Y));
                     ++ptsData;
                 }
             }

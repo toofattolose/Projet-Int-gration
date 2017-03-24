@@ -60,11 +60,13 @@ namespace AtelierXNA
 
         protected bool TrouverSiIntersection()
         {
+            Point pointPosSouris = GestionInput.GetPositionSouris();
+            Vector2 positionSouris = new Vector2(pointPosSouris.X, pointPosSouris.Y);
             for (int i = 0; i < 64; i++)
             {
                 for (int j = 0; j < 64; j++)
-                {
-                    if ((GestionInput.GetPositionSouris().X == Position.X + i) && GestionInput.GetPositionSouris().Y == Position.Y + j)
+                {                 
+                    if ((positionSouris.X == Position.X + i) && positionSouris.Y == Position.Y + j)
                     {
                         return true;
                     }

@@ -72,6 +72,7 @@ namespace AtelierXNA
                 {
                     if (EstEnCollision(e))
                     {
+                        e.ToucherParBalle(Dommage);
                         Dispose();
                     }
                 }

@@ -178,20 +178,30 @@ namespace AtelierXNA
                     break;
             }
 
-            //Enleve les modeles qui sont trop loins
-            foreach (Model3D m in Game.Components.OfType<Model3D>())
-            {
-                int offsetX = 45;
-                int offsetY = 20;
-                if (m.Position.X < (Position.X - offsetX) || (m.Position.X > Position.X + offsetX) || (m.Position.Y < Position.Y - offsetY) || (m.Position.Y > Position.Y + offsetY))
-                {
-                    m.Visible = false;
+            GestionPerformance();
         }
-                else
+
+        private void GestionPerformance()
+        {
+            try
+            {
+                foreach (Model3D m in Game.Components.OfType<Model3D>())
                 {
-                    m.Visible = true;
+                    int offsetX = 48;
+                    int offsetY = 20;
+                    if (m.Position.X < (Position.X - offsetX) || (m.Position.X > Position.X + offsetX) || (m.Position.Y < Position.Y - offsetY) || (m.Position.Y > Position.Y + offsetY))
+                    {
+                        m.Visible = false;
+                    }
+                    else
+                    {
+                        m.Visible = true;
+                    }
                 }
             }
+            catch(Exception) { }
+            //Enleve les modeles qui sont trop loins
+            
         }
 
         private void EstEnAchatEnemy(GameTime gameTime)
@@ -596,6 +606,21 @@ namespace AtelierXNA
                                 if (TrouverIntersection(positionSouris, r.Position))
                                 {
                                     r.EstCliquéDroit();
+                                }
+                            }
+                        }
+                    }
+                    //destruction de plantes
+                    foreach (Plante p in Game.Components.OfType<Plante>())
+                    {
+                        for (int i = 0; i < p.Modèle.Meshes.Count; i++)
+                        {
+                            float distanceJoueur = (float)Math.Sqrt(Math.Pow(p.Position.X - Position.X, 2) + Math.Pow(p.Position.Y - Position.Y, 2) + Math.Pow(p.Position.Z - Position.Z, 2));
+                            if (distanceJoueur <= 8)
+                            {
+                                if (TrouverIntersection(positionSouris, p.Position))
+                                {
+                                    p.EstCliquéDroit();
                                 }
                             }
                         }

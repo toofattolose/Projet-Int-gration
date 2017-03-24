@@ -20,6 +20,8 @@ namespace AtelierXNA
         Vector2 Delta { get; set; }
         BasicEffect EffetDeBase { get; set; }
         public Vector3 Origine { get; set; }
+        Color Couleur { get; set; }
+        Random Generateur { get; set; }
 
         // à compléter en ajoutant les propriétés qui vous seront nécessaires pour l'implémentation du composant
 
@@ -38,6 +40,7 @@ namespace AtelierXNA
             //Origine = new Vector3(-Étendue.X / 2, 0, Étendue.Z / 2); 
             Origine = Vector3.Zero;
             Delta = new Vector2(Étendue.X / Charpente.X, Étendue.Z / Charpente.Y);
+            Generateur = Game.Services.GetService(typeof(Random)) as Random;
             AllouerTableaux();
             CréerTableauPoints();
             base.Initialize();
@@ -89,12 +92,21 @@ namespace AtelierXNA
             {
                 for(int i = 0; i < Charpente.X - 1; ++i)
                 {
-                    Sommets[++noSommets] = new VertexPositionColor(PtsSommets[i, j + 1], Color.DarkGreen);
-                    Sommets[++noSommets] = new VertexPositionColor(PtsSommets[i, j], Color.DarkGreen);
-                    Sommets[++noSommets] = new VertexPositionColor(PtsSommets[i + 1, j], Color.DarkGreen);
-                    Sommets[++noSommets] = new VertexPositionColor(PtsSommets[i, j + 1], Color.DarkGreen);
-                    Sommets[++noSommets] = new VertexPositionColor(PtsSommets[i + 1, j], Color.DarkGreen);
-                    Sommets[++noSommets] = new VertexPositionColor(PtsSommets[i + 1, j + 1], Color.DarkGreen);
+                    int valeur = Generateur.Next(0, 101);
+                    if (valeur >= 80)
+                    {
+                        Couleur = Color.LightGray;
+                    }
+                    else
+                    {
+                        Couleur = new Color(154, 140, 50);
+                    }
+                    Sommets[++noSommets] = new VertexPositionColor(PtsSommets[i, j + 1], Couleur);
+                    Sommets[++noSommets] = new VertexPositionColor(PtsSommets[i, j], Couleur);
+                    Sommets[++noSommets] = new VertexPositionColor(PtsSommets[i + 1, j], Couleur);
+                    Sommets[++noSommets] = new VertexPositionColor(PtsSommets[i, j + 1], Couleur);
+                    Sommets[++noSommets] = new VertexPositionColor(PtsSommets[i + 1, j], Couleur);
+                    Sommets[++noSommets] = new VertexPositionColor(PtsSommets[i + 1, j + 1], Couleur);
                 }
             }
 

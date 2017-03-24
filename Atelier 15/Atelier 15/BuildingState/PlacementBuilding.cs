@@ -124,7 +124,7 @@ namespace AtelierXNA
         {
             if (TypeBuilding == 0)
             {
-                NomModele = "tree2";
+                NomModele = "turret";
             }
             else
             {

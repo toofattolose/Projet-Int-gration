@@ -37,7 +37,7 @@ namespace AtelierXNA
 
         //Enemy stats
         int Niveau { get; set; }
-        int[,] StatsEnemy = new int[12, 2];
+        int[,] StatsEnemy = new int[12, 3];
 
         public Ennemis(Game game, string nomModele, float échelle, Vector3 position, Vector3 rotationInitiale, int niveau)
             : base(game, nomModele, échelle, position, rotationInitiale)
@@ -45,30 +45,42 @@ namespace AtelierXNA
             PathFinding = new PathFindingAStar(game);
             Niveau = niveau;
             Déplacer = true;
-            StatsEnemy[0, 0] = 1;
-            StatsEnemy[0, 1] = 5;
+            StatsEnemy[0, 0] = 1; //Niveau
+            StatsEnemy[0, 1] = 5; //Vie
+            StatsEnemy[0, 2] = 1; //Dommage
             StatsEnemy[1, 0] = 2;
             StatsEnemy[1, 1] = 10;
+            StatsEnemy[1, 2] = 1; //Dommage
             StatsEnemy[2, 0] = 3;
             StatsEnemy[2, 1] = 15;
+            StatsEnemy[2, 2] = 1; //Dommage
             StatsEnemy[3, 0] = 4;
             StatsEnemy[3, 1] = 20;
+            StatsEnemy[3, 2] = 1; //Dommage
             StatsEnemy[4, 0] = 5;
             StatsEnemy[4, 1] = 25;
+            StatsEnemy[4, 2] = 1; //Dommage
             StatsEnemy[5, 0] = 6;
             StatsEnemy[5, 1] = 50;
+            StatsEnemy[5, 2] = 1; //Dommage
             StatsEnemy[6, 0] = 7;
             StatsEnemy[6, 1] = 75;
+            StatsEnemy[6, 2] = 1; //Dommage
             StatsEnemy[7, 0] = 8;
             StatsEnemy[7, 1] = 100;
+            StatsEnemy[7, 2] = 1; //Dommage
             StatsEnemy[8, 0] = 9;
             StatsEnemy[8, 1] = 150;
+            StatsEnemy[8, 2] = 1; //Dommage
             StatsEnemy[9, 0] = 10;
             StatsEnemy[9, 1] = 200;
+            StatsEnemy[9, 2] = 1; //Dommage
             StatsEnemy[10, 0] = 11;
             StatsEnemy[10, 1] = 250;
+            StatsEnemy[10, 2] = 1; //Dommage
             StatsEnemy[11, 0] = 12;
             StatsEnemy[11, 1] = 500;
+            StatsEnemy[11, 2] = 1; //Dommage
         }
 
         public override void Initialize()
@@ -82,9 +94,9 @@ namespace AtelierXNA
                 if (StatsEnemy[i,0] == Niveau)
                 {
                     Vie = StatsEnemy[i, 1];
+                    Dmg = StatsEnemy[i, 2];
                 }
             }
-            Dmg = 1;
             base.Initialize();
         }
 
@@ -149,6 +161,15 @@ namespace AtelierXNA
 
             CalculerMonde();
             base.Update(gameTime);
+        }
+
+        public void ToucherParBalle(int dmg)
+        {
+            Vie -= dmg;
+            if (Vie <= 0)
+            {
+                Dispose();
+            }
         }
     }
 }

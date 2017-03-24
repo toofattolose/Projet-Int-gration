@@ -34,6 +34,7 @@ namespace AtelierXNA
         ControlePhaseDeJeu ControlePhase { get; set; }
         public static EnemySpawner Spawner { get; set; }
 
+
         //Network
         string locationFichierIPNom = "FichierInfoLogin.txt";
         static NetClient Client2 { get; set; }
@@ -50,7 +51,9 @@ namespace AtelierXNA
             PériphériqueGraphique.SynchronizeWithVerticalRetrace = false;
             IsFixedTimeStep = false;
             IsMouseVisible = true;
-
+            PériphériqueGraphique.PreferredBackBufferWidth = 1280;
+            PériphériqueGraphique.PreferredBackBufferHeight = 720;
+            PériphériqueGraphique.IsFullScreen = false;
 
         }
 
@@ -96,7 +99,6 @@ namespace AtelierXNA
         protected override void Update(GameTime gameTime)
         {
             GérerClavier();
-            //GérerCollisions();
             base.Update(gameTime);
         }
 

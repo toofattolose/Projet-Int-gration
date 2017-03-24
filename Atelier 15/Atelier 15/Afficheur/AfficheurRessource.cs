@@ -61,11 +61,15 @@ namespace AtelierXNA
 
         private void TrouverNombreRessource()
         {
-            foreach(Joueur j in Game.Components.OfType<Joueur>())
+            try
             {
-                NbOr = j.NombreDOR;
-                NbBois = j.NombreDeBois;
+                foreach (Joueur j in Game.Components.OfType<Joueur>())
+                {
+                    NbOr = j.NombreDOR;
+                    NbBois = j.NombreDeBois;
+                }
             }
+            catch (Exception) { }
         }
 
         private void AfficherRessourceBois(string ressource)
@@ -75,7 +79,7 @@ namespace AtelierXNA
             Vector2 dimension = ArialFont.MeasureString(ressource);
             Vector2 position = new Vector2(offset, dimension.Y);
 
-            GestionSprite.DrawString(ArialFont, ressource, position, Color.White);
+            GestionSprite.DrawString(ArialFont, ressource, position, Color.Blue);
         }
 
         private void AfficherRessourceOr(string ressource)
@@ -85,7 +89,7 @@ namespace AtelierXNA
             Vector2 dimension = ArialFont.MeasureString(ressource);
             Vector2 position = new Vector2(offset, dimension.Y + offset);
 
-            GestionSprite.DrawString(ArialFont, ressource, position, Color.White);
+            GestionSprite.DrawString(ArialFont, ressource, position, Color.Blue);
         }
     }
 }
