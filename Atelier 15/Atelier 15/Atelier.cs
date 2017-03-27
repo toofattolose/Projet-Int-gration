@@ -26,17 +26,17 @@ namespace AtelierXNA
         Ennemis Ennemi { get; set; }
         float TempsÉcouléDepuisMAJ { get; set; }
         int i { get; set; }
-        string HostIp { get; set; }
         bool PartieCommencée { get; set; }
         bool MondeGénéré { get; set; }
         GridDeJeu GridDeJeu { get; set; }
         GenerateurProcedural GenProc { get; set; }
         ControlePhaseDeJeu ControlePhase { get; set; }
         public static EnemySpawner Spawner { get; set; }
+        StreamWriter sWriter { get; set; }
 
 
         //Network
-        string locationFichierIPNom = "FichierInfoLogin.txt";
+        string locationFichierIPNom = "C:\\Users\\David-alex\\Desktop\\Projet Finale Prog\\projet finale\\Projet-Int-gration\\Atelier 15\\Atelier 15\\bin\\x86\\Debug\\FichierInfoLogin.txt";
         static NetClient Client2 { get; set; }
         string HostIP { get; set; }
         string ClientName = "player ";
@@ -190,7 +190,6 @@ namespace AtelierXNA
 
                         // All manually sent messages are type of "Data"
                         case NetIncomingMessageType.Data:
-
                             // Read the first byte
                             // This way we can separate packets from each others
                             if (inc.ReadByte() == (byte)PacketTypes.WORLDSTATE)
@@ -215,7 +214,6 @@ namespace AtelierXNA
                                 // Read int
                                 //comment de plus
                                 count = inc.ReadInt32();
-
                                 // Iterate all players
                                 for (int i = 0; i < count; i++)
                                 {
