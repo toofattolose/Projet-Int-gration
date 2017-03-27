@@ -122,7 +122,7 @@ namespace AtelierXNA
 
             //Enemy
             PrixEnemy = new int[12];
-            PrixEnemy[0] = 10;
+            PrixEnemy[0] = 0;
             PrixEnemy[1] = 10;
             PrixEnemy[2] = 10;
             PrixEnemy[3] = 10;
@@ -538,7 +538,7 @@ namespace AtelierXNA
             {
                 if (GestionInput.EstAncienClicGauche())
                 {
-                    Game.Components.Add(new BalleJoueur(Game, "bullet", 0.015f, Position + new Vector3(0, 2.5f, 0), Rotation, Dommage, Direction, 1 / 60f));
+                    Game.Components.Add(new BalleJoueur(Game, "bullet", 0.015f, Position + new Vector3(0, 2.5f, 0), Rotation, Dommage, Direction,1/60f, 2f));
                     Temps…coulÈDepuisDernierTir += temps…coulÈ;
                 }
             }

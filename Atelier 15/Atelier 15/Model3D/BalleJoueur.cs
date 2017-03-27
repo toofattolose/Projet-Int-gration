@@ -24,10 +24,11 @@ namespace AtelierXNA
         float IntervalleMAJ { get; set; }
         Vector3 Direction { get; set; }
 
-        public BalleJoueur(Game game, string nomModele, float échelle, Vector3 position, Vector3 rotationInitiale, int dommage, Vector3 direction, float intervalleMAJ)
+        public BalleJoueur(Game game, string nomModele, float échelle, Vector3 position, Vector3 rotationInitiale, int dommage, Vector3 direction, float intervalleMAJ, float vitesse)
             : base(game, nomModele, échelle, position, rotationInitiale)
         {
             Dommage = dommage;
+            Vitesse = vitesse;
             IntervalleMAJ = intervalleMAJ;
             Direction = direction;
         }
@@ -35,7 +36,6 @@ namespace AtelierXNA
 
         public override void Initialize()
         {
-            Vitesse = 2f;
             base.Initialize();
         }
 

@@ -29,8 +29,6 @@ namespace AtelierXNA
         public override void Initialize()
         {
             base.Initialize();
-            NombreMaxEnergie = 100;
-            NombrePtsEnergie = NombreMaxEnergie;
         }
     }
 }

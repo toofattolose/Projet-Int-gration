@@ -93,6 +93,13 @@ namespace AtelierXNA
                             Grid.TableauGrid[(int)positionDansGrid.X, (int)positionDansGrid.Z] = false;
                             Grid.GridCase[(int)positionDansGrid.X, (int)positionDansGrid.Z].Accessible = false;
                         }
+                        else
+                        {
+                            Turret buildingTurret = new Turret(Game, "turret", Échelle, positionBuilding, Vector3.Zero);
+                            Game.Components.Add(buildingTurret);
+                            Grid.TableauGrid[(int)positionDansGrid.X, (int)positionDansGrid.Z] = false;
+                            Grid.GridCase[(int)positionDansGrid.X, (int)positionDansGrid.Z].Accessible = false;
+                        }
                     }
                 }
             }

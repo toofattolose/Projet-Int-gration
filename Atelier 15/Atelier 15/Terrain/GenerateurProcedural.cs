@@ -107,7 +107,15 @@ namespace AtelierXNA
                                 {
                                     if (valeur >= 35 && Grid.TableauGrid[i, j])
                                     {
-                                        Game.Components.Add(new Plante(Game, "plant1", 0.02f, pos, new Vector3(0, rotation, 0)));
+                                        float typePlante = TrouverValeurAléatoire(0, 1);
+                                        if (typePlante == 0)
+                                        {
+                                            Game.Components.Add(new Plante(Game, "plant1", 0.02f, pos, new Vector3(0, rotation, 0)));
+                                        }
+                                        else
+                                        {
+                                            Game.Components.Add(new Plante(Game, "plant2", 0.02f, pos, new Vector3(0, rotation, 0)));
+                                        }
                                     }
                                 }
                             }
