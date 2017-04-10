@@ -17,8 +17,6 @@ namespace AtelierXNA
     /// </summary>
     public class Reparateur : BatimentRechargable
     {
-        int NombreÉnergie { get; set; }
-        int NombreÉnergieMaximum { get; set; }
         int NombrePtsDeVieEnvoyé { get; set; }
         int NombreÉnergieUtilisé { get; set; }
         float IntervalleEnvoieRecharge { get; set; }
@@ -88,8 +86,8 @@ namespace AtelierXNA
         {
             base.Initialize();
             NombrePtsDeVie = 100;
-            NombreÉnergieMaximum = 1000;
-            NombreÉnergie = NombreÉnergieMaximum;
+            NombreMaxEnergie = 100;
+            NombrePtsEnergie = NombreMaxEnergie;
             NombrePtsDeVieEnvoyé = 5;
             IntervalleEnvoieRecharge = 1;
             NombreÉnergieUtilisé = 1;
@@ -116,13 +114,13 @@ namespace AtelierXNA
         {
             foreach (Batiment b in Game.Components.Where(x => x is Batiment))
             {
-                if (b.NombrePtsDeVie < b.NombreMaxPtsDeVie && NombreÉnergie > NombreÉnergieUtilisé)
+                if (b.NombrePtsDeVie < b.NombreMaxPtsDeVie && NombrePtsEnergie > NombreÉnergieUtilisé)
                 {
                     float distance = (float)Math.Abs(Math.Sqrt(Math.Pow((Position.X - b.Position.X), 2) + Math.Pow((Position.Z - b.Position.Z), 2)));
                     if (distance < 20)
                     {
                         b.NombrePtsDeVie += NombrePtsDeVieEnvoyé;
-                        NombreÉnergie -= NombreÉnergieUtilisé;
+                        NombrePtsEnergie -= NombreÉnergieUtilisé;
                         if (b.NombrePtsDeVie > b.NombreMaxPtsDeVie)
                         {
                             b.NombrePtsDeVie = NombreMaxPtsDeVie;
@@ -143,6 +141,7 @@ namespace AtelierXNA
                     {
                         if (j.NombreDeBois >= TableauValeurNiveau[i + 1, 2] && j.NombreDOR >= TableauValeurNiveau[i + 1, 3])
                         {
+                            SoundUpgrade.Play();
                             ++Niveau;
                             NombreMaxPtsDeVie = (int)TableauValeurNiveau[i + 1, 1];
                             NombrePtsDeVie = (int)TableauValeurNiveau[i + 1, 1];

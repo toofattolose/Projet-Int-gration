@@ -68,8 +68,8 @@ namespace AtelierXNA
                 {
                     if (j.NombreDOR >= Prix)
                     {
-                        
                         NetOutgoingMessage outmsg = Client.CreateMessage();
+                        SoundAchat.Play();
                         outmsg.Write((byte)PacketTypes.ENEMY);
                         outmsg.Write(Niveau);
                         Client.SendMessage(outmsg, NetDeliveryMethod.ReliableOrdered);

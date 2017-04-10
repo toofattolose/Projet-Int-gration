@@ -17,8 +17,8 @@ namespace AtelierXNA
     /// </summary>
     public class Generatrice : Batiment
     {
-        int NombreÉnergie { get; set; }
-        int NombreÉnergieMaximum { get; set; }
+        public int NombreÉnergie { get; set; }
+        public int NombreÉnergieMaximum { get; set; }
         int NombreÉnergieEnvoyé { get; set; }
         int NombreÉnergieRecharge { get; set; }
         float IntervalleEnvoieRecharge { get; set; }
@@ -148,6 +148,7 @@ namespace AtelierXNA
                     {
                         if (j.NombreDeBois >= TableauValeurNiveau[i + 1, 2] && j.NombreDOR >= TableauValeurNiveau[i + 1, 3])
                         {
+                            SoundUpgrade.Play();
                             ++Niveau;
                             NombreMaxPtsDeVie = (int)TableauValeurNiveau[i + 1, 1];
                             NombrePtsDeVie = (int)TableauValeurNiveau[i + 1, 1];

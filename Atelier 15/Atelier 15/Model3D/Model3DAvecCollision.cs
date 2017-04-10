@@ -52,7 +52,7 @@ namespace AtelierXNA
             SphereDeCollision = new BoundingSphere(Position, DeltaDiviséParDeux);
             TransformationModèle = new Matrix[Modèle.Bones.Count];
             Modèle.CopyAbsoluteBoneTransformsTo(TransformationModèle);
-            Rayon = 2f;
+            Rayon = 1.5f;
             CalculerMonde();
         }
 

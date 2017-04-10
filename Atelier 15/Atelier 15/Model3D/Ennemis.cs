@@ -28,12 +28,15 @@ namespace AtelierXNA
         Case CaseEnnemi { get; set; }
         Case CaseSuivante { get; set; }
         Case CasePlayer { get; set; }
+        Case CaseCible { get; set; }
         int IndexEnnemi { get; set; }
         int IndexAncien { get; set; }
         float Distance { get; set; }
         bool Déplacer { get; set; }
         Vector3 Déplacement { get; set; }
         int CompteurDéplacement { get; set; }
+        SoundEffect SoundDeath { get; set; }
+        Vector3 Direction { get; set; }
 
         //Enemy stats
         int Niveau { get; set; }
@@ -85,10 +88,15 @@ namespace AtelierXNA
 
         public override void Initialize()
         {
-            foreach (Joueur j in Game.Components.OfType<Joueur>())
+            SoundDeath = Game.Content.Load<SoundEffect>("SoundEffects/enemydeath");
+            try
             {
-                Player = j;
+                foreach (Joueur j in Game.Components.OfType<Joueur>())
+                {
+                    Player = j;
+                }
             }
+            catch(Exception) { }
             for (int i = 0; i < StatsEnemy.GetLength(0); i++)
             {
                 if (StatsEnemy[i,0] == Niveau)
@@ -111,20 +119,40 @@ namespace AtelierXNA
             {
                 PathFinding.TrouverPath(new Vector2(Position.X, Position.Z), new Vector2((float)Math.Round(Player.Position.X, 0), (float)Math.Round(Player.Position.Z, 0)));
                 Path = PathFinding.Path;
-                CompteurDéplacement = 40;
+                if (Path == null)
+                {
+                    foreach (Batiment b in Game.Components.OfType<Batiment>())
+                    {
+                        if (Path == null)
+                        {
+                            PathFinding.TrouverPath(new Vector2(Position.X, Position.Z), new Vector2((float)Math.Round(b.Position.X + Delta / 2, 0), (float)Math.Round(b.Position.Z + Delta / 2, 0)));
+                            Path = PathFinding.Path;
+                            if (Path != null)
+                            {
+                                CaseCible = new Case(true, new Point((int)(b.Position.X / Delta), (int)(b.Position.Z / Delta)));
+                                CompteurDéplacement = 40;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    CaseCible = CasePlayer;
+                    CompteurDéplacement = 40;
+                }
             }
 
             if (CompteurDéplacement >= 0)
             {
-                if (Path != null && Path.Count != 0 && CaseEnnemi != CasePlayer)
+                if (Path != null && Path.Count != 0 && CaseEnnemi != CaseCible)
                 {
                     IndexEnnemi = Path.IndexOf(Path.Find(c => c == CaseEnnemi));
                     CaseSuivante = Path[IndexEnnemi + 1];
                     if(CaseEnnemi.Position != CaseSuivante.Position)
                     {
-                    Vector3 direction = new Vector3(CaseSuivante.Position.X * Delta - CaseEnnemi.Position.X * Delta, 0, CaseSuivante.Position.Y * Delta - CaseEnnemi.Position.Y * Delta);
-                    direction = Vector3.Normalize(direction);
-                    Déplacement = new Vector3(direction.X * 0.1f, 0, direction.Z * 0.1f);
+                        Direction = new Vector3(CaseSuivante.Position.X * Delta - CaseEnnemi.Position.X * Delta, 0, CaseSuivante.Position.Y * Delta - CaseEnnemi.Position.Y * Delta);
+                        Direction = Vector3.Normalize(Direction);
+                        Déplacement = new Vector3(Direction.X * 0.1f, 0, Direction.Z * 0.1f);
                     }
                     else
                     {
@@ -132,16 +160,16 @@ namespace AtelierXNA
                     }
                     Vector3 directionBase = Vector3.UnitX;
                     directionBase.Normalize();
-                    //double cosAngle = Vector3.Dot(direction, directionBase);
-                    //if (Objectif.Z > Position.Z)
-                    //{
-                    //    Angle = -(float)Math.Acos(cosAngle);
-                    //}
-                    //else
-                    //{
-                    //    Angle = (float)Math.Acos(cosAngle);
-                    //}
-                    //Rotation = new Vector3(0, Angle, 0);
+                    double cosAngle = Vector3.Dot(Direction, directionBase);
+                    if (Objectif.Z > Position.Z)
+                    {
+                        Angle = -(float)Math.Acos(cosAngle);
+                    }
+                    else
+                    {
+                        Angle = (float)Math.Acos(cosAngle);
+                    }
+                    Rotation = new Vector3(0, Angle, 0);
                 }
                 else
                 {
@@ -168,6 +196,7 @@ namespace AtelierXNA
             Vie -= dmg;
             if (Vie <= 0)
             {
+                SoundDeath.Play();
                 Dispose();
             }
         }

@@ -101,6 +101,7 @@ namespace AtelierXNA
                     {
                         if (j.NombreDeBois >= TableauValeurNiveau[i + 1,2] && j.NombreDOR >= TableauValeurNiveau[i + 1,3])
                         {
+                            SoundUpgrade.Play();
                             ++Niveau;
                             NombreMaxPtsDeVie = (int)TableauValeurNiveau[i + 1, 1];
                             NombrePtsDeVie = (int)TableauValeurNiveau[i + 1, 1];

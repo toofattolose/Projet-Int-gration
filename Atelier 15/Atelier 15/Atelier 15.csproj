@@ -128,6 +128,7 @@
     <Compile Include="Menu\UpgradeJoueurTempsRécolte.cs" />
     <Compile Include="Menu\UpgradeMur.cs" />
     <Compile Include="Menu\UpgradeReparateur.cs" />
+    <Compile Include="Menu\UpgradeTurret.cs" />
     <Compile Include="Model3D\Arbre.cs" />
     <Compile Include="Atelier.cs" />
     <Compile Include="Model3D\BalleJoueur.cs" />

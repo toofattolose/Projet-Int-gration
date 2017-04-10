@@ -130,6 +130,7 @@ namespace AtelierXNA
                     {
                         if (j.NombreDOR >= tableauValeurNiveau[i,1])
                         {
+                            SoundAchat.Play();
                             j.NombreCollectionRessource = (int)tableauValeurNiveau[i + 1, 2];
                             j.NombreDOR -= (int)tableauValeurNiveau[i,1];
                             ++j.NiveauNombreRécolte;

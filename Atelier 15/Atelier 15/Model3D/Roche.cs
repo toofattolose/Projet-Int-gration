@@ -18,6 +18,7 @@ namespace AtelierXNA
     public class Roche : Model3D, IClicDroit
     {
         GridDeJeu Grid { get; set; }
+        SoundEffect SoundRock { get; set; }
 
         public Roche(Game game, string nomModele, float échelle, Vector3 position, Vector3 rotationInitiale)
             : base(game, nomModele, échelle, position, rotationInitiale)
@@ -28,6 +29,7 @@ namespace AtelierXNA
         public override void Initialize()
         {
             base.Initialize();
+            SoundRock = Game.Content.Load<SoundEffect>("SoundEffects/rock");
             Grid = Game.Services.GetService(typeof(GridDeJeu)) as GridDeJeu;
         }
 
@@ -36,6 +38,7 @@ namespace AtelierXNA
             Vector2 positionDansGrid = new Vector2((float)Math.Floor(Position.X / Grid.Delta.X), (float)Math.Floor(Position.Z / Grid.Delta.Y));
             Grid.TableauGrid[(int)positionDansGrid.X, (int)positionDansGrid.Y] = true;
             Grid.GridCase[(int)positionDansGrid.X, (int)positionDansGrid.Y].Accessible = true;
+            SoundRock.Play();
             Dispose();
         }
     }

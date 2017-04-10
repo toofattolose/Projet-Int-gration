@@ -19,11 +19,13 @@ namespace AtelierXNA
     {
         SpriteBatch GestionSprite { get; set; }
         Texture2D SpriteMenu { get; set; }
+        Vector2 PositionDans…cran { get; set; }
 
-        public MenuUpgradeJoueur(Game game)
+        public MenuUpgradeJoueur(Game game, Vector2 positionDans…cran)
             : base(game)
         {
             // TODO: Construct any child components here
+            PositionDans…cran = positionDans…cran;
         }
 
 
@@ -47,7 +49,7 @@ namespace AtelierXNA
 
         private void DessinerMenu()
         {
-            GestionSprite.Draw(SpriteMenu, new Vector2(0, 300), Color.White);
+            GestionSprite.Draw(SpriteMenu, PositionDans…cran, Color.White);
         }
     }
 }

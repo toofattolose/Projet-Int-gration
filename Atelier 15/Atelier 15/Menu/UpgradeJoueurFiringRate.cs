@@ -107,6 +107,7 @@ namespace AtelierXNA
                     {
                         if (tableauValeurNiveau[i,0] == j.NiveauFiringRate && j.NiveauFiringRate != 5 && !estUpgrader)
                         {
+                            SoundAchat.Play();
                             j.FiringRate = tableauValeurNiveau[i + 1,1];
                             j.NombreDOR -= (int)tableauValeurNiveau[i,2];
                             ++j.NiveauFiringRate;

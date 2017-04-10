@@ -15,19 +15,19 @@ namespace AtelierXNA
     /// <summary>
     /// This is a game component that implements IUpdateable.
     /// </summary>
-    public class UpgradeGeneratrice : UpgradeIcon
+    public class UpgradeTurret : UpgradeIcon
     {
         float IntervalleMAJ { get; set; }
         float TempsÉcouléDepuisMAJ { get; set; }
         string Niveau { get; set; }
         SpriteFont ArialFont { get; set; }
-        Generatrice GeneratriceSelectrionner { get; set; }
+        Turret TurretSélectionné { get; set; }
 
 
-        public UpgradeGeneratrice(Game game, Vector2 position, string locationTexture, Generatrice generatriceSelectionner)
+        public UpgradeTurret(Game game, Vector2 position, string locationTexture, Turret turretSélectionné)
             : base(game,position, locationTexture)
         {
-            GeneratriceSelectrionner = generatriceSelectionner;
+            TurretSélectionné = turretSélectionné;
         }
 
         public override void Initialize()
@@ -62,10 +62,10 @@ namespace AtelierXNA
 
         private void DessinerInformation()
         {
-            string niveauBatiment = "Niveau " + GeneratriceSelectrionner.Niveau.ToString();
-            string vieBatiment = "Vie: " + GeneratriceSelectrionner.NombrePtsDeVie.ToString() + "/" + GeneratriceSelectrionner.NombreMaxPtsDeVie.ToString();
-            string energieBatiment = "Énergie: " + GeneratriceSelectrionner.NombreÉnergie.ToString() + "/" + GeneratriceSelectrionner.NombreÉnergieMaximum.ToString();
-            string coutUpgrade = "Bois: " + GeneratriceSelectrionner.TableauValeurNiveau[GeneratriceSelectrionner.Niveau - 1, 2].ToString() + " / Or: " + GeneratriceSelectrionner.TableauValeurNiveau[GeneratriceSelectrionner.Niveau - 1, 3].ToString();
+            string niveauBatiment = "Niveau " + TurretSélectionné.Niveau.ToString();
+            string vieBatiment = "Vie: " + TurretSélectionné.NombrePtsDeVie.ToString() + "/" + TurretSélectionné.NombreMaxPtsDeVie.ToString();
+            string energieBatiment = "Énergie: " + TurretSélectionné.NombrePtsEnergie.ToString() + "/" + TurretSélectionné.NombreMaxEnergie.ToString();
+            string coutUpgrade = "Bois: " + TurretSélectionné.TableauValeurNiveau[TurretSélectionné.Niveau - 1, 2].ToString() + " / Or: " + TurretSélectionné.TableauValeurNiveau[TurretSélectionné.Niveau - 1, 3].ToString();
 
             GestionSprite.DrawString(ArialFont, niveauBatiment, new Vector2(Position.X - 16, Position.Y + 64), Color.White);
             GestionSprite.DrawString(ArialFont, vieBatiment, new Vector2(Position.X + 128, Position.Y), Color.Green);
@@ -77,7 +77,7 @@ namespace AtelierXNA
         {
             if (GestionInput.EstNouveauClicGauche() && TrouverSiIntersection())
             {
-                GeneratriceSelectrionner.MonterDeNiveau();
+                TurretSélectionné.MonterDeNiveau();
             }
         }
     }

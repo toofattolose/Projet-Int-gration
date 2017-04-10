@@ -22,6 +22,7 @@ namespace AtelierXNA
         protected Texture2D SpriteUpgrade { get; set; }
         protected Vector2 Position { get; set; }
         string LocationTexture { get; set; }
+        protected SoundEffect SoundAchat { get; set; }
         
 
         public UpgradeIcon(Game game, Vector2 position, string locationTexture)
@@ -34,6 +35,7 @@ namespace AtelierXNA
         public override void Initialize()
         {
             // TODO: Add your initialization code here
+            SoundAchat = Game.Content.Load<SoundEffect>("SoundEffects/wololo");
             GestionInput = Game.Services.GetService(typeof(InputManager)) as InputManager;
             GestionSprite = new SpriteBatch(Game.GraphicsDevice);
             SpriteUpgrade = Game.Content.Load<Texture2D>(LocationTexture);

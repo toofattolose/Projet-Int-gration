@@ -24,11 +24,31 @@ namespace AtelierXNA
         Caméra CaméraJeu { get; set; }
         GridDeJeu Grid { get; set; }
         RessourcesManager<Model> GestionnaireDeModèles { get; set; }
+        Joueur JoueurPrésent { get; set; }
+        int[,] TableauDesPrix { get; set; }
 
         public PlacementBuilding(Game game, string nomModel, float échelle, Vector3 position, Vector3 rotationInitiale)
             : base(game, nomModel, échelle, position, rotationInitiale)
         {
             // TODO: Construct any child components here
+            TableauDesPrix = new int[4, 2];
+
+            //Mur
+            TableauDesPrix[0, 0] = 0; //Prix bois
+            TableauDesPrix[0, 1] = 0; // Prix Or
+
+            //Generatrice
+            TableauDesPrix[1, 0] = 0; //75; //Prix bois
+            TableauDesPrix[1, 1] = 0;// 25; //Prix or
+
+            //Réparateur
+            TableauDesPrix[2, 0] = 0;//50; //Prix bois
+            TableauDesPrix[2, 1] = 0;//50; //Prix or
+
+            //Turret
+            TableauDesPrix[3, 0] = 0;//75; //Prix bois
+            TableauDesPrix[3, 1] = 0;//50; //Prix or
+
         }
 
         public override void Initialize()
@@ -50,11 +70,15 @@ namespace AtelierXNA
             GérerPlacement();
             if (TempsÉcouléDepuisMAJ >= IntervalleMAJ)
             {
+                foreach (Joueur j in Game.Components.OfType<Joueur>())
+                {
+                    JoueurPrésent = j;
+                }
                 GérerModel();
                 GérerDéplacement();
+                base.CalculerMonde();
                 TempsÉcouléDepuisMAJ = 0;
             }
-            base.Update(gameTime);
         }
 
         private void GérerPlacement()
@@ -65,40 +89,62 @@ namespace AtelierXNA
                 Vector3 vecteurDelta = new Vector3(Grid.DeltaDiviséParDeux, 0, Grid.DeltaDiviséParDeux);
                 Vector3 positionDansGrid = new Vector3((float)Math.Floor(positionSouris.X / Grid.Delta.X), 0, (float)Math.Floor(positionSouris.Z / Grid.Delta.Y));
                 Vector3 positionBuilding = new Vector3((positionDansGrid.X * Grid.Delta.X) + vecteurDelta.X, (positionDansGrid.Y * Grid.Delta.Y) + vecteurDelta.Y, (positionDansGrid.Z * Grid.Delta.Y) + vecteurDelta.Z);
-                if (TypeBuilding == 3)
-                {                    
-                    if (Grid.TableauGrid[(int)positionDansGrid.X,(int)positionDansGrid.Z])
-                    {
-                        Mur buildingMur = new Mur(Game, "wall", 0.02f, positionBuilding, Vector3.Zero);
-                        Game.Components.Add(buildingMur);
-                        Grid.TableauGrid[(int)positionDansGrid.X, (int)positionDansGrid.Z] = false;
-                        Grid.GridCase[(int)positionDansGrid.X, (int)positionDansGrid.Z].Accessible = false;
-                    }
-                }
-                else
+                if (Grid.TableauGrid[(int)positionDansGrid.X, (int)positionDansGrid.Z])
                 {
-                    if (TypeBuilding == 2)
+                    if (TypeBuilding == 3)
                     {
-                        Generatrice buildingGeneratrice = new Generatrice(Game, "generator", 0.02f, positionBuilding, Vector3.Zero);
-                        Game.Components.Add(buildingGeneratrice);
-                        Grid.TableauGrid[(int)positionDansGrid.X, (int)positionDansGrid.Z] = false;
-                        Grid.GridCase[(int)positionDansGrid.X, (int)positionDansGrid.Z].Accessible = false;
+                        if (JoueurPrésent.NombreDeBois >= TableauDesPrix[0, 0] && JoueurPrésent.NombreDOR >= TableauDesPrix[0, 1])
+                        {
+                            Mur buildingMur = new Mur(Game, "wall", 0.02f, positionBuilding, Vector3.Zero);
+                            Game.Components.Add(buildingMur);
+                            Grid.TableauGrid[(int)positionDansGrid.X, (int)positionDansGrid.Z] = false;
+                            Grid.GridCase[(int)positionDansGrid.X, (int)positionDansGrid.Z].Accessible = false;
+                            JoueurPrésent.NombreDeBois -= TableauDesPrix[0, 0];
+                            JoueurPrésent.NombreDOR -= TableauDesPrix[0, 1];
+                        }
                     }
                     else
                     {
-                        if (TypeBuilding == 1)
-                        {                           
-                            Reparateur buildingReparateur = new Reparateur(Game, "reparator", 0.02f, positionBuilding, Vector3.Zero);
-                            Game.Components.Add(buildingReparateur);
-                            Grid.TableauGrid[(int)positionDansGrid.X, (int)positionDansGrid.Z] = false;
-                            Grid.GridCase[(int)positionDansGrid.X, (int)positionDansGrid.Z].Accessible = false;
+                        if (TypeBuilding == 2)
+                        {
+                            if (JoueurPrésent.NombreDeBois >= TableauDesPrix[1, 0] && JoueurPrésent.NombreDOR >= TableauDesPrix[1, 1])
+                            {
+                                Generatrice buildingGeneratrice = new Generatrice(Game, "generator", 0.02f, positionBuilding, Vector3.Zero);
+                                Game.Components.Add(buildingGeneratrice);
+                                Grid.TableauGrid[(int)positionDansGrid.X, (int)positionDansGrid.Z] = false;
+                                Grid.GridCase[(int)positionDansGrid.X, (int)positionDansGrid.Z].Accessible = false;
+                                JoueurPrésent.NombreDeBois -= TableauDesPrix[1, 0];
+                                JoueurPrésent.NombreDOR -= TableauDesPrix[1, 1];
+                            }
                         }
                         else
                         {
-                            Turret buildingTurret = new Turret(Game, "turret", Échelle, positionBuilding, Vector3.Zero);
-                            Game.Components.Add(buildingTurret);
-                            Grid.TableauGrid[(int)positionDansGrid.X, (int)positionDansGrid.Z] = false;
-                            Grid.GridCase[(int)positionDansGrid.X, (int)positionDansGrid.Z].Accessible = false;
+                            if (TypeBuilding == 1)
+                            {
+                                if (JoueurPrésent.NombreDeBois >= TableauDesPrix[2, 0] && JoueurPrésent.NombreDOR >= TableauDesPrix[2, 1])
+                                {
+                                    Reparateur buildingReparateur = new Reparateur(Game, "reparator", 0.02f, positionBuilding, Vector3.Zero);
+                                    Game.Components.Add(buildingReparateur);
+                                    Grid.TableauGrid[(int)positionDansGrid.X, (int)positionDansGrid.Z] = false;
+                                    Grid.GridCase[(int)positionDansGrid.X, (int)positionDansGrid.Z].Accessible = false;
+                                    JoueurPrésent.NombreDeBois -= TableauDesPrix[2, 0];
+                                    JoueurPrésent.NombreDOR -= TableauDesPrix[2, 1];
+                                }
+
+                            }
+                            else
+                            {
+                                if (JoueurPrésent.NombreDeBois >= TableauDesPrix[3, 0] && JoueurPrésent.NombreDOR >= TableauDesPrix[3, 1])
+                                {
+                                    Turret buildingTurret = new Turret(Game, "turret", 0.075f, positionBuilding, Vector3.Zero);
+                                    Game.Components.Add(buildingTurret);
+                                    Grid.TableauGrid[(int)positionDansGrid.X, (int)positionDansGrid.Z] = false;
+                                    Grid.GridCase[(int)positionDansGrid.X, (int)positionDansGrid.Z].Accessible = false;
+                                    JoueurPrésent.NombreDeBois -= TableauDesPrix[3, 0];
+                                    JoueurPrésent.NombreDOR -= TableauDesPrix[3, 1];
+                                }
+
+                            }
                         }
                     }
                 }

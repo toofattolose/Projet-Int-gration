@@ -20,6 +20,7 @@ namespace AtelierXNA
         public int NombrePtsDeVie { get; set; }
         public int NombreMaxPtsDeVie { get; set; }
         public int Niveau { get; set; }
+        protected SoundEffect SoundUpgrade { get; set; }
 
         public Batiment(Game game, string nomModele, float échelle, Vector3 position, Vector3 rotationInitiale)
             : base(game, nomModele,échelle,position,rotationInitiale)
@@ -30,6 +31,7 @@ namespace AtelierXNA
         public override void Initialize()
         {
             base.Initialize();
+            SoundUpgrade = Game.Content.Load<SoundEffect>("SoundEffects/wololo");
             Niveau = 1;
         }
     }

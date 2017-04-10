@@ -27,6 +27,8 @@ namespace AtelierXNA
         MouseState GestionSouris { get; set; }
         RessourcesManager<Model> GestionnaireDeModèles { get; set; }
         float TempsSpawn { get; set; }
+        Vector2 PositionMenuDansÉcran { get; set; }
+        public bool EstEnCollectionRessource { get; set; }
         
         float TempsÉcouléDepuisDernierTir { get; set; }
         Vector3 Direction { get; set; }
@@ -35,6 +37,8 @@ namespace AtelierXNA
 
         public int NombreDeBois { get; set; }
         public int NombreDOR { get; set; }
+
+        SoundEffect SoundShooting { get; set; }
         
         GridDeJeu Grid { get; set; }
         PlacementBuilding BuildingEnPlacement { get; set; }
@@ -65,6 +69,7 @@ namespace AtelierXNA
         UpgradeMur IconUpgradeMur { get; set; }
         UpgradeGeneratrice IconUpgradeGeneratrice { get; set; }
         UpgradeReparateur IconUpgradeReparateur { get; set; }
+        UpgradeTurret IconUpgradeTurret { get; set; }
 
         public int NiveauDommage { get; set; }
         public int NiveauTempsRécolte { get; set; }
@@ -81,6 +86,7 @@ namespace AtelierXNA
         Mur MurSélecitonné { get; set; }
         Generatrice GeneratriceSélectionné { get; set; }
         Reparateur ReparateurSélectionné { get; set; }
+        Turret TurretSélectionné { get; set; }
 
         //Enemy
         int[] PrixEnemy { get; set; }
@@ -97,13 +103,16 @@ namespace AtelierXNA
         public override void Initialize()
         {
             //Upgrade
+            PositionMenuDansÉcran = new Vector2((1280 - 800) / 2, 720-250);
             NiveauDommage = 1;
             NiveauFiringRate = 1;
             NiveauNombreRécolte = 1;
             NiveauTempsRécolte = 1;
             NbPtsDeVieMax = 10;
             NbPtsDeVie = NbPtsDeVieMax;
+            EstEnCollectionRessource = false;
 
+            SoundShooting = Game.Content.Load<SoundEffect>("SoundEffects/shooting");
             État = "enMouvement";
             Grid = Game.Services.GetService(typeof(GridDeJeu)) as GridDeJeu;
             VitesseDéplacement = 0.25f;
@@ -245,11 +254,11 @@ namespace AtelierXNA
                 IconEnemy10.Dispose();
                 IconEnemy11.Dispose();
                 IconEnemy12.Dispose();
-                MenuUpgrade = new MenuUpgradeJoueur(Game);
-                IconUpgradeDommage = new UpgradeJoueurDommage(Game, new Vector2(32, 350 + 36), "Sprites/spr_upgrade_icon1");
-                IconUpgradeFiringRate = new UpgradeJoueurFiringRate(Game, new Vector2(32 + 128, 350 + 36), "Sprites/spr_upgrade_icon2");
-                IconUpgradeTempsRécolte = new UpgradeJoueurTempsRécolte(Game, new Vector2(32 + 128 + 128, 350 + 36), "Sprites/spr_upgrade_icon3");
-                IconUpgradeNombreRécolte = new UpgradeJoueurNombreRécolte(Game, new Vector2(32 + 128 + 128 + 128, 350 + 36), "Sprites/spr_upgrade_icon4");
+                MenuUpgrade = new MenuUpgradeJoueur(Game, PositionMenuDansÉcran);
+                IconUpgradeDommage = new UpgradeJoueurDommage(Game, new Vector2(PositionMenuDansÉcran.X + 32, PositionMenuDansÉcran.Y + 36 + 50), "Sprites/spr_upgrade_icon1");
+                IconUpgradeFiringRate = new UpgradeJoueurFiringRate(Game, new Vector2(PositionMenuDansÉcran.X + 32 + 128, PositionMenuDansÉcran.Y + 36 + 50), "Sprites/spr_upgrade_icon2");
+                IconUpgradeTempsRécolte = new UpgradeJoueurTempsRécolte(Game, new Vector2(PositionMenuDansÉcran.X + 32 + 128 + 128, PositionMenuDansÉcran.Y + 36 + 50), "Sprites/spr_upgrade_icon3");
+                IconUpgradeNombreRécolte = new UpgradeJoueurNombreRécolte(Game, new Vector2(PositionMenuDansÉcran.X + 32 + 128 + 128 + 128, PositionMenuDansÉcran.Y + 36 + 50), "Sprites/spr_upgrade_icon4");
                 Game.Components.Add(MenuUpgrade);
                 Game.Components.Add(IconUpgradeDommage);
                 Game.Components.Add(IconUpgradeFiringRate);
@@ -309,6 +318,13 @@ namespace AtelierXNA
                         {
                             IconUpgradeReparateur.Dispose();
                         }
+                        else
+                        {
+                            if (TypeBuildingSelectionner == (byte)TypeUpgrade.Turret)
+                            {
+                                IconUpgradeTurret.Dispose();
+                            }
+                        }
                     }
                 }
                 Game.Components.Add(BuildingEnPlacement);
@@ -333,13 +349,20 @@ namespace AtelierXNA
                         {
                             IconUpgradeReparateur.Dispose();
                         }
+                        else
+                        {
+                            if (TypeBuildingSelectionner == (byte)TypeUpgrade.Turret)
+                            {
+                                IconUpgradeTurret.Dispose();
+                            }
+                        }
                     }
                 }
-                MenuUpgrade = new MenuUpgradeJoueur(Game);
-                IconUpgradeDommage = new UpgradeJoueurDommage(Game, new Vector2(32, 350 + 36), "Sprites/spr_upgrade_icon1");
-                IconUpgradeFiringRate = new UpgradeJoueurFiringRate(Game, new Vector2(32 + 128, 350 + 36), "Sprites/spr_upgrade_icon2");
-                IconUpgradeTempsRécolte = new UpgradeJoueurTempsRécolte(Game, new Vector2(32 + 128 + 128, 350 + 36), "Sprites/spr_upgrade_icon3");
-                IconUpgradeNombreRécolte = new UpgradeJoueurNombreRécolte(Game, new Vector2(32 + 128 + 128 + 128, 350 + 36), "Sprites/spr_upgrade_icon4");
+                MenuUpgrade = new MenuUpgradeJoueur(Game, PositionMenuDansÉcran);
+                IconUpgradeDommage = new UpgradeJoueurDommage(Game, new Vector2(PositionMenuDansÉcran.X + 32, PositionMenuDansÉcran.Y + 36 + 50), "Sprites/spr_upgrade_icon1");
+                IconUpgradeFiringRate = new UpgradeJoueurFiringRate(Game, new Vector2(PositionMenuDansÉcran.X + 32 + 128, PositionMenuDansÉcran.Y + 36 + 50), "Sprites/spr_upgrade_icon2");
+                IconUpgradeTempsRécolte = new UpgradeJoueurTempsRécolte(Game, new Vector2(PositionMenuDansÉcran.X + 32 + 128 + 128, PositionMenuDansÉcran.Y + 36 + 50), "Sprites/spr_upgrade_icon3");
+                IconUpgradeNombreRécolte = new UpgradeJoueurNombreRécolte(Game, new Vector2(PositionMenuDansÉcran.X + 32 + 128 + 128 + 128, PositionMenuDansÉcran.Y + 36 + 50), "Sprites/spr_upgrade_icon4");
                 Game.Components.Add(MenuUpgrade);
                 Game.Components.Add(IconUpgradeDommage);
                 Game.Components.Add(IconUpgradeFiringRate);
@@ -367,6 +390,13 @@ namespace AtelierXNA
                         {
                             IconUpgradeReparateur.Dispose();
                         }
+                        else
+                        {
+                            if (TypeBuildingSelectionner == (byte)TypeUpgrade.Turret)
+                            {
+                                IconUpgradeTurret.Dispose();
+                            }
+                        }
                     }
                 }
                 État = "enMouvement";
@@ -390,6 +420,13 @@ namespace AtelierXNA
                         if (TypeBuildingSelectionner == (byte)TypeUpgrade.Reparateur)
                         {
                             IconUpgradeReparateur.Dispose();
+                        }
+                        else
+                        {
+                            if (TypeBuildingSelectionner == (byte)TypeUpgrade.Turret)
+                            {
+                                IconUpgradeTurret.Dispose();
+                            }
                         }
                     }
                 }
@@ -476,11 +513,6 @@ namespace AtelierXNA
             TempsSpawn += tempsÉcoulé;
             GérerTir(gameTime);
             GérerPicking();
-            if (TempsSpawn >= 5)
-            {
-                //Game.Components.Add(new Ennemis(Game, "player", 0.01f, new Vector3(256 / 2f + 2, 0, 256 / 2f + 2), Vector3.Zero));
-                TempsSpawn = 0;
-            }
             if (NbPtsDeVie <= 0)
             {
                 État = "estMort";
@@ -500,12 +532,12 @@ namespace AtelierXNA
                 }
                 if (GestionInput.EstNouvelleTouche(Keys.M))
                 {
-                    MenuUpgrade = new MenuUpgradeJoueur(Game);
-                IconUpgradeDommage = new UpgradeJoueurDommage(Game, new Vector2(32, 350 + 36), "Sprites/spr_upgrade_icon1");
-                IconUpgradeFiringRate = new UpgradeJoueurFiringRate(Game, new Vector2(32 + 128, 350 + 36), "Sprites/spr_upgrade_icon2");
-                IconUpgradeTempsRécolte = new UpgradeJoueurTempsRécolte(Game, new Vector2(32 + 128 + 128, 350 + 36), "Sprites/spr_upgrade_icon3");
-                IconUpgradeNombreRécolte = new UpgradeJoueurNombreRécolte(Game, new Vector2(32 + 128 + 128 + 128, 350 + 36), "Sprites/spr_upgrade_icon4");
-                    Game.Components.Add(MenuUpgrade);
+                    MenuUpgrade = new MenuUpgradeJoueur(Game, PositionMenuDansÉcran);
+                IconUpgradeDommage = new UpgradeJoueurDommage(Game, new Vector2(PositionMenuDansÉcran.X + 32, PositionMenuDansÉcran.Y + 36 + 50), "Sprites/spr_upgrade_icon1");
+                IconUpgradeFiringRate = new UpgradeJoueurFiringRate(Game, new Vector2(PositionMenuDansÉcran.X + 32 + 128, PositionMenuDansÉcran.Y + 36 + 50), "Sprites/spr_upgrade_icon2");
+                IconUpgradeTempsRécolte = new UpgradeJoueurTempsRécolte(Game, new Vector2(PositionMenuDansÉcran.X + 32 + 128 + 128, PositionMenuDansÉcran.Y + 36 + 50), "Sprites/spr_upgrade_icon3");
+                IconUpgradeNombreRécolte = new UpgradeJoueurNombreRécolte(Game, new Vector2(PositionMenuDansÉcran.X + 32 + 128 + 128 + 128, PositionMenuDansÉcran.Y + 36 + 50), "Sprites/spr_upgrade_icon4");
+                Game.Components.Add(MenuUpgrade);
                 Game.Components.Add(IconUpgradeDommage);
                 Game.Components.Add(IconUpgradeFiringRate);
                 Game.Components.Add(IconUpgradeTempsRécolte);
@@ -538,6 +570,7 @@ namespace AtelierXNA
             {
                 if (GestionInput.EstAncienClicGauche())
                 {
+                    SoundShooting.Play();
                     Game.Components.Add(new BalleJoueur(Game, "bullet", 0.015f, Position + new Vector3(0, 2.5f, 0), Rotation, Dommage, Direction,1/60f, 2f));
                     TempsÉcouléDepuisDernierTir += tempsÉcoulé;
                 }
@@ -666,8 +699,8 @@ namespace AtelierXNA
                             {
                                 if (TrouverIntersection(positionSouris, m.Position) && État == "enMouvement")
                                 {
-                                    MenuUpgrade = new MenuUpgradeJoueur(Game);
-                                    IconUpgradeMur = new UpgradeMur(Game, new Vector2(32, 350 + 36), "Sprites/spr_upgrade_icon1", m);
+                                    MenuUpgrade = new MenuUpgradeJoueur(Game, PositionMenuDansÉcran);
+                                    IconUpgradeMur = new UpgradeMur(Game, new Vector2(PositionMenuDansÉcran.X + 32, PositionMenuDansÉcran.Y + 36 + 50), "Sprites/spr_upgrade_icon1", m);
                                     Game.Components.Add(MenuUpgrade);
                                     Game.Components.Add(IconUpgradeMur);
                                     MurSélecitonné = m;
@@ -688,8 +721,8 @@ namespace AtelierXNA
                             {
                                 if (TrouverIntersection(positionSouris, g.Position) && État == "enMouvement")
                                 {
-                                    MenuUpgrade = new MenuUpgradeJoueur(Game);
-                                    IconUpgradeGeneratrice = new UpgradeGeneratrice(Game, new Vector2(32, 350 + 36), "Sprites/spr_upgrade_icon1", g);
+                                    MenuUpgrade = new MenuUpgradeJoueur(Game,PositionMenuDansÉcran);
+                                    IconUpgradeGeneratrice = new UpgradeGeneratrice(Game, new Vector2(PositionMenuDansÉcran.X + 32, PositionMenuDansÉcran.Y + 36 + 50), "Sprites/spr_upgrade_icon1", g);
                                     Game.Components.Add(MenuUpgrade);
                                     Game.Components.Add(IconUpgradeGeneratrice);
                                     GeneratriceSélectionné = g;
@@ -710,12 +743,34 @@ namespace AtelierXNA
                             {
                                 if (TrouverIntersection(positionSouris, r.Position) && État == "enMouvement")
                                 {
-                                    MenuUpgrade = new MenuUpgradeJoueur(Game);
-                                    IconUpgradeReparateur = new UpgradeReparateur(Game, new Vector2(32, 350 + 36), "Sprites/spr_upgrade_icon1", r);
+                                    MenuUpgrade = new MenuUpgradeJoueur(Game, PositionMenuDansÉcran);
+                                    IconUpgradeReparateur = new UpgradeReparateur(Game, new Vector2(PositionMenuDansÉcran.X + 32, PositionMenuDansÉcran.Y + 36 + 50), "Sprites/spr_upgrade_icon1", r);
                                     Game.Components.Add(MenuUpgrade);
                                     Game.Components.Add(IconUpgradeReparateur);
                                     ReparateurSélectionné = r;
                                     TypeBuildingSelectionner = (byte)TypeUpgrade.Reparateur;
+                                    État = "enUpgradeBuilding";
+                                }
+                            }
+                        }
+                    }
+
+                    //sélection de la turret
+                    foreach (Turret t in Game.Components.OfType<Turret>())
+                    {
+                        for (int i = 0; i < t.Modèle.Meshes.Count; i++)
+                        {
+                            float distanceJoueur = (float)Math.Sqrt(Math.Pow(t.Position.X - Position.X, 2) + Math.Pow(t.Position.Y - Position.Y, 2) + Math.Pow(t.Position.Z - Position.Z, 2));
+                            if (distanceJoueur <= 40)
+                            {
+                                if (TrouverIntersection(positionSouris, t.Position) && État == "enMouvement")
+                                {
+                                    MenuUpgrade = new MenuUpgradeJoueur(Game, PositionMenuDansÉcran);
+                                    IconUpgradeTurret = new UpgradeTurret(Game, new Vector2(PositionMenuDansÉcran.X + 32, PositionMenuDansÉcran.Y + 36 + 50), "Sprites/spr_upgrade_icon1", t);
+                                    Game.Components.Add(MenuUpgrade);
+                                    Game.Components.Add(IconUpgradeTurret);
+                                    TurretSélectionné = t;
+                                    TypeBuildingSelectionner = (byte)TypeUpgrade.Turret;
                                     État = "enUpgradeBuilding";
                                 }
                             }
@@ -784,6 +839,13 @@ namespace AtelierXNA
                             {
                                 IconUpgradeReparateur.Dispose();
                             }
+                            else
+                            {
+                                if (TypeBuildingSelectionner == (byte)TypeUpgrade.Turret)
+                                {
+                                    IconUpgradeTurret.Dispose();
+                                }
+                            }
                         }
                     }
                     État = "enMouvement";
@@ -815,6 +877,13 @@ namespace AtelierXNA
                             if (TypeBuildingSelectionner == (byte)TypeUpgrade.Reparateur)
                             {
                                 IconUpgradeReparateur.Dispose();
+                            }
+                            else
+                            {
+                                if (TypeBuildingSelectionner == (byte)TypeUpgrade.Turret)
+                                {
+                                    IconUpgradeTurret.Dispose();
+                                }
                             }
                     }
                     }
@@ -848,6 +917,13 @@ namespace AtelierXNA
                             {
                                 IconUpgradeReparateur.Dispose();
                             }
+                            else
+                            {
+                                if (TypeBuildingSelectionner == (byte)TypeUpgrade.Turret)
+                                {
+                                    IconUpgradeTurret.Dispose();
+                                }
+                            }
                         }
                     }
                     État = "enMouvement";
@@ -879,6 +955,13 @@ namespace AtelierXNA
                             if (TypeBuildingSelectionner == (byte)TypeUpgrade.Reparateur)
                             {
                                 IconUpgradeReparateur.Dispose();
+                            }
+                            else
+                            {
+                                if (TypeBuildingSelectionner == (byte)TypeUpgrade.Turret)
+                                {
+                                    IconUpgradeTurret.Dispose();
+                                }
                             }
                     }           
                     }
@@ -943,12 +1026,12 @@ namespace AtelierXNA
                     }
                 }
                 BuildingEnPlacement.Dispose();
-                    MenuUpgrade = new MenuUpgradeJoueur(Game);
-                IconUpgradeDommage = new UpgradeJoueurDommage(Game, new Vector2(32, 350 + 36), "Sprites/spr_upgrade_icon1");
-                IconUpgradeFiringRate = new UpgradeJoueurFiringRate(Game, new Vector2(32 + 128, 350 + 36), "Sprites/spr_upgrade_icon2");
-                IconUpgradeTempsRécolte = new UpgradeJoueurTempsRécolte(Game, new Vector2(32 + 128 + 128, 350 + 36), "Sprites/spr_upgrade_icon3");
-                IconUpgradeNombreRécolte = new UpgradeJoueurNombreRécolte(Game, new Vector2(32 + 128 + 128 + 128, 350 + 36), "Sprites/spr_upgrade_icon4");
-                    Game.Components.Add(MenuUpgrade);
+                    MenuUpgrade = new MenuUpgradeJoueur(Game, PositionMenuDansÉcran);
+                IconUpgradeDommage = new UpgradeJoueurDommage(Game, new Vector2(PositionMenuDansÉcran.X + 32, PositionMenuDansÉcran.Y + 36 + 50), "Sprites/spr_upgrade_icon1");
+                IconUpgradeFiringRate = new UpgradeJoueurFiringRate(Game, new Vector2(PositionMenuDansÉcran.X + 32 + 128, PositionMenuDansÉcran.Y + 36 + 50), "Sprites/spr_upgrade_icon2");
+                IconUpgradeTempsRécolte = new UpgradeJoueurTempsRécolte(Game, new Vector2(PositionMenuDansÉcran.X + 32 + 128 + 128, PositionMenuDansÉcran.Y + 36 + 50), "Sprites/spr_upgrade_icon3");
+                IconUpgradeNombreRécolte = new UpgradeJoueurNombreRécolte(Game, new Vector2(PositionMenuDansÉcran.X + 32 + 128 + 128 + 128, PositionMenuDansÉcran.Y + 36 + 50), "Sprites/spr_upgrade_icon4");
+                Game.Components.Add(MenuUpgrade);
                 Game.Components.Add(IconUpgradeDommage);
                 Game.Components.Add(IconUpgradeFiringRate);
                 Game.Components.Add(IconUpgradeTempsRécolte);

@@ -22,6 +22,7 @@ namespace AtelierXNA
         float Angle { get; set; }
         float IntervalleMAJ { get; set; }
         float Temps…coulÈDepuisMAJ { get; set; }
+        SoundEffect SoundShooting { get; set; }
 
         //attaque
         float IntervalleDeTir { get; set; }
@@ -39,17 +40,17 @@ namespace AtelierXNA
             // TODO: Construct any child components here
             TableauValeurNiveau[0, 0] = 1; //niveau
             TableauValeurNiveau[0, 1] = 100; //nb vie
-            TableauValeurNiveau[0, 2] = 150; //cout bois
-            TableauValeurNiveau[0, 3] = 75; //cout or
+            TableauValeurNiveau[0, 2] = 0; //cout bois
+            TableauValeurNiveau[0, 3] = 0; //cout or
             TableauValeurNiveau[0, 4] = 1; //Damage
             TableauValeurNiveau[0, 5] = 1f; //intervalle de tir
-            TableauValeurNiveau[0, 6] = 10; //Cout Ènergie
+            TableauValeurNiveau[0, 6] = 2; //Cout Ènergie
             TableauValeurNiveau[0, 7] = 100; //…nergie max
 
             TableauValeurNiveau[1, 0] = 2;
             TableauValeurNiveau[1, 1] = 150;
-            TableauValeurNiveau[1, 2] = 350; //cout bois
-            TableauValeurNiveau[1, 3] = 175; //cout or
+            TableauValeurNiveau[1, 2] = 0; //cout bois
+            TableauValeurNiveau[1, 3] = 0; //cout or
             TableauValeurNiveau[1, 4] = 2; //Damage
             TableauValeurNiveau[1, 5] = 1f; //intervalle de tir
             TableauValeurNiveau[1, 6] = 2; //Cout Ènergie
@@ -135,6 +136,7 @@ namespace AtelierXNA
         public override void Initialize()
         {
             base.Initialize();
+            SoundShooting = Game.Content.Load<SoundEffect>("SoundEffects/shooting");
             Angle = 0;
             DistanceDeTir = 20;
             NombreMaxPtsDeVie = (int)TableauValeurNiveau[0,1];
@@ -170,7 +172,7 @@ namespace AtelierXNA
             if (Temps…coulÈDepuisMAJ >= IntervalleMAJ)
             {
                 GÈrerChoixCible();
-                //CalculerMonde();
+                CalculerMonde();
                 Temps…coulÈDepuisMAJ = 0;
             }
         }
@@ -192,21 +194,25 @@ namespace AtelierXNA
                 {
                     if (e == Cible)
                     {
-                        Direction = new Vector3(e.Position.X - Position.X, 0, e.Position.Z - Position.Z);
-                        Direction.Normalize();
-                        Vector3 directionBase = Vector3.UnitX;
-                        directionBase.Normalize();
-                        double cosAngle = Vector3.Dot(Direction, directionBase);
-                        if (e.Position.Z > Position.Z )
+                        float distance = (float)Math.Abs(Math.Sqrt(Math.Pow(e.Position.X - Position.X, 2) + Math.Pow(e.Position.Y - Position.Y, 2) + Math.Pow(e.Position.Z - Position.Z, 2)));
+                        if (distance <= DistanceDeTir)
                         {
-                            Angle = -(float)Math.Acos(cosAngle);
-                        }
-                        else
-                        {
-                            Angle = (float)Math.Acos(cosAngle);
-                        }
-                        //Rotation = new Vector3(0, Angle, 0);
-                        EnnemiTrouvÈ = true;
+                            Direction = new Vector3(e.Position.X - Position.X, 0, e.Position.Z - Position.Z);
+                            Direction = Vector3.Normalize(Direction);
+                            Vector3 directionBase = Vector3.UnitX;
+                            directionBase.Normalize();
+                            double cosAngle = Vector3.Dot(Direction, directionBase);
+                            if (e.Position.Z > Position.Z)
+                            {
+                                Angle = -(float)Math.Acos(cosAngle);
+                            }
+                            else
+                            {
+                                Angle = (float)Math.Acos(cosAngle);
+                            }
+                            Rotation = new Vector3(0, Angle, 0);
+                            EnnemiTrouvÈ = true;
+                        }         
                     }
                 }
                 if (!EnnemiTrouvÈ)
@@ -221,7 +227,8 @@ namespace AtelierXNA
         {
             if (Cible != null)
             {
-                BalleJoueur balle = new BalleJoueur(Game, "bullet", 0.02f, Position + new Vector3(0, 1, 0), Rotation, Dmg, Direction, 1 / 60f, 0.25f);
+                SoundShooting.Play();
+                BalleJoueur balle = new BalleJoueur(Game, "bullet", 0.015f, Position + new Vector3(0, 1, 0), Rotation, Dmg, Direction, 1 / 60f, 2f);
                 Game.Components.Add(balle);
                 NombrePtsEnergie -= Co˚tDeTir;
             }
@@ -246,6 +253,7 @@ namespace AtelierXNA
                     {
                         if (j.NombreDeBois >= TableauValeurNiveau[i + 1, 2] && j.NombreDOR >= TableauValeurNiveau[i + 1, 3])
                         {
+                            SoundUpgrade.Play();
                             ++Niveau;
                             NombreMaxPtsDeVie = (int)TableauValeurNiveau[i + 1, 1];
                             NombrePtsDeVie = (int)TableauValeurNiveau[i + 1, 1];
