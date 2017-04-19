@@ -36,7 +36,7 @@ namespace AtelierXNA
 
 
         //Network
-        string locationFichierIPNom = "..\\..\\..\\..\\Projet-Int-gration\\Atelier 15\\Atelier 15\\bin\\x86\\Debug\\FichierInfoLogin.txt";
+        string locationFichierIPNom { get; set; }
         static NetClient Client2 { get; set; }
         string HostIP { get; set; }
         string ClientName = "player ";
@@ -46,6 +46,11 @@ namespace AtelierXNA
 
         public Atelier()
         {
+            try
+            {
+                locationFichierIPNom = "..\\..\\..\\..\\Projet-Int-gration\\Atelier 15\\Atelier 15\\bin\\x86\\Debug\\FichierInfoLogin.txt";
+            }
+            catch(Exception) { locationFichierIPNom = "FichierInfoLogin.txt"; }
             Content.RootDirectory = "Content";
             PériphériqueGraphique = new GraphicsDeviceManager(this);
             PériphériqueGraphique.SynchronizeWithVerticalRetrace = false;

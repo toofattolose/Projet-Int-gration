@@ -40,12 +40,13 @@ namespace AtelierXNA
         GridDeJeu Grid { get; set; }
         Batiment BatimentCible { get; set; }
         Random GenerateurAleatoire { get; set; }
+        int NombrePts { get; set; }
 
         float IntervalleAttaque { get; set; }
 
         //Enemy stats
         int Niveau { get; set; }
-        int[,] StatsEnemy = new int[12, 3];
+        int[,] StatsEnemy = new int[12, 4];
 
         public Ennemis(Game game, string nomModele, float échelle, Vector3 position, Vector3 rotationInitiale, int niveau)
             : base(game, nomModele, échelle, position, rotationInitiale)
@@ -56,39 +57,62 @@ namespace AtelierXNA
             StatsEnemy[0, 0] = 1; //Niveau
             StatsEnemy[0, 1] = 5; //Vie
             StatsEnemy[0, 2] = 1; //Dommage
+            StatsEnemy[0, 3] = 1; //Nb Points par kill
+
             StatsEnemy[1, 0] = 2;
             StatsEnemy[1, 1] = 10;
-            StatsEnemy[1, 2] = 1; //Dommage
+            StatsEnemy[1, 2] = 2; //Dommage
+            StatsEnemy[1, 3] = 4; //Nb Points par kill
+
             StatsEnemy[2, 0] = 3;
-            StatsEnemy[2, 1] = 15;
-            StatsEnemy[2, 2] = 1; //Dommage
+            StatsEnemy[2, 1] = 25;
+            StatsEnemy[2, 2] = 4; //Dommage
+            StatsEnemy[2, 3] = 16; //Nb Points par kill
+
             StatsEnemy[3, 0] = 4;
-            StatsEnemy[3, 1] = 20;
-            StatsEnemy[3, 2] = 1; //Dommage
+            StatsEnemy[3, 1] = 50;
+            StatsEnemy[3, 2] = 8; //Dommage
+            StatsEnemy[3, 3] = 64; //Nb Points par kill
+
             StatsEnemy[4, 0] = 5;
-            StatsEnemy[4, 1] = 25;
-            StatsEnemy[4, 2] = 1; //Dommage
+            StatsEnemy[4, 1] = 125;
+            StatsEnemy[4, 2] = 16; //Dommage
+            StatsEnemy[4, 3] = 256; //Nb Points par kill
+
             StatsEnemy[5, 0] = 6;
-            StatsEnemy[5, 1] = 50;
-            StatsEnemy[5, 2] = 1; //Dommage
+            StatsEnemy[5, 1] = 250;
+            StatsEnemy[5, 2] = 32; //Dommage
+            StatsEnemy[5, 3] = 1024; //Nb Points par kill
+
             StatsEnemy[6, 0] = 7;
-            StatsEnemy[6, 1] = 75;
-            StatsEnemy[6, 2] = 1; //Dommage
+            StatsEnemy[6, 1] = 500;
+            StatsEnemy[6, 2] = 64; //Dommage
+            StatsEnemy[6, 3] = 4096; //Nb Points par kill
+
             StatsEnemy[7, 0] = 8;
-            StatsEnemy[7, 1] = 100;
-            StatsEnemy[7, 2] = 1; //Dommage
+            StatsEnemy[7, 1] = 1500;
+            StatsEnemy[7, 2] = 128; //Dommage
+            StatsEnemy[7, 3] = 16384; //Nb Points par kill
+
             StatsEnemy[8, 0] = 9;
-            StatsEnemy[8, 1] = 150;
-            StatsEnemy[8, 2] = 1; //Dommage
+            StatsEnemy[8, 1] = 3000;
+            StatsEnemy[8, 2] = 256; //Dommage
+            StatsEnemy[8, 3] = 65536; //Nb Points par kill
+
             StatsEnemy[9, 0] = 10;
-            StatsEnemy[9, 1] = 200;
-            StatsEnemy[9, 2] = 1; //Dommage
+            StatsEnemy[9, 1] = 7500;
+            StatsEnemy[9, 2] = 512; //Dommage
+            StatsEnemy[9, 3] = 262144; //Nb Points par kill
+
             StatsEnemy[10, 0] = 11;
-            StatsEnemy[10, 1] = 250;
-            StatsEnemy[10, 2] = 1; //Dommage
+            StatsEnemy[10, 1] = 12500;
+            StatsEnemy[10, 2] = 1024; //Dommage
+            StatsEnemy[10, 3] = 1048576; //Nb Points par kill
+
             StatsEnemy[11, 0] = 12;
-            StatsEnemy[11, 1] = 500;
-            StatsEnemy[11, 2] = 1; //Dommage
+            StatsEnemy[11, 1] = 20000;
+            StatsEnemy[11, 2] = 2048; //Dommage
+            StatsEnemy[11, 3] = 4194304; //Nb Points par kill
         }
 
         public override void Initialize()
@@ -112,6 +136,7 @@ namespace AtelierXNA
                 {
                     Vie = StatsEnemy[i, 1];
                     Dmg = StatsEnemy[i, 2];
+                    NombrePts = StatsEnemy[i, 3];
                 }
             }
             base.Initialize();
@@ -295,6 +320,10 @@ namespace AtelierXNA
                     direction = Vector3.Normalize(direction);
                     Sang particuleSang = new Sang(Game, "blood", 0.01f, new Vector3(Position.X, Position.Y + 5, Position.Z), new Vector3(GenerateurAleatoire.Next(0, 360), GenerateurAleatoire.Next(0, 360), GenerateurAleatoire.Next(0, 360)), direction);
                     Game.Components.Add(particuleSang);
+                }
+                foreach (Joueur j in Game.Components.OfType<Joueur>())
+                {
+                    j.NombrePtsKill += NombrePts;
                 }
                 SoundDeath.Play();
                 Dispose();

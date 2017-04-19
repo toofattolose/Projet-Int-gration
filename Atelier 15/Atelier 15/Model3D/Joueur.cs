@@ -38,6 +38,7 @@ namespace AtelierXNA
 
         public int NombreDeBois { get; set; }
         public int NombreDOR { get; set; }
+        public int NombrePtsKill { get; set; }
 
         SoundEffect SoundShooting { get; set; }
         
@@ -104,6 +105,12 @@ namespace AtelierXNA
         public override void Initialize()
         {
             //Upgrade
+
+            NombreDOR = 100000000;
+            NombreDeBois = 1000000000;
+
+
+
             PositionMenuDans…cran = new Vector2((1280 - 800) / 2, 720-250);
             NiveauDommage = 1;
             NiveauFiringRate = 1;
@@ -133,18 +140,18 @@ namespace AtelierXNA
 
             //Enemy
             PrixEnemy = new int[12];
-            PrixEnemy[0] = 0;
-            PrixEnemy[1] = 10;
-            PrixEnemy[2] = 10;
-            PrixEnemy[3] = 10;
-            PrixEnemy[4] = 10;
-            PrixEnemy[5] = 10;
-            PrixEnemy[6] = 10;
-            PrixEnemy[7] = 10;
-            PrixEnemy[8] = 10;
-            PrixEnemy[9] = 10;
-            PrixEnemy[10] = 10;
-            PrixEnemy[11] = 10;
+            PrixEnemy[0] = 10;
+            PrixEnemy[1] = 25;
+            PrixEnemy[2] = 100;
+            PrixEnemy[3] = 400;
+            PrixEnemy[4] = 1600;
+            PrixEnemy[5] = 6400;
+            PrixEnemy[6] = 25600;
+            PrixEnemy[7] = 102400;
+            PrixEnemy[8] = 409600;
+            PrixEnemy[9] = 1638400;
+            PrixEnemy[10] = 6553600;
+            PrixEnemy[11] = 26214400;
             int offsetX = 96;
             int offsetY = 16;
             int offsetInbetween = 128;

@@ -34,20 +34,20 @@ namespace AtelierXNA
             TableauDesPrix = new int[4, 2];
 
             //Mur
-            TableauDesPrix[0, 0] = 0; //Prix bois
+            TableauDesPrix[0, 0] = 50; //Prix bois
             TableauDesPrix[0, 1] = 0; // Prix Or
 
             //Generatrice
-            TableauDesPrix[1, 0] = 0; //75; //Prix bois
-            TableauDesPrix[1, 1] = 0;// 25; //Prix or
+            TableauDesPrix[1, 0] = 50; //75; //Prix bois
+            TableauDesPrix[1, 1] = 25;// 25; //Prix or
 
             //Réparateur
-            TableauDesPrix[2, 0] = 0;//50; //Prix bois
-            TableauDesPrix[2, 1] = 0;//50; //Prix or
+            TableauDesPrix[2, 0] = 50;//50; //Prix bois
+            TableauDesPrix[2, 1] = 25;//50; //Prix or
 
             //Turret
-            TableauDesPrix[3, 0] = 0;//75; //Prix bois
-            TableauDesPrix[3, 1] = 0;//50; //Prix or
+            TableauDesPrix[3, 0] = 50;//75; //Prix bois
+            TableauDesPrix[3, 1] = 100;//50; //Prix or
 
         }
 

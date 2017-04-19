@@ -19,6 +19,7 @@ namespace AtelierXNA
     {
         int NbBois { get; set; }
         int NbOr { get; set; }
+        int NbPts { get; set; }
         SpriteFont ArialFont { get; set; }
         SpriteBatch GestionSprite;
         float IntervalleMAJ { get; set; }
@@ -53,6 +54,7 @@ namespace AtelierXNA
             GestionSprite.Begin();
             AfficherRessourceBois("Bois: "+NbBois.ToString());
             AfficherRessourceOr("Or: "+NbOr.ToString());
+            AfficherNombrePoints("Points: " + NbPts.ToString());
             GestionSprite.End();
             Game.GraphicsDevice.BlendState = BlendState.Opaque;
             Game.GraphicsDevice.DepthStencilState = DepthStencilState.Default;
@@ -67,6 +69,7 @@ namespace AtelierXNA
                 {
                     NbOr = j.NombreDOR;
                     NbBois = j.NombreDeBois;
+                    NbPts = j.NombrePtsKill;
                 }
             }
             catch (Exception) { }
@@ -88,6 +91,16 @@ namespace AtelierXNA
 
             Vector2 dimension = ArialFont.MeasureString(ressource);
             Vector2 position = new Vector2(offset, dimension.Y + offset);
+
+            GestionSprite.DrawString(ArialFont, ressource, position, Color.Red);
+        }
+
+        private void AfficherNombrePoints(string ressource)
+        {
+            int offset = 32;
+
+            Vector2 dimension = ArialFont.MeasureString(ressource);
+            Vector2 position = new Vector2(offset, dimension.Y + offset*2);
 
             GestionSprite.DrawString(ArialFont, ressource, position, Color.Red);
         }

@@ -40,8 +40,8 @@ namespace AtelierXNA
             // TODO: Construct any child components here
             TableauValeurNiveau[0, 0] = 1; //niveau
             TableauValeurNiveau[0, 1] = 100; //nb vie
-            TableauValeurNiveau[0, 2] = 0; //cout bois
-            TableauValeurNiveau[0, 3] = 0; //cout or
+            TableauValeurNiveau[0, 2] = 150; //cout bois
+            TableauValeurNiveau[0, 3] = 300; //cout or
             TableauValeurNiveau[0, 4] = 1; //Damage
             TableauValeurNiveau[0, 5] = 1f; //intervalle de tir
             TableauValeurNiveau[0, 6] = 2; //Cout énergie
@@ -49,8 +49,8 @@ namespace AtelierXNA
 
             TableauValeurNiveau[1, 0] = 2;
             TableauValeurNiveau[1, 1] = 150;
-            TableauValeurNiveau[1, 2] = 0; //cout bois
-            TableauValeurNiveau[1, 3] = 0; //cout or
+            TableauValeurNiveau[1, 2] = 450; //cout bois
+            TableauValeurNiveau[1, 3] = 900; //cout or
             TableauValeurNiveau[1, 4] = 2; //Damage
             TableauValeurNiveau[1, 5] = 1f; //intervalle de tir
             TableauValeurNiveau[1, 6] = 2; //Cout énergie
@@ -58,8 +58,8 @@ namespace AtelierXNA
 
             TableauValeurNiveau[2, 0] = 3;
             TableauValeurNiveau[2, 1] = 200;
-            TableauValeurNiveau[2, 2] = 500; //cout bois
-            TableauValeurNiveau[2, 3] = 250; //cout or
+            TableauValeurNiveau[2, 2] = 1350; //cout bois
+            TableauValeurNiveau[2, 3] = 2700; //cout or
             TableauValeurNiveau[2, 4] = 4; //Damage
             TableauValeurNiveau[2, 5] = 1f; //intervalle de tir
             TableauValeurNiveau[2, 6] = 3; //Cout énergie
@@ -67,8 +67,8 @@ namespace AtelierXNA
 
             TableauValeurNiveau[3, 0] = 4;
             TableauValeurNiveau[3, 1] = 250;
-            TableauValeurNiveau[3, 2] = 1000; //cout bois
-            TableauValeurNiveau[3, 3] = 500; //cout or
+            TableauValeurNiveau[3, 2] = 4050; //cout bois
+            TableauValeurNiveau[3, 3] = 8010; //cout or
             TableauValeurNiveau[3, 4] = 8; //Damage
             TableauValeurNiveau[3, 5] = 1f; //intervalle de tir
             TableauValeurNiveau[3, 6] = 4; //Cout énergie
@@ -76,8 +76,8 @@ namespace AtelierXNA
 
             TableauValeurNiveau[4, 0] = 5;
             TableauValeurNiveau[4, 1] = 300;
-            TableauValeurNiveau[4, 2] = 2500; //cout bois
-            TableauValeurNiveau[4, 3] = 1250; //cout or
+            TableauValeurNiveau[4, 2] = 12150; //cout bois
+            TableauValeurNiveau[4, 3] = 24030; //cout or
             TableauValeurNiveau[4, 4] = 16; //Damage
             TableauValeurNiveau[4, 5] = 0.5f; //intervalle de tir
             TableauValeurNiveau[4, 6] = 5; //Cout énergie
@@ -85,8 +85,8 @@ namespace AtelierXNA
 
             TableauValeurNiveau[5, 0] = 6;
             TableauValeurNiveau[5, 1] = 500;
-            TableauValeurNiveau[5, 2] = 5000; //cout bois
-            TableauValeurNiveau[5, 3] = 2500; //cout or
+            TableauValeurNiveau[5, 2] = 36450; //cout bois
+            TableauValeurNiveau[5, 3] = 72090; //cout or
             TableauValeurNiveau[5, 4] = 32; //Damage
             TableauValeurNiveau[5, 5] = 0.5f; //intervalle de tir
             TableauValeurNiveau[5, 6] = 6; //Cout énergie
@@ -94,8 +94,8 @@ namespace AtelierXNA
 
             TableauValeurNiveau[6, 0] = 7;
             TableauValeurNiveau[6, 1] = 750;
-            TableauValeurNiveau[6, 2] = 10000; //cout bois
-            TableauValeurNiveau[6, 3] = 5000; //cout or
+            TableauValeurNiveau[6, 2] = 109350; //cout bois
+            TableauValeurNiveau[6, 3] = 216270; //cout or
             TableauValeurNiveau[6, 4] = 64; //Damage
             TableauValeurNiveau[6, 5] = 0.5f; //intervalle de tir
             TableauValeurNiveau[6, 6] = 7; //Cout énergie
@@ -103,8 +103,8 @@ namespace AtelierXNA
 
             TableauValeurNiveau[7, 0] = 8;
             TableauValeurNiveau[7, 1] = 1000;
-            TableauValeurNiveau[7, 2] = 25000; //cout bois
-            TableauValeurNiveau[7, 3] = 12500; //cout or
+            TableauValeurNiveau[7, 2] = 328050; //cout bois
+            TableauValeurNiveau[7, 3] = 648810; //cout or
             TableauValeurNiveau[7, 4] = 128; //Damage
             TableauValeurNiveau[7, 5] = 0.5f; //intervalle de tir
             TableauValeurNiveau[7, 6] = 8; //Cout énergie
@@ -112,8 +112,8 @@ namespace AtelierXNA
 
             TableauValeurNiveau[8, 0] = 9;
             TableauValeurNiveau[8, 1] = 1500;
-            TableauValeurNiveau[8, 2] = 50000; //cout bois
-            TableauValeurNiveau[8, 3] = 25000; //cout or
+            TableauValeurNiveau[8, 2] = 984150; //cout bois
+            TableauValeurNiveau[8, 3] = 1946430; //cout or
             TableauValeurNiveau[8, 4] = 256; //Damage
             TableauValeurNiveau[8, 5] = 0.5f; //intervalle de tir
             TableauValeurNiveau[8, 6] = 9; //Cout énergie
@@ -121,8 +121,8 @@ namespace AtelierXNA
 
             TableauValeurNiveau[9, 0] = 10;
             TableauValeurNiveau[9, 1] = 2000;
-            TableauValeurNiveau[9, 2] = 100000; //cout bois
-            TableauValeurNiveau[9, 3] = 50000; //cout or
+            TableauValeurNiveau[9, 2] = 0; //cout bois
+            TableauValeurNiveau[9, 3] = 0; //cout or
             TableauValeurNiveau[9, 4] = 512; //Damage
             TableauValeurNiveau[9, 5] = 0.5f; //intervalle de tir
             TableauValeurNiveau[9, 6] = 10; //Cout énergie
