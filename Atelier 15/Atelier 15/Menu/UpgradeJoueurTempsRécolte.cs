@@ -21,7 +21,7 @@ namespace AtelierXNA
         float TempsÉcouléDepuisMAJ { get; set; }
         int Niveau { get; set; }
         SpriteFont ArialFont { get; set; }
-        float[,] tableauValeurNiveau = new float[6, 3];
+        float[,] tableauValeurNiveau = new float[5, 3];
 
         public UpgradeJoueurTempsRécolte(Game game, Vector2 position, string locationTexture)
             : base(game,position, locationTexture)
@@ -31,24 +31,26 @@ namespace AtelierXNA
                 Niveau = j.NiveauTempsRécolte;
             }
 
-            tableauValeurNiveau[0, 0] = 1;
-            tableauValeurNiveau[0, 1] = 1f;
-            tableauValeurNiveau[0, 2] = 10;
-            tableauValeurNiveau[1, 0] = 2;
+            tableauValeurNiveau[0, 0] = 1; //Niveau
+            tableauValeurNiveau[0, 1] = 1f; //TempsRécolte
+            tableauValeurNiveau[0, 2] = 750; //Cout
+
+            tableauValeurNiveau[1, 0] = 2; 
             tableauValeurNiveau[1, 1] = 1 / 2f;
-            tableauValeurNiveau[1, 2] = 10;
+            tableauValeurNiveau[1, 2] = 20250;
+
             tableauValeurNiveau[2, 0] = 3;
             tableauValeurNiveau[2, 1] = 1 / 3f;
-            tableauValeurNiveau[2, 2] = 10;
+            tableauValeurNiveau[2, 2] = 182250;
+
             tableauValeurNiveau[3, 0] = 4;
             tableauValeurNiveau[3, 1] = 1 / 5f;
-            tableauValeurNiveau[3, 2] = 10;
+            tableauValeurNiveau[3, 2] = 1640250;
+
             tableauValeurNiveau[4, 0] = 5;
             tableauValeurNiveau[4, 1] = 1 / 10f;
-            tableauValeurNiveau[4, 2] = 10;
-            tableauValeurNiveau[5, 0] = 6;
-            tableauValeurNiveau[5, 1] = 0;
-            tableauValeurNiveau[5, 2] = 0;
+            tableauValeurNiveau[4, 2] = 0;
+
         }
 
         public override void Initialize()

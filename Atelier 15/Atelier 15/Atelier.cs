@@ -36,7 +36,7 @@ namespace AtelierXNA
 
 
         //Network
-        string locationFichierIPNom = "C:\\Users\\David-alex\\Desktop\\Projet Finale Prog\\projet finale\\Projet-Int-gration\\Atelier 15\\Atelier 15\\bin\\x86\\Debug\\FichierInfoLogin.txt";
+        string locationFichierIPNom = "..\\..\\..\\..\\Projet-Int-gration\\Atelier 15\\Atelier 15\\bin\\x86\\Debug\\FichierInfoLogin.txt";
         static NetClient Client2 { get; set; }
         string HostIP { get; set; }
         string ClientName = "player ";

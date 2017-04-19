@@ -17,7 +17,7 @@ namespace AtelierXNA
     /// </summary>
     public class UpgradeJoueurFiringRate : UpgradeIcon
     {
-        float[,] tableauValeurNiveau = new float[6, 3];
+        float[,] tableauValeurNiveau = new float[5, 3];
         float IntervalleMAJ { get; set; }
         float Temps…coulÈDepuisMAJ { get; set; }
         int Niveau { get; set; }
@@ -32,22 +32,23 @@ namespace AtelierXNA
             }
             tableauValeurNiveau[0, 0] = 1;
             tableauValeurNiveau[0, 1] = 1f;
-            tableauValeurNiveau[0, 2] = 10;
+            tableauValeurNiveau[0, 2] = 375;
+
             tableauValeurNiveau[1, 0] = 2;
             tableauValeurNiveau[1, 1] = 1/2f;
-            tableauValeurNiveau[1, 2] = 10;
+            tableauValeurNiveau[1, 2] = 3375;
+
             tableauValeurNiveau[2, 0] = 3;
             tableauValeurNiveau[2, 1] = 1/3f;
-            tableauValeurNiveau[2, 2] = 10;
+            tableauValeurNiveau[2, 2] = 30375;
+
             tableauValeurNiveau[3, 0] = 4;
             tableauValeurNiveau[3, 1] = 1/5f;
-            tableauValeurNiveau[3, 2] = 10;
+            tableauValeurNiveau[3, 2] = 273375;
+
             tableauValeurNiveau[4, 0] = 5;
             tableauValeurNiveau[4, 1] = 1/10f;
-            tableauValeurNiveau[4, 2] = 10;
-            tableauValeurNiveau[5, 0] = 6;
-            tableauValeurNiveau[5, 1] = 0;
-            tableauValeurNiveau[5, 2] = 0;
+            tableauValeurNiveau[4, 2] = 0;
         }
 
         public override void Initialize()

@@ -17,6 +17,7 @@ namespace AtelierXNA
     /// </summary>
     public class Joueur : Model3DAvecCollision
     {
+        Random GenerateurAleatoire { get; set; }
         public string État { get; set; }
         float IntervalleMAJ { get; set; }
         float TempsÉcouléDepuisMAJ { get; set; }
@@ -37,6 +38,7 @@ namespace AtelierXNA
 
         public int NombreDeBois { get; set; }
         public int NombreDOR { get; set; }
+        public int NombrePtsKill { get; set; }
 
         SoundEffect SoundShooting { get; set; }
         
@@ -108,7 +110,7 @@ namespace AtelierXNA
             NiveauFiringRate = 1;
             NiveauNombreRécolte = 1;
             NiveauTempsRécolte = 1;
-            NbPtsDeVieMax = 10;
+            NbPtsDeVieMax = 1;
             NbPtsDeVie = NbPtsDeVieMax;
             EstEnCollectionRessource = false;
 
@@ -122,6 +124,7 @@ namespace AtelierXNA
             CaméraJeu = Game.Services.GetService(typeof(Caméra)) as Caméra3rdPerson;
             GestionSouris = Mouse.GetState(); //utilisé pour trouver la position de la souris
             BuildingEnPlacement = new PlacementBuilding(Game, "tree2", 0.02f, Position, Vector3.Zero);
+            GenerateurAleatoire = Game.Services.GetService(typeof(Random)) as Random;
 
             //Initialisation des données de stats du joueur
             FiringRate = 1;
@@ -131,18 +134,18 @@ namespace AtelierXNA
 
             //Enemy
             PrixEnemy = new int[12];
-            PrixEnemy[0] = 0;
-            PrixEnemy[1] = 10;
-            PrixEnemy[2] = 10;
-            PrixEnemy[3] = 10;
-            PrixEnemy[4] = 10;
-            PrixEnemy[5] = 10;
-            PrixEnemy[6] = 10;
-            PrixEnemy[7] = 10;
-            PrixEnemy[8] = 10;
-            PrixEnemy[9] = 10;
-            PrixEnemy[10] = 10;
-            PrixEnemy[11] = 10;
+            PrixEnemy[0] = 10; //Cout or
+            PrixEnemy[1] = 25; //Prix kill
+            PrixEnemy[2] = 100; //Prix kill
+            PrixEnemy[3] = 400; //Prix kill
+            PrixEnemy[4] = 1600; //Prix kill
+            PrixEnemy[5] = 6400; //Prix kill
+            PrixEnemy[6] = 25600; //Prix kill
+            PrixEnemy[7] = 102400; //Prix kill
+            PrixEnemy[8] = 409600; //Prix kill
+            PrixEnemy[9] = 1638400; //Prix kill
+            PrixEnemy[10] = 6553600; //Prix kill
+            PrixEnemy[11] = 26214400; //Prix kill
             int offsetX = 96;
             int offsetY = 16;
             int offsetInbetween = 128;
@@ -186,8 +189,16 @@ namespace AtelierXNA
                     EstEnAchatEnemy(gameTime);
                     break;
             }
-
+            GérerVie();
             GestionPerformance();
+        }
+
+        private void GérerVie()
+        {
+            if (NbPtsDeVie <= 0)
+            {
+                État = "estMort";
+            }
         }
 
         private void GestionPerformance()
@@ -414,7 +425,7 @@ namespace AtelierXNA
                     if (TypeBuildingSelectionner == (byte)TypeUpgrade.Generatrice)
                     {
                         IconUpgradeGeneratrice.Dispose();
-        }
+                    }
                     else
                     {
                         if (TypeBuildingSelectionner == (byte)TypeUpgrade.Reparateur)
@@ -513,10 +524,6 @@ namespace AtelierXNA
             TempsSpawn += tempsÉcoulé;
             GérerTir(gameTime);
             GérerPicking();
-            if (NbPtsDeVie <= 0)
-            {
-                État = "estMort";
-            }
             if (TempsÉcouléDepuisMAJ >= IntervalleMAJ)
             {
                 GérerClavierMouvement();
@@ -1104,7 +1111,15 @@ namespace AtelierXNA
         //mise a jour pour la mort du joueur
         private void EstMort(GameTime gameTime)
         {
-
+            int nombreParticuleSang = GenerateurAleatoire.Next(50, 100);
+            for (int i = 0; i < nombreParticuleSang; i++)
+            {
+                Vector3 direction = new Vector3(GenerateurAleatoire.Next(-100, 100), GenerateurAleatoire.Next(0, 100), GenerateurAleatoire.Next(-100, 100));
+                direction = Vector3.Normalize(direction);
+                Sang particuleSang = new Sang(Game, "blood", 0.01f, new Vector3(Position.X,Position.Y + 5,Position.Z), new Vector3(GenerateurAleatoire.Next(0, 360), GenerateurAleatoire.Next(0, 360), GenerateurAleatoire.Next(0, 360)), direction);
+                Game.Components.Add(particuleSang);
+            }
+            Dispose();
         }
         
         enum TypeUpgrade
