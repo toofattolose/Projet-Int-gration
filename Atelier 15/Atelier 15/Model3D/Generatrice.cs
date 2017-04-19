@@ -23,61 +23,91 @@ namespace AtelierXNA
         int Nombre…nergieRecharge { get; set; }
         float IntervalleEnvoieRecharge { get; set; }
         float Temps…coulÈDepuisEnvoie { get; set; }
-        public float[,] TableauValeurNiveau = new float[10, 4];
+        public float[,] TableauValeurNiveau = new float[10, 7];
 
         public Generatrice(Game game, string nomModele, float Èchelle, Vector3 position, Vector3 rotationInitiale)
             : base(game, nomModele,Èchelle,position,rotationInitiale)
         {
             // TODO: Construct any child components here
             TableauValeurNiveau[0, 0] = 1; //niveau
-            TableauValeurNiveau[0, 1] = 1000; //nb vie
+            TableauValeurNiveau[0, 1] = 100; //nb vie
             TableauValeurNiveau[0, 2] = 150; //cout bois
             TableauValeurNiveau[0, 3] = 75; //cout or
+            TableauValeurNiveau[0, 4] = 1; // Nombre Ènergie envoie
+            TableauValeurNiveau[0, 5] = 2; // Nombre …nergie Recharge
+            TableauValeurNiveau[0, 6] = 100; // Nombre …nergie Max
 
             TableauValeurNiveau[1, 0] = 2;
-            TableauValeurNiveau[1, 1] = 1500;
+            TableauValeurNiveau[1, 1] = 150;// nb Pts de vie
             TableauValeurNiveau[1, 2] = 350; //cout bois
             TableauValeurNiveau[1, 3] = 175; //cout or
+            TableauValeurNiveau[1, 4] = 2; // Nombre Ènergie envoie
+            TableauValeurNiveau[1, 5] = 4; // Nombre …nergie Recharge
+            TableauValeurNiveau[1, 6] = 200; // Nombre …nergie Max
 
             TableauValeurNiveau[2, 0] = 3;
-            TableauValeurNiveau[2, 1] = 2500;
+            TableauValeurNiveau[2, 1] = 200;
             TableauValeurNiveau[2, 2] = 500; //cout bois
             TableauValeurNiveau[2, 3] = 250; //cout or
+            TableauValeurNiveau[2, 4] = 5; // Nombre Ènergie envoie
+            TableauValeurNiveau[2, 5] = 10; // Nombre …nergie Recharge
+            TableauValeurNiveau[2, 6] = 500; // Nombre …nergie Max
 
             TableauValeurNiveau[3, 0] = 4;
-            TableauValeurNiveau[3, 1] = 5000;
+            TableauValeurNiveau[3, 1] = 250;
             TableauValeurNiveau[3, 2] = 1000; //cout bois
             TableauValeurNiveau[3, 3] = 500; //cout or
+            TableauValeurNiveau[3, 4] = 10; // Nombre Ènergie envoie
+            TableauValeurNiveau[3, 5] = 20; // Nombre …nergie Recharge
+            TableauValeurNiveau[3, 6] = 1000; // Nombre …nergie Max
 
             TableauValeurNiveau[4, 0] = 5;
-            TableauValeurNiveau[4, 1] = 10000;
+            TableauValeurNiveau[4, 1] = 300;
             TableauValeurNiveau[4, 2] = 2500; //cout bois
             TableauValeurNiveau[4, 3] = 1250; //cout or
+            TableauValeurNiveau[4, 4] = 20; // Nombre Ènergie envoie
+            TableauValeurNiveau[4, 5] = 40; // Nombre …nergie Recharge
+            TableauValeurNiveau[4, 6] = 2000; // Nombre …nergie Max
 
             TableauValeurNiveau[5, 0] = 6;
-            TableauValeurNiveau[5, 1] = 25000;
+            TableauValeurNiveau[5, 1] = 350;
             TableauValeurNiveau[5, 2] = 5000; //cout bois
             TableauValeurNiveau[5, 3] = 2500; //cout or
+            TableauValeurNiveau[5, 4] = 50; // Nombre Ènergie envoie
+            TableauValeurNiveau[5, 5] = 100; // Nombre …nergie Recharge
+            TableauValeurNiveau[5, 6] = 5000; // Nombre …nergie Max
 
             TableauValeurNiveau[6, 0] = 7;
-            TableauValeurNiveau[6, 1] = 50000;
+            TableauValeurNiveau[6, 1] = 400;
             TableauValeurNiveau[6, 2] = 10000; //cout bois
             TableauValeurNiveau[6, 3] = 5000; //cout or
+            TableauValeurNiveau[6, 4] = 100; // Nombre Ènergie envoie
+            TableauValeurNiveau[6, 5] = 200; // Nombre …nergie Recharge
+            TableauValeurNiveau[6, 6] = 10000; // Nombre …nergie Max
 
             TableauValeurNiveau[7, 0] = 8;
-            TableauValeurNiveau[7, 1] = 100000;
+            TableauValeurNiveau[7, 1] = 450;
             TableauValeurNiveau[7, 2] = 25000; //cout bois
             TableauValeurNiveau[7, 3] = 12500; //cout or
+            TableauValeurNiveau[7, 4] = 200; // Nombre Ènergie envoie
+            TableauValeurNiveau[7, 5] = 400; // Nombre …nergie Recharge
+            TableauValeurNiveau[7, 6] = 20000; // Nombre …nergie Max
 
             TableauValeurNiveau[8, 0] = 9;
-            TableauValeurNiveau[8, 1] = 250000;
+            TableauValeurNiveau[8, 1] = 500;
             TableauValeurNiveau[8, 2] = 50000; //cout bois
             TableauValeurNiveau[8, 3] = 25000; //cout or
+            TableauValeurNiveau[8, 4] = 500; // Nombre Ènergie envoie
+            TableauValeurNiveau[8, 5] = 1000; // Nombre …nergie Recharge
+            TableauValeurNiveau[8, 6] = 50000; // Nombre …nergie Max
 
             TableauValeurNiveau[9, 0] = 10;
-            TableauValeurNiveau[9, 1] = 1000000;
+            TableauValeurNiveau[9, 1] = 550;
             TableauValeurNiveau[9, 2] = 100000; //cout bois
             TableauValeurNiveau[9, 3] = 50000; //cout or
+            TableauValeurNiveau[9, 4] = 1000; // Nombre Ènergie envoie
+            TableauValeurNiveau[9, 5] = 2000; // Nombre …nergie Recharge
+            TableauValeurNiveau[9, 6] = 100000; // Nombre …nergie Max
         }
 
         /// <summary>
@@ -87,13 +117,13 @@ namespace AtelierXNA
         public override void Initialize()
         {
             base.Initialize();
-            NombreMaxPtsDeVie = 100;
+            NombreMaxPtsDeVie = (int)TableauValeurNiveau[0,2];
             NombrePtsDeVie = NombreMaxPtsDeVie;
-            Nombre…nergieMaximum = 1000;
+            Nombre…nergieMaximum = (int)TableauValeurNiveau[0,6];
             Nombre…nergie = Nombre…nergieMaximum;
-            Nombre…nergieEnvoyÈ = 1;
-            Nombre…nergieRecharge = 2;
-            IntervalleEnvoieRecharge = 1;
+            Nombre…nergieEnvoyÈ = (int)TableauValeurNiveau[0,4];
+            Nombre…nergieRecharge = (int)TableauValeurNiveau[0,5];
+            IntervalleEnvoieRecharge = 0.5f;
             Niveau = 1;
         }
 
@@ -146,12 +176,16 @@ namespace AtelierXNA
                 {
                     if (Niveau == TableauValeurNiveau[i, 0] && Niveau != 10 && !estUpgrader)
                     {
-                        if (j.NombreDeBois >= TableauValeurNiveau[i + 1, 2] && j.NombreDOR >= TableauValeurNiveau[i + 1, 3])
+                        if (j.NombreDeBois >= TableauValeurNiveau[i, 2] && j.NombreDOR >= TableauValeurNiveau[i, 3])
                         {
                             SoundUpgrade.Play();
                             ++Niveau;
                             NombreMaxPtsDeVie = (int)TableauValeurNiveau[i + 1, 1];
                             NombrePtsDeVie = (int)TableauValeurNiveau[i + 1, 1];
+                            Nombre…nergieMaximum = (int)TableauValeurNiveau[i + 1, 6];
+                            Nombre…nergie = Nombre…nergieMaximum;
+                            Nombre…nergieEnvoyÈ = (int)TableauValeurNiveau[i + 1, 4];
+                            Nombre…nergieRecharge = (int)TableauValeurNiveau[i + 1, 5];
                             j.NombreDeBois -= (int)TableauValeurNiveau[i + 1, 2];
                             j.NombreDOR -= (int)TableauValeurNiveau[i + 1, 3];
                             estUpgrader = true;

@@ -69,7 +69,7 @@ namespace AtelierXNA
 
             GestionSprite.DrawString(ArialFont, niveauBatiment, new Vector2(Position.X - 16, Position.Y + 64), Color.White);
             GestionSprite.DrawString(ArialFont, vieBatiment, new Vector2(Position.X + 128, Position.Y), Color.Green);
-            GestionSprite.DrawString(ArialFont, energieBatiment, new Vector2(Position.X + 256, Position.Y), Color.Green);
+            GestionSprite.DrawString(ArialFont, energieBatiment, new Vector2(Position.X + 256 + 32, Position.Y), Color.Green);
             GestionSprite.DrawString(ArialFont, coutUpgrade, new Vector2(Position.X + 128, Position.Y + 32), Color.Blue);
         }
 

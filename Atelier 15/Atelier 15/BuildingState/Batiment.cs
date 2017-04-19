@@ -21,6 +21,7 @@ namespace AtelierXNA
         public int NombreMaxPtsDeVie { get; set; }
         public int Niveau { get; set; }
         protected SoundEffect SoundUpgrade { get; set; }
+        GridDeJeu Grid { get; set; }
 
         public Batiment(Game game, string nomModele, float échelle, Vector3 position, Vector3 rotationInitiale)
             : base(game, nomModele,échelle,position,rotationInitiale)
@@ -31,8 +32,24 @@ namespace AtelierXNA
         public override void Initialize()
         {
             base.Initialize();
+            Grid = Game.Services.GetService(typeof(GridDeJeu)) as GridDeJeu;
             SoundUpgrade = Game.Content.Load<SoundEffect>("SoundEffects/wololo");
             Niveau = 1;
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            base.Update(gameTime);
+            VérifierSiEstMort();
+        }
+
+        public void VérifierSiEstMort()
+        {
+            if (NombrePtsDeVie <= 0)
+            {
+                Grid.TableauGrid[(int)Position.X / (int)Grid.Delta.X, (int)Position.Z / (int)Grid.Delta.Y] = true;
+                Dispose();
+            }
         }
     }
 }

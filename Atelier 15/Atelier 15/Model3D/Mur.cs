@@ -81,15 +81,6 @@ namespace AtelierXNA
             NombrePtsDeVie = NombreMaxPtsDeVie;
         }
 
-        public override void Update(GameTime gameTime)
-        {
-            base.Update(gameTime);
-            if (NombrePtsDeVie <= 0)
-            {
-                Dispose();
-            }
-        }
-
         public void MonterDeNiveau()
         {
             bool estUpgrader = false;
@@ -99,7 +90,7 @@ namespace AtelierXNA
                 {
                     if (Niveau == TableauValeurNiveau[i, 0] && Niveau != 10 && !estUpgrader)
                     {
-                        if (j.NombreDeBois >= TableauValeurNiveau[i + 1,2] && j.NombreDOR >= TableauValeurNiveau[i + 1,3])
+                        if (j.NombreDeBois >= TableauValeurNiveau[i,2] && j.NombreDOR >= TableauValeurNiveau[i,3])
                         {
                             SoundUpgrade.Play();
                             ++Niveau;

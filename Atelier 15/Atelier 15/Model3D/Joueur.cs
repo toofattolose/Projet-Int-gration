@@ -17,6 +17,7 @@ namespace AtelierXNA
     /// </summary>
     public class Joueur : Model3DAvecCollision
     {
+        Random GenerateurAleatoire { get; set; }
         public string État { get; set; }
         float IntervalleMAJ { get; set; }
         float TempsÉcouléDepuisMAJ { get; set; }
@@ -108,7 +109,7 @@ namespace AtelierXNA
             NiveauFiringRate = 1;
             NiveauNombreRécolte = 1;
             NiveauTempsRécolte = 1;
-            NbPtsDeVieMax = 10;
+            NbPtsDeVieMax = 1;
             NbPtsDeVie = NbPtsDeVieMax;
             EstEnCollectionRessource = false;
 
@@ -122,6 +123,7 @@ namespace AtelierXNA
             CaméraJeu = Game.Services.GetService(typeof(Caméra)) as Caméra3rdPerson;
             GestionSouris = Mouse.GetState(); //utilisé pour trouver la position de la souris
             BuildingEnPlacement = new PlacementBuilding(Game, "tree2", 0.02f, Position, Vector3.Zero);
+            GenerateurAleatoire = Game.Services.GetService(typeof(Random)) as Random;
 
             //Initialisation des données de stats du joueur
             FiringRate = 1;
@@ -186,8 +188,16 @@ namespace AtelierXNA
                     EstEnAchatEnemy(gameTime);
                     break;
             }
-
+            GérerVie();
             GestionPerformance();
+        }
+
+        private void GérerVie()
+        {
+            if (NbPtsDeVie <= 0)
+            {
+                État = "estMort";
+            }
         }
 
         private void GestionPerformance()
@@ -414,7 +424,7 @@ namespace AtelierXNA
                     if (TypeBuildingSelectionner == (byte)TypeUpgrade.Generatrice)
                     {
                         IconUpgradeGeneratrice.Dispose();
-        }
+                    }
                     else
                     {
                         if (TypeBuildingSelectionner == (byte)TypeUpgrade.Reparateur)
@@ -513,10 +523,6 @@ namespace AtelierXNA
             TempsSpawn += tempsÉcoulé;
             GérerTir(gameTime);
             GérerPicking();
-            if (NbPtsDeVie <= 0)
-            {
-                État = "estMort";
-            }
             if (TempsÉcouléDepuisMAJ >= IntervalleMAJ)
             {
                 GérerClavierMouvement();
@@ -1104,7 +1110,15 @@ namespace AtelierXNA
         //mise a jour pour la mort du joueur
         private void EstMort(GameTime gameTime)
         {
-
+            int nombreParticuleSang = GenerateurAleatoire.Next(50, 100);
+            for (int i = 0; i < nombreParticuleSang; i++)
+            {
+                Vector3 direction = new Vector3(GenerateurAleatoire.Next(-100, 100), GenerateurAleatoire.Next(0, 100), GenerateurAleatoire.Next(-100, 100));
+                direction = Vector3.Normalize(direction);
+                Sang particuleSang = new Sang(Game, "blood", 0.01f, new Vector3(Position.X,Position.Y + 5,Position.Z), new Vector3(GenerateurAleatoire.Next(0, 360), GenerateurAleatoire.Next(0, 360), GenerateurAleatoire.Next(0, 360)), direction);
+                Game.Components.Add(particuleSang);
+            }
+            Dispose();
         }
         
         enum TypeUpgrade

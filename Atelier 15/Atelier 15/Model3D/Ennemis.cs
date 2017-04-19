@@ -17,7 +17,6 @@ namespace AtelierXNA
         const int Delta = 4;
         public int Vie { get; set; }
         public int Dmg { get; set; }
-        public int NumVague { get; set; }
         Vector3 Objectif { get; set; }
         float Temps…coulÈMAJ { get; set; }
         float Angle { get; set; }
@@ -37,6 +36,12 @@ namespace AtelierXNA
         int CompteurDÈplacement { get; set; }
         SoundEffect SoundDeath { get; set; }
         Vector3 Direction { get; set; }
+        byte …tat { get; set; }
+        GridDeJeu Grid { get; set; }
+        Batiment BatimentCible { get; set; }
+        Random GenerateurAleatoire { get; set; }
+
+        float IntervalleAttaque { get; set; }
 
         //Enemy stats
         int Niveau { get; set; }
@@ -88,7 +93,11 @@ namespace AtelierXNA
 
         public override void Initialize()
         {
+            IntervalleAttaque = 2f;
+            GenerateurAleatoire = Game.Services.GetService(typeof(Random)) as Random;
+            Grid = Game.Services.GetService(typeof(GridDeJeu)) as GridDeJeu;
             SoundDeath = Game.Content.Load<SoundEffect>("SoundEffects/enemydeath");
+            …tat = (byte)…tatEnnemi.RECHERCHE;
             try
             {
                 foreach (Joueur j in Game.Components.OfType<Joueur>())
@@ -115,25 +124,59 @@ namespace AtelierXNA
             CaseEnnemi = new Case(true, new Point((int)(Position.X / Delta), (int)(Position.Z / Delta)));
             CasePlayer = new Case(true, new Point((int)(Player.Position.X / Delta), (int)(Player.Position.Z / Delta)));
 
+            switch(…tat)
+            {
+                case ((byte)…tatEnnemi.RECHERCHE):
+                    TrouverPath();
+                    break;
+                case ((byte)…tatEnnemi.ATTEINT):
+                    ObjectifTrouver(gameTime);
+                    break;
+            }
+
+            
+            base.Update(gameTime);
+        }
+
+        private void TrouverPath()
+        {
             if (DÈplacer && CaseEnnemi != CasePlayer)
             {
-                PathFinding.TrouverPath(new Vector2(Position.X, Position.Z), new Vector2((float)Math.Round(Player.Position.X, 0), (float)Math.Round(Player.Position.Z, 0)));
-                Path = PathFinding.Path;
-                if (Path == null)
+                Path = null;
+                try
                 {
                     foreach (Batiment b in Game.Components.OfType<Batiment>())
                     {
-                        if (Path == null)
+                        Grid.GridCase[(int)b.Position.X / Delta, (int)b.Position.Z / Delta].Accessible = false;
+                    }
+                }
+                catch(Exception) { }
+                if (BatimentCible == null)
+                {
+                    PathFinding.TrouverPath(new Vector2(Position.X, Position.Z), new Vector2((float)Math.Round(Player.Position.X, 0), (float)Math.Round(Player.Position.Z, 0)));
+                    Path = PathFinding.Path;
+                }
+                if (Path == null)
+                {
+                    try
+                    {
+                        foreach (Batiment b in Game.Components.OfType<Batiment>())
                         {
-                            PathFinding.TrouverPath(new Vector2(Position.X, Position.Z), new Vector2((float)Math.Round(b.Position.X + Delta / 2, 0), (float)Math.Round(b.Position.Z + Delta / 2, 0)));
-                            Path = PathFinding.Path;
-                            if (Path != null)
+                            Grid.GridCase[(int)b.Position.X / Delta, (int)b.Position.Z / Delta].Accessible = true;
+                            if (Path == null)
                             {
-                                CaseCible = new Case(true, new Point((int)(b.Position.X / Delta), (int)(b.Position.Z / Delta)));
-                                CompteurDÈplacement = 40;
+                                PathFinding.TrouverPath(new Vector2(Position.X, Position.Z), new Vector2((float)Math.Round(b.Position.X, 0), (float)Math.Round(b.Position.Z, 0)));
+                                Path = PathFinding.Path;
+                                if (Path != null)
+                                {
+                                    CaseCible = new Case(true, new Point((int)(b.Position.X / Delta), (int)(b.Position.Z / Delta)));
+                                    BatimentCible = b;
+                                    CompteurDÈplacement = 40;
+                                }
                             }
                         }
                     }
+                    catch (Exception) { }
                 }
                 else
                 {
@@ -148,11 +191,11 @@ namespace AtelierXNA
                 {
                     IndexEnnemi = Path.IndexOf(Path.Find(c => c == CaseEnnemi));
                     CaseSuivante = Path[IndexEnnemi + 1];
-                    if(CaseEnnemi.Position != CaseSuivante.Position)
+                    if (CaseEnnemi.Position != CaseSuivante.Position)
                     {
                         Direction = new Vector3(CaseSuivante.Position.X * Delta - CaseEnnemi.Position.X * Delta, 0, CaseSuivante.Position.Y * Delta - CaseEnnemi.Position.Y * Delta);
                         Direction = Vector3.Normalize(Direction);
-                        DÈplacement = new Vector3(Direction.X * 0.1f, 0, Direction.Z * 0.1f);
+                        DÈplacement = new Vector3(Direction.X * 0.2f, 0, Direction.Z * 0.2f);
                     }
                     else
                     {
@@ -176,6 +219,22 @@ namespace AtelierXNA
                     DÈplacement = Vector3.Zero;
                 }
                 Distance = (float)Math.Sqrt(Math.Pow(Player.Position.X - Position.X + DÈplacement.X, 2) + Math.Pow(Player.Position.Z - Position.Z + DÈplacement.Z, 2));
+                if (BatimentCible != null)
+                {
+                    float distanceBatiment = (float)Math.Sqrt(Math.Pow(BatimentCible.Position.X - Position.X + DÈplacement.X, 2) + Math.Pow(BatimentCible.Position.Z - Position.Z + DÈplacement.Z, 2));
+                    if (distanceBatiment <= 3)
+                    {
+                        …tat = (byte)…tatEnnemi.ATTEINT;
+                    }
+                }
+                else
+                {
+                    float distanceJoueur = (float)Math.Sqrt(Math.Pow(Player.Position.X - Position.X + DÈplacement.X, 2) + Math.Pow(Player.Position.Z - Position.Z + DÈplacement.Z, 2));
+                    if (distanceJoueur <= 3)
+                    {
+                        …tat = (byte)…tatEnnemi.ATTEINT;
+                    }
+                }
                 Position += DÈplacement;
                 DÈplacer = false;
                 CompteurDÈplacement--;
@@ -188,7 +247,40 @@ namespace AtelierXNA
             }
 
             CalculerMonde();
-            base.Update(gameTime);
+        }
+
+        private void ObjectifTrouver(GameTime gameTime)
+        {
+            float temps…coulÈ = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            Temps…coulÈMAJ += temps…coulÈ;
+            if (BatimentCible != null)
+            {
+                if (Temps…coulÈMAJ >= IntervalleAttaque)
+                {
+                    BatimentCible.NombrePtsDeVie -= Dmg;
+                    if (BatimentCible.NombrePtsDeVie <= 0)
+                    {
+                        BatimentCible = null;
+                    }
+                    Temps…coulÈMAJ = 0;
+                }
+            }
+            else
+            {
+                float distanceJoueur = (float)Math.Sqrt(Math.Pow(Player.Position.X - Position.X + DÈplacement.X, 2) + Math.Pow(Player.Position.Z - Position.Z + DÈplacement.Z, 2));
+                if (distanceJoueur <= 5)
+                {
+                    if (Temps…coulÈMAJ >= IntervalleAttaque)
+                    {
+                        Player.NbPtsDeVie -= Dmg;
+                        Temps…coulÈMAJ = 0;
+                    }
+                }
+                else
+                {
+                    …tat = (byte)…tatEnnemi.RECHERCHE;
+                }
+            }
         }
 
         public void ToucherParBalle(int dmg)
@@ -196,9 +288,23 @@ namespace AtelierXNA
             Vie -= dmg;
             if (Vie <= 0)
             {
+                int nombreParticuleSang = GenerateurAleatoire.Next(50, 100);
+                for (int i = 0; i < nombreParticuleSang; i++)
+                {
+                    Vector3 direction = new Vector3(GenerateurAleatoire.Next(-100, 100), GenerateurAleatoire.Next(0, 100), GenerateurAleatoire.Next(-100, 100));
+                    direction = Vector3.Normalize(direction);
+                    Sang particuleSang = new Sang(Game, "blood", 0.01f, new Vector3(Position.X, Position.Y + 5, Position.Z), new Vector3(GenerateurAleatoire.Next(0, 360), GenerateurAleatoire.Next(0, 360), GenerateurAleatoire.Next(0, 360)), direction);
+                    Game.Components.Add(particuleSang);
+                }
                 SoundDeath.Play();
                 Dispose();
             }
+        }
+
+        enum …tatEnnemi
+        {
+            RECHERCHE,
+            ATTEINT
         }
     }
 }
