@@ -25,7 +25,7 @@ namespace AtelierXNA
         {
             TableauValeurNiveau[0, 0] = 1; //niveau
             TableauValeurNiveau[0, 1] = 1000; //nb vie
-            TableauValeurNiveau[0, 2] = 150; //cout bois
+            TableauValeurNiveau[0, 2] = 150; //cout bois 
             TableauValeurNiveau[0, 3] = 0; //cout or
 
             TableauValeurNiveau[1, 0] = 2;
