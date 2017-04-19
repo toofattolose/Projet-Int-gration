@@ -64,7 +64,6 @@ namespace AtelierXNA
             {
                 prixEnemy = Prix.ToString() + " Or";
             }
-            
             GestionSprite.DrawString(Arial, niveauEnemy, Position + new Vector2(76, 0), Color.White);
             GestionSprite.DrawString(Arial, prixEnemy, Position + new Vector2(76, 32), Color.Yellow);
         }
@@ -75,18 +74,21 @@ namespace AtelierXNA
             {
                 foreach(Joueur j in Game.Components.OfType<Joueur>())
                 {
-                    if(Niveau >= 2)
+                    if (Niveau >= 2)
                     {
-                        NetOutgoingMessage outmsg = Client.CreateMessage();
-                        SoundAchat.Play();
-                        outmsg.Write((byte)PacketTypes.ENEMY);
-                        outmsg.Write(Niveau);
-                        Client.SendMessage(outmsg, NetDeliveryMethod.ReliableOrdered);
-                        j.NombrePtsKill -= Prix;
+                        if (j.NombrePtsKill >= Prix)
+                        {
+                            NetOutgoingMessage outmsg = Client.CreateMessage();
+                            SoundAchat.Play();
+                            outmsg.Write((byte)PacketTypes.ENEMY);
+                            outmsg.Write(Niveau);
+                            Client.SendMessage(outmsg, NetDeliveryMethod.ReliableOrdered);
+                            j.NombrePtsKill -= Prix;
+                        }
                     }
-                    else 
+                    else
                     {
-                        if(j.NombreDOR >= Prix)
+                        if (j.NombreDOR >= Prix)
                         {
                             NetOutgoingMessage outmsg = Client.CreateMessage();
                             SoundAchat.Play();
@@ -97,7 +99,6 @@ namespace AtelierXNA
                         }
                     }
                 }
-                
             }
         }
 

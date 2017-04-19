@@ -31,72 +31,72 @@ namespace AtelierXNA
             // TODO: Construct any child components here
             TableauValeurNiveau[0, 0] = 1; //niveau
             TableauValeurNiveau[0, 1] = 100; //nb vie
-            TableauValeurNiveau[0, 2] = 150; //cout bois
-            TableauValeurNiveau[0, 3] = 75; //cout or
+            TableauValeurNiveau[0, 2] = 50; //cout bois
+            TableauValeurNiveau[0, 3] = 25; //cout or
             TableauValeurNiveau[0, 4] = 1; // Nombre énergie envoie
             TableauValeurNiveau[0, 5] = 2; // Nombre Énergie Recharge
             TableauValeurNiveau[0, 6] = 100; // Nombre Énergie Max
 
             TableauValeurNiveau[1, 0] = 2;
             TableauValeurNiveau[1, 1] = 150;// nb Pts de vie
-            TableauValeurNiveau[1, 2] = 450; //cout bois
-            TableauValeurNiveau[1, 3] = 225; //cout or
+            TableauValeurNiveau[1, 2] = 150; //cout bois
+            TableauValeurNiveau[1, 3] = 75; //cout or
             TableauValeurNiveau[1, 4] = 2; // Nombre énergie envoie
             TableauValeurNiveau[1, 5] = 4; // Nombre Énergie Recharge
             TableauValeurNiveau[1, 6] = 200; // Nombre Énergie Max
 
             TableauValeurNiveau[2, 0] = 3;
             TableauValeurNiveau[2, 1] = 200;
-            TableauValeurNiveau[2, 2] = 1350; //cout bois
-            TableauValeurNiveau[2, 3] = 675; //cout or
+            TableauValeurNiveau[2, 2] = 450; //cout bois
+            TableauValeurNiveau[2, 3] = 225; //cout or
             TableauValeurNiveau[2, 4] = 5; // Nombre énergie envoie
             TableauValeurNiveau[2, 5] = 10; // Nombre Énergie Recharge
             TableauValeurNiveau[2, 6] = 500; // Nombre Énergie Max
 
             TableauValeurNiveau[3, 0] = 4;
             TableauValeurNiveau[3, 1] = 250;
-            TableauValeurNiveau[3, 2] = 4050; //cout bois
-            TableauValeurNiveau[3, 3] = 2025; //cout or
+            TableauValeurNiveau[3, 2] = 1350; //cout bois
+            TableauValeurNiveau[3, 3] = 675; //cout or
             TableauValeurNiveau[3, 4] = 10; // Nombre énergie envoie
             TableauValeurNiveau[3, 5] = 20; // Nombre Énergie Recharge
             TableauValeurNiveau[3, 6] = 1000; // Nombre Énergie Max
 
             TableauValeurNiveau[4, 0] = 5;
             TableauValeurNiveau[4, 1] = 300;
-            TableauValeurNiveau[4, 2] = 12150; //cout bois
-            TableauValeurNiveau[4, 3] = 6075; //cout or
+            TableauValeurNiveau[4, 2] = 4050; //cout bois
+            TableauValeurNiveau[4, 3] = 2025; //cout or
             TableauValeurNiveau[4, 4] = 20; // Nombre énergie envoie
             TableauValeurNiveau[4, 5] = 40; // Nombre Énergie Recharge
             TableauValeurNiveau[4, 6] = 2000; // Nombre Énergie Max
 
             TableauValeurNiveau[5, 0] = 6;
             TableauValeurNiveau[5, 1] = 350;
-            TableauValeurNiveau[5, 2] = 36450; //cout bois
-            TableauValeurNiveau[5, 3] = 18225; //cout or
+            TableauValeurNiveau[5, 2] = 12150; //cout bois
+            TableauValeurNiveau[5, 3] = 6075; //cout or
             TableauValeurNiveau[5, 4] = 50; // Nombre énergie envoie
             TableauValeurNiveau[5, 5] = 100; // Nombre Énergie Recharge
             TableauValeurNiveau[5, 6] = 5000; // Nombre Énergie Max
 
             TableauValeurNiveau[6, 0] = 7;
             TableauValeurNiveau[6, 1] = 400;
-            TableauValeurNiveau[6, 2] = 109350; //cout bois
-            TableauValeurNiveau[6, 3] = 54675; //cout or
+            TableauValeurNiveau[6, 2] = 36450; //cout bois
+            TableauValeurNiveau[6, 3] = 18225; //cout or
             TableauValeurNiveau[6, 4] = 100; // Nombre énergie envoie
             TableauValeurNiveau[6, 5] = 200; // Nombre Énergie Recharge
             TableauValeurNiveau[6, 6] = 10000; // Nombre Énergie Max
 
             TableauValeurNiveau[7, 0] = 8;
             TableauValeurNiveau[7, 1] = 450;
-            TableauValeurNiveau[7, 2] = 328050; //cout bois
-            TableauValeurNiveau[7, 3] = 164025; //cout or
+            TableauValeurNiveau[7, 2] = 109350; //cout bois
+            TableauValeurNiveau[7, 3] = 54675; //cout or
             TableauValeurNiveau[7, 4] = 200; // Nombre énergie envoie
             TableauValeurNiveau[7, 5] = 400; // Nombre Énergie Recharge
             TableauValeurNiveau[7, 6] = 20000; // Nombre Énergie Max
 
             TableauValeurNiveau[8, 0] = 9;
             TableauValeurNiveau[8, 1] = 500;
-            TableauValeurNiveau[8, 2] = 984150; //cout bois
-            TableauValeurNiveau[8, 3] = 492075; //cout or
+            TableauValeurNiveau[8, 2] = 328050; //cout bois
+            TableauValeurNiveau[8, 3] = 164025; //cout or
             TableauValeurNiveau[8, 4] = 500; // Nombre énergie envoie
             TableauValeurNiveau[8, 5] = 1000; // Nombre Énergie Recharge
             TableauValeurNiveau[8, 6] = 50000; // Nombre Énergie Max

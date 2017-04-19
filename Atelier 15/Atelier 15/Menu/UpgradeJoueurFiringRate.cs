@@ -32,19 +32,19 @@ namespace AtelierXNA
             }
             tableauValeurNiveau[0, 0] = 1;
             tableauValeurNiveau[0, 1] = 1f;
-            tableauValeurNiveau[0, 2] = 375;
+            tableauValeurNiveau[0, 2] = 1125;
 
             tableauValeurNiveau[1, 0] = 2;
             tableauValeurNiveau[1, 1] = 1/2f;
-            tableauValeurNiveau[1, 2] = 3375;
+            tableauValeurNiveau[1, 2] = 10125;
 
             tableauValeurNiveau[2, 0] = 3;
             tableauValeurNiveau[2, 1] = 1/3f;
-            tableauValeurNiveau[2, 2] = 30375;
+            tableauValeurNiveau[2, 2] = 91125;
 
             tableauValeurNiveau[3, 0] = 4;
             tableauValeurNiveau[3, 1] = 1/5f;
-            tableauValeurNiveau[3, 2] = 273375;
+            tableauValeurNiveau[3, 2] = 820125;
 
             tableauValeurNiveau[4, 0] = 5;
             tableauValeurNiveau[4, 1] = 1/10f;

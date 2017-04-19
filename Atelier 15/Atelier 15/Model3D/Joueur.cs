@@ -105,6 +105,12 @@ namespace AtelierXNA
         public override void Initialize()
         {
             //Upgrade
+
+            NombreDOR = 100000000;
+            NombreDeBois = 1000000000;
+
+
+
             PositionMenuDans…cran = new Vector2((1280 - 800) / 2, 720-250);
             NiveauDommage = 1;
             NiveauFiringRate = 1;
@@ -134,18 +140,18 @@ namespace AtelierXNA
 
             //Enemy
             PrixEnemy = new int[12];
-            PrixEnemy[0] = 10; //Cout or
-            PrixEnemy[1] = 25; //Prix kill
-            PrixEnemy[2] = 100; //Prix kill
-            PrixEnemy[3] = 400; //Prix kill
-            PrixEnemy[4] = 1600; //Prix kill
-            PrixEnemy[5] = 6400; //Prix kill
-            PrixEnemy[6] = 25600; //Prix kill
-            PrixEnemy[7] = 102400; //Prix kill
-            PrixEnemy[8] = 409600; //Prix kill
-            PrixEnemy[9] = 1638400; //Prix kill
-            PrixEnemy[10] = 6553600; //Prix kill
-            PrixEnemy[11] = 26214400; //Prix kill
+            PrixEnemy[0] = 10;
+            PrixEnemy[1] = 25;
+            PrixEnemy[2] = 100;
+            PrixEnemy[3] = 400;
+            PrixEnemy[4] = 1600;
+            PrixEnemy[5] = 6400;
+            PrixEnemy[6] = 25600;
+            PrixEnemy[7] = 102400;
+            PrixEnemy[8] = 409600;
+            PrixEnemy[9] = 1638400;
+            PrixEnemy[10] = 6553600;
+            PrixEnemy[11] = 26214400;
             int offsetX = 96;
             int offsetY = 16;
             int offsetInbetween = 128;
