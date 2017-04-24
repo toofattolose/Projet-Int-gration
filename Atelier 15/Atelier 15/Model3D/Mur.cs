@@ -77,7 +77,7 @@ namespace AtelierXNA
         public override void Initialize()
         {
             base.Initialize();
-            NombreMaxPtsDeVie = 1000;
+            NombreMaxPtsDeVie = (int)TableauValeurNiveau[0,1];
             NombrePtsDeVie = NombreMaxPtsDeVie;
         }
 
@@ -96,8 +96,8 @@ namespace AtelierXNA
                             ++Niveau;
                             NombreMaxPtsDeVie = (int)TableauValeurNiveau[i + 1, 1];
                             NombrePtsDeVie = (int)TableauValeurNiveau[i + 1, 1];
-                            j.NombreDeBois -= (int)TableauValeurNiveau[i + 1,2];
-                            j.NombreDOR -= (int)TableauValeurNiveau[i + 1,3];
+                            j.NombreDeBois -= (int)TableauValeurNiveau[i,2];
+                            j.NombreDOR -= (int)TableauValeurNiveau[i,3];
                             estUpgrader = true;
                         }
                     }

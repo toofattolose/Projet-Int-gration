@@ -99,7 +99,8 @@ namespace AtelierXNA
                     }
                     else
                     {
-                        Couleur = new Color(154, 140, 50);
+                        //Couleur = new Color(12, 3, 16);
+                        Couleur = Color.Green;
                     }
                     Sommets[++noSommets] = new VertexPositionColor(PtsSommets[i, j + 1], Couleur);
                     Sommets[++noSommets] = new VertexPositionColor(PtsSommets[i, j], Couleur);

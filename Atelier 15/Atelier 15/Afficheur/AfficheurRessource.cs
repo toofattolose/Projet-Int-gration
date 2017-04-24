@@ -54,6 +54,7 @@ namespace AtelierXNA
             GestionSprite.Begin();
             AfficherRessourceBois("Bois: "+NbBois.ToString());
             AfficherRessourceOr("Or: "+NbOr.ToString());
+            AfficherRessourcePoints("Points: " + NbPts.ToString());
             GestionSprite.End();
             Game.GraphicsDevice.BlendState = BlendState.Opaque;
             Game.GraphicsDevice.DepthStencilState = DepthStencilState.Default;

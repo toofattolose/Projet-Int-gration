@@ -186,8 +186,8 @@ namespace AtelierXNA
                             Nombre…nergie = Nombre…nergieMaximum;
                             Nombre…nergieEnvoyÈ = (int)TableauValeurNiveau[i + 1, 4];
                             Nombre…nergieRecharge = (int)TableauValeurNiveau[i + 1, 5];
-                            j.NombreDeBois -= (int)TableauValeurNiveau[i + 1, 2];
-                            j.NombreDOR -= (int)TableauValeurNiveau[i + 1, 3];
+                            j.NombreDeBois -= (int)TableauValeurNiveau[i, 2];
+                            j.NombreDOR -= (int)TableauValeurNiveau[i, 3];
                             estUpgrader = true;
                         }
                     }

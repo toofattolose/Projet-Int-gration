@@ -41,6 +41,7 @@ namespace AtelierXNA
         Batiment BatimentCible { get; set; }
         Random GenerateurAleatoire { get; set; }
         int NombrePts { get; set; }
+        float Vitesse { get; set; }
 
         float IntervalleAttaque { get; set; }
 
@@ -57,12 +58,12 @@ namespace AtelierXNA
             StatsEnemy[0, 0] = 1; //Niveau
             StatsEnemy[0, 1] = 5; //Vie
             StatsEnemy[0, 2] = 1; //Dommage
-            StatsEnemy[0, 3] = 1; //Nb Points par kill
+            StatsEnemy[0, 3] = 4; //Nb Points par kill
 
             StatsEnemy[1, 0] = 2;
             StatsEnemy[1, 1] = 10;
             StatsEnemy[1, 2] = 2; //Dommage
-            StatsEnemy[1, 3] = 4; //Nb Points par kill
+            StatsEnemy[1, 3] = 8; //Nb Points par kill
 
             StatsEnemy[2, 0] = 3;
             StatsEnemy[2, 1] = 25;
@@ -119,6 +120,7 @@ namespace AtelierXNA
         {
             IntervalleAttaque = 2f;
             GenerateurAleatoire = Game.Services.GetService(typeof(Random)) as Random;
+            Vitesse = (GenerateurAleatoire.Next(10, 20)/100f);
             Grid = Game.Services.GetService(typeof(GridDeJeu)) as GridDeJeu;
             SoundDeath = Game.Content.Load<SoundEffect>("SoundEffects/enemydeath");
             État = (byte)ÉtatEnnemi.RECHERCHE;
@@ -221,7 +223,7 @@ namespace AtelierXNA
                     {
                         Direction = new Vector3(CaseSuivante.Position.X * Delta - CaseEnnemi.Position.X * Delta, 0, CaseSuivante.Position.Y * Delta - CaseEnnemi.Position.Y * Delta);
                         Direction = Vector3.Normalize(Direction);
-                        Déplacement = new Vector3(Direction.X * 0.2f, 0, Direction.Z * 0.2f);
+                        Déplacement = new Vector3(Direction.X * Vitesse, 0, Direction.Z * Vitesse);
                     }
                     else
                     {
@@ -294,7 +296,7 @@ namespace AtelierXNA
             else
             {
                 float distanceJoueur = (float)Math.Sqrt(Math.Pow(Player.Position.X - Position.X + Déplacement.X, 2) + Math.Pow(Player.Position.Z - Position.Z + Déplacement.Z, 2));
-                if (distanceJoueur <= 5)
+                if (distanceJoueur <= 10)
                 {
                     if (TempsÉcouléMAJ >= IntervalleAttaque)
                     {
@@ -314,6 +316,18 @@ namespace AtelierXNA
             Vie -= dmg;
             if (Vie <= 0)
             {
+                int nombreParticuleSang = GenerateurAleatoire.Next(50, 100);
+                for (int i = 0; i < nombreParticuleSang; i++)
+                {
+                    Vector3 direction = new Vector3(GenerateurAleatoire.Next(-100, 100), GenerateurAleatoire.Next(0, 100), GenerateurAleatoire.Next(-100, 100));
+                    direction = Vector3.Normalize(direction);
+                    Sang particuleSang = new Sang(Game, "blood", 0.01f, new Vector3(Position.X, Position.Y + 5, Position.Z), new Vector3(GenerateurAleatoire.Next(0, 360), GenerateurAleatoire.Next(0, 360), GenerateurAleatoire.Next(0, 360)), direction);
+                    Game.Components.Add(particuleSang);
+                }
+                foreach( Joueur j in Game.Components.OfType<Joueur>())
+                {
+                    j.NombrePtsKill += NombrePts;
+                }
                 SoundDeath.Play();
                 Dispose();
             }

@@ -154,7 +154,7 @@ namespace AtelierXNA
                         NombrePtsEnergie -= NombreÉnergieUtilisé;
                         if (b.NombrePtsDeVie > b.NombreMaxPtsDeVie)
                         {
-                            b.NombrePtsDeVie = NombreMaxPtsDeVie;
+                            b.NombrePtsDeVie = b.NombreMaxPtsDeVie;
                         }
                     }
                 }
@@ -180,8 +180,8 @@ namespace AtelierXNA
                             NombrePtsEnergie = NombreMaxEnergie;
                             NombrePtsDeVieEnvoyé = (int)TableauValeurNiveau[i + 1, 5];
                             NombreÉnergieUtilisé = (int)TableauValeurNiveau[i + 1, 6];
-                            j.NombreDeBois -= (int)TableauValeurNiveau[i + 1, 2];
-                            j.NombreDOR -= (int)TableauValeurNiveau[i + 1, 3];
+                            j.NombreDeBois -= (int)TableauValeurNiveau[i, 2];
+                            j.NombreDOR -= (int)TableauValeurNiveau[i, 3];
                             estUpgrader = true;
                         }
                     }

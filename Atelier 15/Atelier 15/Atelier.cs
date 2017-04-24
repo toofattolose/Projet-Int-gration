@@ -101,20 +101,6 @@ namespace AtelierXNA
             base.Initialize();
         }
 
-        protected override void Update(GameTime gameTime)
-        {
-            GérerClavier();
-            base.Update(gameTime);
-        }
-
-        private void GérerClavier()
-        {
-            if (GestionInput.EstEnfoncée(Keys.Escape))
-            {
-                Exit();
-            }
-        }
-
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Black);
