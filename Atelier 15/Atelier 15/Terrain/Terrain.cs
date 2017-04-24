@@ -37,7 +37,6 @@ namespace AtelierXNA
         public override void Initialize()
         {
             InitialiserDonnéesCarte();
-            //Origine = new Vector3(-Étendue.X / 2, 0, Étendue.Z / 2); 
             Origine = Vector3.Zero;
             Delta = new Vector2(Étendue.X / Charpente.X, Étendue.Z / Charpente.Y);
             Generateur = Game.Services.GetService(typeof(Random)) as Random;
@@ -99,7 +98,8 @@ namespace AtelierXNA
                     }
                     else
                     {
-                        Couleur = new Color(154, 140, 50);
+                        //Couleur = new Color(12, 3, 16);
+                        Couleur = Color.Green;
                     }
                     Sommets[++noSommets] = new VertexPositionColor(PtsSommets[i, j + 1], Couleur);
                     Sommets[++noSommets] = new VertexPositionColor(PtsSommets[i, j], Couleur);

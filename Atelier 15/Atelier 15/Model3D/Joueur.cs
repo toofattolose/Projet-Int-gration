@@ -105,12 +105,6 @@ namespace AtelierXNA
         public override void Initialize()
         {
             //Upgrade
-
-            NombreDOR = 100000000;
-            NombreDeBois = 1000000000;
-
-
-
             PositionMenuDansÉcran = new Vector2((1280 - 800) / 2, 720-250);
             NiveauDommage = 1;
             NiveauFiringRate = 1;
@@ -140,7 +134,7 @@ namespace AtelierXNA
 
             //Enemy
             PrixEnemy = new int[12];
-            PrixEnemy[0] = 10;
+            PrixEnemy[0] = 5;
             PrixEnemy[1] = 25;
             PrixEnemy[2] = 100;
             PrixEnemy[3] = 400;
@@ -528,7 +522,7 @@ namespace AtelierXNA
             float tempsÉcoulé = (float)gameTime.ElapsedGameTime.TotalSeconds;
             TempsÉcouléDepuisMAJ += tempsÉcoulé;
             TempsSpawn += tempsÉcoulé;
-            GérerTir(gameTime);
+            //GérerTir(gameTime);
             GérerPicking();
             if (TempsÉcouléDepuisMAJ >= IntervalleMAJ)
             {

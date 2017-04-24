@@ -26,6 +26,7 @@ namespace AtelierXNA
         RessourcesManager<Model> GestionnaireDeModèles { get; set; }
         Joueur JoueurPrésent { get; set; }
         int[,] TableauDesPrix { get; set; }
+        int NombreWall { get; set; }
 
         public PlacementBuilding(Game game, string nomModel, float échelle, Vector3 position, Vector3 rotationInitiale)
             : base(game, nomModel, échelle, position, rotationInitiale)
@@ -46,14 +47,19 @@ namespace AtelierXNA
             TableauDesPrix[2, 1] = 25;//50; //Prix or
 
             //Turret
-            TableauDesPrix[3, 0] = 50;//75; //Prix bois
-            TableauDesPrix[3, 1] = 100;//50; //Prix or
+            TableauDesPrix[3, 0] = 25;//75; //Prix bois
+            TableauDesPrix[3, 1] = 50;//50; //Prix or
 
         }
 
         public override void Initialize()
         {
             base.Initialize();
+            foreach (Mur m in Game.Components.OfType<Mur>())
+            {
+                ++NombreWall;
+            }
+
             GestionInput = Game.Services.GetService(typeof(InputManager)) as InputManager;
             CaméraJeu = Game.Services.GetService(typeof(Caméra)) as Caméra;
             Grid = Game.Services.GetService(typeof(GridDeJeu)) as GridDeJeu;
@@ -93,7 +99,7 @@ namespace AtelierXNA
                 {
                     if (TypeBuilding == 3)
                     {
-                        if (JoueurPrésent.NombreDeBois >= TableauDesPrix[0, 0] && JoueurPrésent.NombreDOR >= TableauDesPrix[0, 1])
+                        if (JoueurPrésent.NombreDeBois >= TableauDesPrix[0, 0] && JoueurPrésent.NombreDOR >= TableauDesPrix[0, 1] && NombreWall < 1)
                         {
                             Mur buildingMur = new Mur(Game, "wall", 0.02f, positionBuilding, Vector3.Zero);
                             Game.Components.Add(buildingMur);
