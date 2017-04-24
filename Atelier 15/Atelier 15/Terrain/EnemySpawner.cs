@@ -37,7 +37,7 @@ namespace AtelierXNA
             base.Initialize();
             GenerateurAleatoire = Game.Services.GetService(typeof(Random)) as Random;
             TempsSpawnUpgrade = new float[(12)];
-            TempsSpawnInitial = 2 * NOMBRE_SECONDES_DANS_MINUTES; //spawn initial
+            TempsSpawnInitial = 3 * NOMBRE_SECONDES_DANS_MINUTES; //spawn initial
             TempsSpawnUpgrade[0] = (5 * NOMBRE_SECONDES_DANS_MINUTES); // niv 1 a 2
             TempsSpawnUpgrade[1] = (5 * NOMBRE_SECONDES_DANS_MINUTES); // niv 2 a 3
             TempsSpawnUpgrade[2] = (5 * NOMBRE_SECONDES_DANS_MINUTES); // niv 3 a 4
@@ -83,7 +83,7 @@ namespace AtelierXNA
                 }
             }
         }
-
+            
         private void CréerEnemyAleatoire()
         {
             int nbEnemy = GenerateurAleatoire.Next(0, 10);
